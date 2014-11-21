@@ -34,12 +34,12 @@ public class IoTService
 			if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production)
 			{
 				Class.forName("com.mysql.jdbc.GoogleDriver");
-				url = "jdbc:google:mysql://weighty-utility-768:ihc/mydb?user=root";
+				url = "jdbc:google:mysql://weighty-utility-768:ihc/cityfarm?user=root";
 			}
 			else
 			{
 				Class.forName("com.mysql.jdbc.Driver");
-				url = "jdbc:mysql://173.194.253.85:3306/mydb?user=root&password=root";
+				url = "jdbc:mysql://173.194.253.85:3306/cityfarm?user=root&password=root";
 			}
 		}
 		catch (Exception e)

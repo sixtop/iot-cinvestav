@@ -1,2 +1,3 @@
 # Module iotdashboard
 # RPC service class, partial path of RPC policy file
+mx.cinvestav.gdl.iot.dashboard.client.GreetingService, 558088BC2022BD2DE321FD6077A22F15.gwt.rpc
