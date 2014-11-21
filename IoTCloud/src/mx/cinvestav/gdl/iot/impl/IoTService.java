@@ -25,6 +25,7 @@ public class IoTService
 	private final String DATABASE_ENDPOINT;
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
+	
 	public IoTService()
 	{
 		String url = null;
