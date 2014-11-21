@@ -73,7 +73,6 @@ public class IoTService
 						for (Measure m : measures)
 						{
 							String data2 = m.getData();
-							//GeoData geo = m.getGeo();
 							String time = m.getTime();
 
 							//String statement = "INSERT INTO sensor (idcontrolador, ) VALUES( ? , ? )";
