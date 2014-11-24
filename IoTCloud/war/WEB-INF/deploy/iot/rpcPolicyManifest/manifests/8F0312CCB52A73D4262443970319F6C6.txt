@@ -1,2 +1,0 @@
-serviceClass: mx.cinvestav.gdl.iot.client.GreetingService
-path: 34E83D392ADC8905D7A7E31EEEE275E4.gwt.rpc
