@@ -5,10 +5,17 @@ import java.sql.DriverManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+import javax.jdo.Transaction;
+import javax.persistence.EntityManager;
+
 import mx.cinvestav.gdl.iot.cloudclient.Measure;
 import mx.cinvestav.gdl.iot.cloudclient.SensorData;
 import mx.cinvestav.gdl.iot.cloudclient.UpdateDataRequest;
 import mx.cinvestav.gdl.iot.cloudclient.UpdateDataResponse;
+import mx.cinvestav.gdl.iot.dao.DAO;
+import mx.cinvestav.gdl.iot.dao.SmartThing;
 import mx.cinvestav.gdl.iot.validation.UpdateRequestValidator;
 
 import com.google.api.server.spi.config.Api;
@@ -25,7 +32,6 @@ public class IoTService
 	private final String DATABASE_ENDPOINT;
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
-	
 	public IoTService()
 	{
 		String url = null;
@@ -57,41 +63,53 @@ public class IoTService
 		{
 			if (request != null)
 			{
-				int status=0;
+				int status = 0;
 				String validationResult = UpdateRequestValidator.validate(request);
 				if (validationResult == null || "".equals(validationResult))
 				{
-					Connection conn = DriverManager.getConnection(DATABASE_ENDPOINT);
 					String controllerId = request.getControllerId();
-
-					SensorData[] sensorData = request.getSensorData();
-					for (SensorData data : sensorData)
+					String smartId = request.getSmartThingId();
+					
+					PersistenceManager pm = DAO.getPersistenceManager();
+					Transaction tx = pm.currentTransaction();
+					try
 					{
-						String sensorId = data.getSensorId();
-						
-						//validar sensor-cotrolador
-						Measure[] measures = data.getMeasures();
-						for (Measure m : measures)
+						tx.begin();
+						SensorData[] sensorData = request.getSensorData();
+						for (SensorData data : sensorData)
 						{
-							String data2 = m.getData();
-							String time = m.getTime();
+							String sensorId = data.getSensorId();
+							//validar sensor-cotrolador
+							Measure[] measures = data.getMeasures();
+							for (Measure m : measures)
+							{
+								String data2 = m.getData();
+								String time = m.getTime();
 
-							//String statement = "INSERT INTO sensor (idcontrolador, ) VALUES( ? , ? )";
-							//PreparedStatement stmt = conn.prepareStatement(statement);
-							//stmt.setString(1, fname);
-							//stmt.setString(2, content);
-							int success = 2;
-							//success = stmt.executeUpdate();
+								//String statement = "INSERT INTO sensor (idcontrolador, ) VALUES( ? , ? )";
+								//PreparedStatement stmt = conn.prepareStatement(statement);
+								//stmt.setString(1, fname);
+								//stmt.setString(2, content);
+								int success = 2;
+								//success = stmt.executeUpdate();
+							}
 						}
+						tx.commit();
+					}
+					catch (ArrayIndexOutOfBoundsException e)
+					{
+
+					}
+					finally
+					{
+						if (tx.isActive())
+						{
+							//error, we need to rollback
+							tx.rollback();
+						}
+						pm.close();
 					}
 
-//					int status = conn.createStatement().executeUpdate(
-//							"INSERT into usuario (nombre, contraseña, correo, fecha_creacion) values ('"
-//									+ request.getData()[0].getData() + "','"
-//									+ request.getData()[1].getData() + "','"
-//									+ request.getData()[2].getData() + "','"
-//									+ request.getData()[3].getData() + "');");
-					conn.close();
 					res.setMessage("OK" + status);
 					res.setStatus(200);
 				}

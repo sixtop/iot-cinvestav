@@ -4,8 +4,15 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
         http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
 
-    <persistence-unit name="transactions-optional">
+    <persistence-unit name="SmartCitiesCloud">
         <provider>org.datanucleus.api.jpa.PersistenceProviderImpl</provider>
+        <class>mx.cinvestav.gdl.iot.dao.Controller</class>
+        <class>mx.cinvestav.gdl.iot.dao.SmartThing</class>
+        <class>mx.cinvestav.gdl.iot.dao.ControllerProperty</class>
+        <class>mx.cinvestav.gdl.iot.dao.Sensor</class>
+        <class>mx.cinvestav.gdl.iot.dao.Measure</class>
+        <class>mx.cinvestav.gdl.iot.dao.SensorProperty</class>
+        <class>mx.cinvestav.gdl.iot.dao.SmartThingProperty</class>
         <properties>
             <property name="datanucleus.NontransactionalRead" value="true"/>
             <property name="datanucleus.NontransactionalWrite" value="true"/>
