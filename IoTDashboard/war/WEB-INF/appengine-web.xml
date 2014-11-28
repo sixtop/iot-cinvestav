@@ -20,6 +20,10 @@
 	<!-- Configure java.util.logging -->
 	<system-properties>
 		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties" />
+		<property name="cloudsql.url.dev"
+			value="jdbc:mysql://173.194.253.85:3306/cityfarm?user=root" />
+		<property name="cloudsql.url"
+			value="jdbc:google:mysql://weighty-utility-768:ihc/cityfarm?user=root"/>
 	</system-properties>
 
 	<!-- HTTP Sessions are disabled by default. To enable HTTP sessions specify: 
@@ -30,8 +34,4 @@
 		session data. For details, see http://code.google.com/appengine/docs/java/config/appconfig.html#Enabling_Sessions -->
 	<use-google-connector-j>true</use-google-connector-j>
 
-	<property name="cloudsql.url.dev"
-		value="jdbc:mysql://173.194.253.85:3306/cityfarm?user=root" />
-	<property name="cloudsql.url"
-		value="jdbc:google:mysql://weighty-utility-768:ihc/cityfarm?user=root"/>
 </appengine-web-app>
