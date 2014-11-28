@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "sensor_prop")
+@Table(name = "sensor_property")
 public class SensorProperty
 {
 	@Persistent
@@ -21,4 +21,48 @@ public class SensorProperty
 
 	@Persistent
 	private String value;
+
+	@Persistent
+	private boolean active;
+
+	public int getId()
+	{
+		return id;
+	}
+
+	public void setId(int id)
+	{
+		this.id = id;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public String getValue()
+	{
+		return value;
+	}
+
+	public void setValue(String value)
+	{
+		this.value = value;
+	}
+
+	public boolean isActive()
+	{
+		return active;
+	}
+
+	public void setActive(boolean active)
+	{
+		this.active = active;
+	}
+
 }
