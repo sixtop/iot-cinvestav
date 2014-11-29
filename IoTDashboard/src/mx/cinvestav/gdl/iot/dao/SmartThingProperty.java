@@ -1,9 +1,8 @@
 package mx.cinvestav.gdl.iot.dao;
 
-import javax.jdo.annotations.Persistent;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,18 +10,15 @@ import javax.persistence.Table;
 @Table(name = "thing_property")
 public class SmartThingProperty
 {
-	@Persistent
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue
+	@Column(name = "idpropertything")
 	private int id;
 
-	@Persistent
 	private String name;
-
-	@Persistent
 	private String value;
 
-	@Persistent
+	@Column(name = "isactive")
 	private boolean active;
 
 	public int getId()

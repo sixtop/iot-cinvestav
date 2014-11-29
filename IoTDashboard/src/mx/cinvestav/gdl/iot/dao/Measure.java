@@ -2,10 +2,9 @@ package mx.cinvestav.gdl.iot.dao;
 
 import java.sql.Timestamp;
 
-import javax.jdo.annotations.Persistent;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -14,16 +13,11 @@ import javax.persistence.Table;
 public class Measure
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue
+	@Column(name = "iddata")
 	private int id;
 	private String measure;
 	private Timestamp measure_date;
-
-	@Persistent
-	private SmartThing thing;
-
-	@Persistent
-	private Sensor sensor;
 
 	public int getId()
 	{
@@ -53,26 +47,6 @@ public class Measure
 	public void setMeasure_date(Timestamp measure_date)
 	{
 		this.measure_date = measure_date;
-	}
-
-	public SmartThing getThing()
-	{
-		return thing;
-	}
-
-	public void setThing(SmartThing thing)
-	{
-		this.thing = thing;
-	}
-
-	public Sensor getSensor()
-	{
-		return sensor;
-	}
-
-	public void setSensor(Sensor sensor)
-	{
-		this.sensor = sensor;
 	}
 
 }

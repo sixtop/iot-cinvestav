@@ -2,11 +2,12 @@ package mx.cinvestav.gdl.iot.dao;
 
 import java.util.Set;
 
-import javax.jdo.annotations.Persistent;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -14,25 +15,28 @@ import javax.persistence.Table;
 public class Sensor
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue
+	@Column(name = "idsensor")
 	private int id;
+
+	@Column(name = "isactive")
 	private boolean active;
+
 	private String name;
 	private String description;
-	private String type;
+	private String sensor_type;
 	private String unit;
 
-	private String latitude;
-	private String longitude;
-	private String altitude;
+	private double latitude;
+	private double longitude;
+	private double altitude;
 
-	@Persistent
-	private SmartThing things;
-
-	@Persistent
+	@OneToMany
+	@JoinColumn(name = "idsensor")
 	private Set<Measure> measures;
 
-	@Persistent
+	@OneToMany
+	@JoinColumn(name = "idsensor")
 	private Set<SensorProperty> properties;
 
 	public int getId()
@@ -75,14 +79,14 @@ public class Sensor
 		this.description = description;
 	}
 
-	public String getType()
+	public String getSensor_type()
 	{
-		return type;
+		return sensor_type;
 	}
 
-	public void setType(String type)
+	public void setSensor_type(String sensor_type)
 	{
-		this.type = type;
+		this.sensor_type = sensor_type;
 	}
 
 	public String getUnit()
@@ -95,44 +99,34 @@ public class Sensor
 		this.unit = unit;
 	}
 
-	public String getLatitude()
+	public double getLatitude()
 	{
 		return latitude;
 	}
 
-	public void setLatitude(String latitude)
+	public void setLatitude(double latitude)
 	{
 		this.latitude = latitude;
 	}
 
-	public String getLongitude()
+	public double getLongitude()
 	{
 		return longitude;
 	}
 
-	public void setLongitude(String longitude)
+	public void setLongitude(double longitude)
 	{
 		this.longitude = longitude;
 	}
 
-	public String getAltitude()
+	public double getAltitude()
 	{
 		return altitude;
 	}
 
-	public void setAltitude(String altitude)
+	public void setAltitude(double altitude)
 	{
 		this.altitude = altitude;
-	}
-
-	public SmartThing getThings()
-	{
-		return things;
-	}
-
-	public void setThings(SmartThing things)
-	{
-		this.things = things;
 	}
 
 	public Set<Measure> getMeasures()

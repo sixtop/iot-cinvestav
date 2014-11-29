@@ -2,11 +2,12 @@ package mx.cinvestav.gdl.iot.dao;
 
 import java.util.Set;
 
-import javax.jdo.annotations.Persistent;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -14,21 +15,23 @@ import javax.persistence.Table;
 public class SmartThing
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue
+	@Column(name = "idthing")
 	private int id;
+
 	private String name;
 	private String description;
 
-	@Persistent
-	private Controller controller;
-
-	@Persistent
+	@OneToMany
+	@JoinColumn(name = "idthing")
 	private Set<Sensor> sensors;
 
-	@Persistent
+	@OneToMany
+	@JoinColumn(name = "idthing")
 	private Set<Measure> measures;
 
-	@Persistent
+	@OneToMany
+	@JoinColumn(name = "idthing")
 	private Set<SmartThingProperty> properties;
 
 	public int getId()
@@ -59,16 +62,6 @@ public class SmartThing
 	public void setDescription(String description)
 	{
 		this.description = description;
-	}
-
-	public Controller getController()
-	{
-		return controller;
-	}
-
-	public void setController(Controller controller)
-	{
-		this.controller = controller;
 	}
 
 	public Set<Sensor> getSensors()
