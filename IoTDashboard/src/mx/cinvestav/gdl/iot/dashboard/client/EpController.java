@@ -27,6 +27,12 @@ public class EpController implements EntryPoint{
     private Button btAdd = new Button("Add");
     
 	public void onModuleLoad() {
+		RootPanel.get("tbIdContainer").add(tbId);
+		RootPanel.get("tbNameContainer").add(tbName);
+		RootPanel.get("tbDescriptionContainer").add(tbDescription);
+		RootPanel.get("tbLocationContainer").add(tbLocation);
+		
+		
 		tableProperty.setText(0,1,"Id");
 		tableProperty.setText(0,2,"Name");
 		tableProperty.setText(0,3,"Value");
@@ -45,17 +51,7 @@ public class EpController implements EntryPoint{
 		RootPanel.get("btCancelContainer").add(btCancel);
 		
 		 
-	    btAdd.addClickHandler(new ClickHandler() {
-	      public void onClick(ClickEvent event) {
-	        addProperty();
-	      }
-	    });
 	}
-	
-	 private void addProperty() {
-		   
-		  }
-
 	
 	
 }

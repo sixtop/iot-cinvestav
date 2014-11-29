@@ -1,0 +1,127 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://weighty-utility-768.appspot.com/_ah/api",
+  "name" : "iotService",
+  "version" : "v1",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "https://weighty-utility-768.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "methods" : {
+    "iotService.updateData" : {
+      "path" : "updatedataresponse",
+      "httpMethod" : "post",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "mx.cinvestav.gdl.iot.impl.IoTService.updateData",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "UpdateDataRequest" : {
+        "id" : "UpdateDataRequest",
+        "type" : "object",
+        "properties" : {
+          "controllerId" : {
+            "type" : "integer"
+          },
+          "smartThingData" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "SmartThingData"
+            }
+          }
+        }
+      },
+      "SmartThingData" : {
+        "id" : "SmartThingData",
+        "type" : "object",
+        "properties" : {
+          "smartThingId" : {
+            "type" : "integer"
+          },
+          "sensorData" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "SensorData"
+            }
+          }
+        }
+      },
+      "SensorData" : {
+        "id" : "SensorData",
+        "type" : "object",
+        "properties" : {
+          "sensorId" : {
+            "type" : "integer"
+          },
+          "measures" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Data"
+            }
+          }
+        }
+      },
+      "Data" : {
+        "id" : "Data",
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string"
+          },
+          "time" : {
+            "type" : "string"
+          }
+        }
+      },
+      "UpdateDataResponse" : {
+        "id" : "UpdateDataResponse",
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "integer"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "mx.cinvestav.gdl.iot.impl.IoTService.updateData" : {
+        "request" : {
+          "$ref" : "UpdateDataRequest"
+        },
+        "response" : {
+          "$ref" : "UpdateDataResponse"
+        }
+      }
+    }
+  }
+}
