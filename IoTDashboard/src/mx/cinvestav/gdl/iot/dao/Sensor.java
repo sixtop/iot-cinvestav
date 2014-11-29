@@ -1,12 +1,13 @@
 package mx.cinvestav.gdl.iot.dao;
 
-import java.util.Set;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -33,11 +34,13 @@ public class Sensor
 
 	@OneToMany
 	@JoinColumn(name = "idsensor")
-	private Set<Measure> measures;
+	@MapKey(name = "id")
+	private Map<Integer, Measure> measures;
 
 	@OneToMany
 	@JoinColumn(name = "idsensor")
-	private Set<SensorProperty> properties;
+	@MapKey(name = "id")
+	private Map<Integer, SensorProperty> properties;
 
 	public int getId()
 	{
@@ -129,22 +132,22 @@ public class Sensor
 		this.altitude = altitude;
 	}
 
-	public Set<Measure> getMeasures()
+	public Map<Integer, Measure> getMeasures()
 	{
 		return measures;
 	}
 
-	public void setMeasures(Set<Measure> measures)
+	public void setMeasures(Map<Integer, Measure> measures)
 	{
 		this.measures = measures;
 	}
 
-	public Set<SensorProperty> getProperties()
+	public Map<Integer, SensorProperty> getProperties()
 	{
 		return properties;
 	}
 
-	public void setProperties(Set<SensorProperty> properties)
+	public void setProperties(Map<Integer, SensorProperty> properties)
 	{
 		this.properties = properties;
 	}

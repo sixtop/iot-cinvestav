@@ -1,42 +1,27 @@
 package mx.cinvestav.gdl.iot.cloudclient;
 
-import javax.xml.bind.annotation.XmlType;
-
-@XmlType(name = "UpdateDataRequest_type")
 public class UpdateDataRequest
 {
-	private String controllerId;
-	private String smartThingId;
-	private SensorData[] sensorData;
+	private int controllerId;
+	private SmartThingData[] smartThingData;
 
-	public String getControllerId()
+	public int getControllerId()
 	{
 		return controllerId;
 	}
 
-	public void setControllerId(String controllerId)
+	public void setControllerId(int controllerId)
 	{
 		this.controllerId = controllerId;
 	}
 
-	public SensorData[] getSensorData()
+	public SmartThingData[] getSmartThingData()
 	{
-		return sensorData;
+		return smartThingData;
 	}
 
-	public void setSensorData(SensorData[] sensorData)
+	public void setSmartThingData(SmartThingData[] smartThingData)
 	{
-		this.sensorData = sensorData;
+		this.smartThingData = smartThingData;
 	}
-
-	public String getSmartThingId()
-	{
-		return smartThingId;
-	}
-
-	public void setSmartThingId(String smartThingId)
-	{
-		this.smartThingId = smartThingId;
-	}
-
 }

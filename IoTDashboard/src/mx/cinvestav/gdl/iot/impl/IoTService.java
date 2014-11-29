@@ -1,14 +1,21 @@
 package mx.cinvestav.gdl.iot.impl;
 
+import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
+import mx.cinvestav.gdl.iot.cloudclient.Data;
+import mx.cinvestav.gdl.iot.cloudclient.SensorData;
+import mx.cinvestav.gdl.iot.cloudclient.SmartThingData;
 import mx.cinvestav.gdl.iot.cloudclient.UpdateDataRequest;
 import mx.cinvestav.gdl.iot.cloudclient.UpdateDataResponse;
-import mx.cinvestav.gdl.iot.dao.Controller;
 import mx.cinvestav.gdl.iot.dao.DAO;
+import mx.cinvestav.gdl.iot.dao.Measure;
+import mx.cinvestav.gdl.iot.dao.Sensor;
+import mx.cinvestav.gdl.iot.dao.SmartThing;
 import mx.cinvestav.gdl.iot.validation.UpdateRequestValidator;
 
 import com.google.api.server.spi.config.Api;
@@ -31,51 +38,57 @@ public class IoTService
 		{
 			if (request != null)
 			{
-				String status = "fail";
 				String validationResult = UpdateRequestValidator.validate(request);
 				if (validationResult == null || "".equals(validationResult))
 				{
-					int controllerId = Integer.valueOf(request.getControllerId());
-					String smartId = request.getSmartThingId();
-					res.setMessage("OK" + status);
-					res.setStatus(200);
-					
+					//int c_id = request.getControllerId();
+					SmartThingData[] thing_data_array = request.getSmartThingData();
 					EntityManager em = null;
+					EntityTransaction tx = null;
 					try
 					{
-						em = DAO.getEntityManager();
-						Controller c = em.find(Controller.class, controllerId);					
-					
-						
-						if(c!=null) 
+						em = DAO.createEntityManager();
+						tx = em.getTransaction();
+						tx.begin();
+						for (SmartThingData thing_data : thing_data_array)
 						{
-							status = c.getName();
-							res.setMessage("OK" + status);
+							int t_id = thing_data.getSmartThingId();
+							SmartThing smartThingEntity = em.find(SmartThing.class, t_id);
+
+							SensorData[] sensor_data_array = thing_data.getSensorData();
+							for (SensorData sensor_data : sensor_data_array)
+							{
+								int s_id = sensor_data.getSensorId();
+								Sensor sensorEntity = smartThingEntity.getSensors().get(s_id);
+
+								Data[] measures = sensor_data.getMeasures();
+								for (Data m : measures)
+								{
+									// create and persiste the new measure
+									Measure measureEntity = new Measure();
+									measureEntity.setMeasure(m.getData());
+									measureEntity.setMeasure_date(Timestamp.valueOf(m.getTime()));
+									measureEntity.setIdsensor(sensorEntity.getId());
+									measureEntity.setIdthing(smartThingEntity.getId());
+									em.persist(measureEntity);
+
+									// update associated entities
+									sensorEntity.getMeasures().put(measureEntity.getId(),
+											measureEntity);
+									smartThingEntity.getMeasures().put(measureEntity.getId(),
+											measureEntity);
+								}
+							}
+							em.flush();
 						}
-						
-//						SensorData[] sensorData = request.getSensorData();
-//						for (SensorData data : sensorData)
-//						{
-//							String sensorId = data.getSensorId();
-//							//validar sensor-cotrolador
-//							Measure[] measures = data.getMeasures();
-//							for (Measure m : measures)
-//							{
-//								String data2 = m.getData();
-//								String time = m.getTime();
-//
-//								//String statement = "INSERT INTO sensor (idcontrolador, ) VALUES( ? , ? )";
-//								//PreparedStatement stmt = conn.prepareStatement(statement);
-//								//stmt.setString(1, fname);
-//								//stmt.setString(2, content);
-//								int success = 2;
-//								//success = stmt.executeUpdate();
-//							}
-//						}
-//						tx.commit();
+						tx.commit();
 					}
 					catch (Exception e)
 					{
+						if (tx != null)
+						{
+							tx.rollback();
+						}
 						e.printStackTrace();
 						logger.log(Level.SEVERE, "Unexpected exception executing query", e);
 						res.setMessage(e.getMessage());
@@ -83,15 +96,20 @@ public class IoTService
 					}
 					finally
 					{
-						if(em!=null)
-						em.close();
+						if (em != null)
+						{
+							em.close();
+						}
 					}
 
-					
+					res.setMessage("ok");
+					res.setStatus(200);
+
 				}
+
 				else
 				{
-					res.setMessage("Invalid request:" + validationResult);
+					res.setMessage("Invalid request: " + validationResult);
 					res.setStatus(400);
 				}
 			}

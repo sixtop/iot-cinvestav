@@ -18,6 +18,8 @@ public class Measure
 	private int id;
 	private String measure;
 	private Timestamp measure_date;
+	private int idsensor;
+	private int idthing;
 
 	public int getId()
 	{
@@ -47,6 +49,26 @@ public class Measure
 	public void setMeasure_date(Timestamp measure_date)
 	{
 		this.measure_date = measure_date;
+	}
+
+	public int getIdsensor()
+	{
+		return idsensor;
+	}
+
+	public void setIdsensor(int idsensor)
+	{
+		this.idsensor = idsensor;
+	}
+
+	public int getIdthing()
+	{
+		return idthing;
+	}
+
+	public void setIdthing(int idthing)
+	{
+		this.idthing = idthing;
 	}
 
 }

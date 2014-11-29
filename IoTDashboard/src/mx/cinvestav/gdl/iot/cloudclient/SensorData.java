@@ -2,25 +2,25 @@ package mx.cinvestav.gdl.iot.cloudclient;
 
 public class SensorData
 {
-	private String sensorId;
-	private Measure[] measures;
+	private int sensorId;
+	private Data[] measures;
 
-	public String getSensorId()
+	public int getSensorId()
 	{
 		return sensorId;
 	}
 
-	public void setSensorId(String sensorId)
+	public void setSensorId(int sensorId)
 	{
 		this.sensorId = sensorId;
 	}
 
-	public Measure[] getMeasures()
+	public Data[] getMeasures()
 	{
 		return measures;
 	}
 
-	public void setMeasures(Measure[] measures)
+	public void setMeasures(Data[] measures)
 	{
 		this.measures = measures;
 	}

@@ -1,12 +1,13 @@
 package mx.cinvestav.gdl.iot.dao;
 
-import java.util.Set;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,15 +25,18 @@ public class SmartThing
 
 	@OneToMany
 	@JoinColumn(name = "idthing")
-	private Set<Sensor> sensors;
+	@MapKey(name = "id")
+	private Map<Integer, Sensor> sensors;
 
 	@OneToMany
 	@JoinColumn(name = "idthing")
-	private Set<Measure> measures;
+	@MapKey(name = "id")
+	private Map<Integer, Measure> measures;
 
 	@OneToMany
 	@JoinColumn(name = "idthing")
-	private Set<SmartThingProperty> properties;
+	@MapKey(name = "id")
+	private Map<Integer, SmartThingProperty> properties;
 
 	public int getId()
 	{
@@ -64,32 +68,32 @@ public class SmartThing
 		this.description = description;
 	}
 
-	public Set<Sensor> getSensors()
+	public Map<Integer, Sensor> getSensors()
 	{
 		return sensors;
 	}
 
-	public void setSensors(Set<Sensor> sensors)
+	public void setSensors(Map<Integer, Sensor> sensors)
 	{
 		this.sensors = sensors;
 	}
 
-	public Set<Measure> getMeasures()
+	public Map<Integer, Measure> getMeasures()
 	{
 		return measures;
 	}
 
-	public void setMeasures(Set<Measure> measures)
+	public void setMeasures(Map<Integer, Measure> measures)
 	{
 		this.measures = measures;
 	}
 
-	public Set<SmartThingProperty> getProperties()
+	public Map<Integer, SmartThingProperty> getProperties()
 	{
 		return properties;
 	}
 
-	public void setProperties(Set<SmartThingProperty> properties)
+	public void setProperties(Map<Integer, SmartThingProperty> properties)
 	{
 		this.properties = properties;
 	}

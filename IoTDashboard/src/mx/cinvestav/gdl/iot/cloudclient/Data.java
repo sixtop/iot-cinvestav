@@ -1,11 +1,10 @@
 package mx.cinvestav.gdl.iot.cloudclient;
 
 
-public class Measure
+public class Data
 {
 	private String data;
 	private String time;
-	//private GeoData geo;
 
 	public String getData()
 	{
@@ -24,17 +23,7 @@ public class Measure
 
 	public void setTime(String time)
 	{
+		
 		this.time = time;
 	}
-
-//	public GeoData getGeo()
-//	{
-//		return geo;
-//	}
-//
-//	public void setGeo(GeoData geo)
-//	{
-//		this.geo = geo;
-//	}
-
 }

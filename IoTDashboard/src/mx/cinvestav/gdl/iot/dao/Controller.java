@@ -1,12 +1,13 @@
 package mx.cinvestav.gdl.iot.dao;
 
-import java.util.Set;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -23,12 +24,14 @@ public class Controller
 	private String location;
 
 	@OneToMany
-	@JoinColumn(name="idcontroller")
-	private Set<SmartThing> thingSet;
+	@JoinColumn(name = "idcontroller")
+	@MapKey(name = "id")
+	private Map<Integer, SmartThing> things;
 
 	@OneToMany
-	@JoinColumn(name="idcontroller")
-	private Set<ControllerProperty> properties;
+	@JoinColumn(name = "idcontroller")
+	@MapKey(name = "id")
+	private Map<Integer, ControllerProperty> properties;
 
 	public int getId()
 	{
@@ -70,22 +73,22 @@ public class Controller
 		this.location = location;
 	}
 
-	public Set<SmartThing> getThingSet()
+	public Map<Integer, SmartThing> getThings()
 	{
-		return thingSet;
+		return things;
 	}
 
-	public void setThingSet(Set<SmartThing> thingSet)
+	public void setThings(Map<Integer, SmartThing> things)
 	{
-		this.thingSet = thingSet;
+		this.things = things;
 	}
 
-	public Set<ControllerProperty> getProperties()
+	public Map<Integer, ControllerProperty> getProperties()
 	{
 		return properties;
 	}
 
-	public void setProperties(Set<ControllerProperty> properties)
+	public void setProperties(Map<Integer, ControllerProperty> properties)
 	{
 		this.properties = properties;
 	}
