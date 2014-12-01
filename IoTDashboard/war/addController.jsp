@@ -4,16 +4,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link type="text/css" rel="stylesheet" href="IoTDashboard.css">
-<script type="text/javascript" language="javascript" src="iotdashboard/controller.nocache.js"></script>
+<script type="text/javascript" language="javascript" src="controller/controller.nocache.js"></script>
 
 
 <title>Insert title here</title>
 </head>
 <body>
 <jsp:include page="header.jsp" />
-<div id="body">
-<form action="">
-		<h3>Controller</h3>
+<div id="centro">
+<h2>Controller</h2>
 		<table>
 			<tr>
 				<td>Id:</td>
@@ -33,19 +32,17 @@
 			</tr>
 			<tr>
 		</table>
-		
-		<div id="propertyContainer"></div>
-		 
-		<table>	
+<h3>Properties</h3>
+<div id="propertyContainer"></div>
+<table>
+	<tr></tr>
 			<tr>
+			 	<td colspan="3"></td>
 				<td id="btSaveContainer"></td>
 				<td id="btCancelContainer"></td>
 			</tr>
 		</table>
-
-	</form>
-  </div>
-
+</div>
 <jsp:include page="footer.jsp" />
 </body>
 </html>

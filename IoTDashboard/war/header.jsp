@@ -1,5 +1,8 @@
 <div id="header">
-  <p align="center">CityFarm</p>
+<p align="center">
+<h1>
+CityFarm</h1>
+</p>
 </div>
 <div id="body">
   <p align="center">
