@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class EpController implements EntryPoint {
-	private TextBox tbControlerS = new TextBox();
+	private TextBox tbOperationS = new TextBox();
 	
 	private DialogBox dialogBox = new DialogBox();
 	private Button btClose = new Button("Close");
@@ -82,17 +82,17 @@ public class EpController implements EntryPoint {
 		tbId.setName("tbIdS");
 		tbId.setEnabled(false);
 		
-		tbName.setName("tbNameS");
-		tbDescription.setName("tbDescriptionS");
-		tbLocation.setName("tbLocationS");
-		listNameProperty.setName("listNamePropertyS");
-		listValueProperty.setName("listValuePropertyS");
-		listActiveProperty.setName("listActivePropertyS");
+		tbName.setName(ClientConstants.NAME);
+		tbDescription.setName(ClientConstants.DESCRIPTION);
+		tbLocation.setName(ClientConstants.LOCATION);
+		listNameProperty.setName(ClientConstants.PROP_NAMES);
+		listValueProperty.setName(ClientConstants.PROP_VALUES);
+		listActiveProperty.setName(ClientConstants.PROP_ACTIVE);
 		
 		
-	    tbControlerS.setName("IdOperation");
-		tbControlerS.setText("Controller");//Id Controller
-		tbControlerS.setVisible(false);
+	    tbOperationS.setName(ClientConstants.OPERATION);
+		tbOperationS.setText(ClientConstants.CONTROLLER);//Id Controller
+		tbOperationS.setVisible(false);
 		
 		tableProperty.setText(0, 0, "Name");
 		tableProperty.setText(0, 1, "Value");
@@ -136,7 +136,7 @@ public class EpController implements EntryPoint {
 	    
 
 		
-		RootPanel.get("formContainer").add(tbControlerS);
+		RootPanel.get("formContainer").add(tbOperationS);
 	    
 	    dialogBox.add(btClose);
 	    

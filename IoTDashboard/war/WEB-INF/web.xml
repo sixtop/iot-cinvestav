@@ -31,6 +31,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AddControllerServlet</servlet-name>
-    <url-pattern>/AddEntityServlet</url-pattern>
+    <url-pattern>/addEntityServlet</url-pattern>
   </servlet-mapping>
 </web-app>
