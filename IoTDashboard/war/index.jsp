@@ -4,11 +4,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<link type="text/css" rel="stylesheet" href="IoTDashboard.css">
+<title>SmartCity</title>
 </head>
 <body>
 	<jsp:include page="header.jsp" />
-	<p align="center">Welcome</p>
+	<div id="centro">
+		<h2 align="center">Welcome</h2>
+	</div>
 	<jsp:include page="footer.jsp" />
 </body>
 </html>

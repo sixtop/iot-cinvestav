@@ -5,9 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link type="text/css" rel="stylesheet" href="IoTDashboard.css">
 <script type="text/javascript" language="javascript" src="controller/controller.nocache.js"></script>
-
-
-<title>Insert title here</title>
+<title>SmartCity</title>
 </head>
 <body>
 <jsp:include page="header.jsp" />

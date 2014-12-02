@@ -1,14 +1,23 @@
 package mx.cinvestav.gdl.iot.dashboard.client;
 
 import java.util.ArrayList;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
+import mx.cinvestav.gdl.iot.dao.Controller;
+import mx.cinvestav.gdl.iot.dao.ControllerProperty;
+import mx.cinvestav.gdl.iot.dao.DAO;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class EpController implements EntryPoint {
@@ -101,15 +110,15 @@ public class EpController implements EntryPoint {
 		
 		property.add(symboln);
 		
+		if(active.getValue() == true){
+			symbola.setValue(true);
+		}else{
+			symbola.setValue(false);
+		}
+		
 		name.setText("");
 		value.setText("");
-		
-		if(active.getValue() == true){
-			symbola.setEnabled(true);
-		}else{
-			symbola.setEnabled(false);
-		}
-			
+		active.setValue(false);
 		
 		int row = tableProperty.getRowCount();
 		tableProperty.setText(row, 0, symboln);
@@ -130,6 +139,47 @@ public class EpController implements EntryPoint {
 	}
 	
 	private void saveController() {
+		
+		
+		EntityManager em = null;
+		EntityTransaction tx = null;
+		
+		try{
+			em = DAO.createEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
+			
+			
+			
+			Controller x=new Controller();
+			x.setDescription(tbName.getText());
+			x.setDescription(tbLocation.getText());
+			x.setDescription(tbDescription.getText());
+			Map<Integer, ControllerProperty> props = x.getProperties();
+			
+			for(int i=0;i<tableProperty.getRowCount();i++){
+				
+				ControllerProperty cP=new ControllerProperty();
+				cP.setName(tableProperty.getText(i, 0));
+				cP.setValue(tableProperty.getText(i, 1));
+				cP.setActive(((CheckBox)tableProperty.getWidget(i,2)).getValue());
+				em.persist(cP);
+				props.put(cP.getId(), cP);
+				
+			}
+			em.persist(x);
+			
+			
+			tx.commit();
+		}
+		catch(Exception e)
+		{
+			if(tx!=null) tx.rollback();
+			if(em!=null) em.close();
+		}
+		
+		
+		
 		
 	}
 
