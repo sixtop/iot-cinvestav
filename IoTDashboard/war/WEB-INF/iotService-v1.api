@@ -24,6 +24,22 @@
     "maxAge" : 0
   },
   "methods" : {
+    "iotService.createController" : {
+      "path" : "createController",
+      "httpMethod" : "post",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "mx.cinvestav.gdl.iot.impl.IoTService.createController",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "iotService.updateData" : {
       "path" : "updatedataresponse",
       "httpMethod" : "post",
@@ -114,6 +130,14 @@
       }
     },
     "methods" : {
+      "mx.cinvestav.gdl.iot.impl.IoTService.createController" : {
+        "request" : {
+          "$ref" : "UpdateDataRequest"
+        },
+        "response" : {
+          "$ref" : "UpdateDataResponse"
+        }
+      },
       "mx.cinvestav.gdl.iot.impl.IoTService.updateData" : {
         "request" : {
           "$ref" : "UpdateDataRequest"
