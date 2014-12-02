@@ -15,8 +15,10 @@ import com.google.gson.GsonBuilder;
 
 public class CloudClient
 {
-	//	private static final String url = "http://localhost:8888/_ah/api/iotService/v1/updatedataresponse";
-	private static final String url = "https://weighty-utility-768.appspot.com/_ah/api/iotService/v1/updatedataresponse";
+//	private static final String url = "http://localhost:8888/_ah/api/iotService/v1/updatedataresponse";
+	//	private static final String url = "https://weighty-utility-768.appspot.com/_ah/api/iotService/v1/updatedataresponse";
+
+	private static final String url = "http://localhost:8888/_ah/api/iotService/v1/createController";
 	private static GsonBuilder builder = new GsonBuilder();
 	private static Gson gson = builder.create();
 

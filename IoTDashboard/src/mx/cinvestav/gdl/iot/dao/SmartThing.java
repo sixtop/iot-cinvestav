@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "smart_thing")
-public class SmartThing
+public class SmartThing implements IoTEntity
 {
 	@Id
 	@GeneratedValue

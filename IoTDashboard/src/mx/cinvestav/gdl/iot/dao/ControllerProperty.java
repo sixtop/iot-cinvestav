@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "con_property")
-public class ControllerProperty
+public class ControllerProperty implements IoTProperty
 {
 	@Id
 	@GeneratedValue
@@ -18,6 +18,7 @@ public class ControllerProperty
 	private String value;
 	@Column(name = "isactive")
 	private boolean active;
+	private int idcontroller;
 
 	public int getId()
 	{
@@ -59,4 +60,13 @@ public class ControllerProperty
 		this.active = active;
 	}
 
+	public int getParentId()
+	{
+		return idcontroller;
+	}
+
+	public void setParentId(int idparent)
+	{
+		this.idcontroller = idparent;
+	}
 }

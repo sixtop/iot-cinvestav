@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "controller")
-public class Controller
+public class Controller implements IoTEntity
 {
 	@Id
 	@GeneratedValue
@@ -92,5 +92,4 @@ public class Controller
 	{
 		this.properties = properties;
 	}
-
 }

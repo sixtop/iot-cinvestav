@@ -240,42 +240,51 @@ public class EpController implements EntryPoint {
 		/*
 		
 		
-		EntityManager em = null;
-		EntityTransaction tx = null;
-		
-		try{
-			em = DAO.createEntityManager();
-			tx = em.getTransaction();
-			tx.begin();
-			
-			
-			
-			Controller x=new Controller();
-			x.setDescription(tbName.getText());
-			x.setDescription(tbLocation.getText());
-			x.setDescription(tbDescription.getText());
-			Map<Integer, ControllerProperty> props = x.getProperties();
-			
-			for(int i=0;i<tableProperty.getRowCount();i++){
-				
-				ControllerProperty cP=new ControllerProperty();
-				cP.setName(tableProperty.getText(i, 0));
-				cP.setValue(tableProperty.getText(i, 1));
-				cP.setActive(((CheckBox)tableProperty.getWidget(i,2)).getValue());
-				em.persist(cP);
-				props.put(cP.getId(), cP);
-				
-			}
-			em.persist(x);
-			
-			
-			tx.commit();
-		}
-		catch(Exception e)
-		{
-			if(tx!=null) tx.rollback();
-			if(em!=null) em.close();
-		}
+//		EntityManager em = null;
+//		EntityTransaction tx = null;
+//		
+//		try{
+//			em = DAO.createEntityManager();
+//			tx = em.getTransaction();
+//			tx.begin();
+//			
+//			
+//			
+//			Controller x=new Controller();
+//			x.setDescription(tbName.getText());
+//			x.setDescription(tbLocation.getText());
+//			x.setDescription(tbDescription.getText());
+//			Map<Integer, ControllerProperty> props = x.getProperties();
+//			
+//			for(int i=0;i<tableProperty.getRowCount();i++){
+//				
+//				ControllerProperty cP=new ControllerProperty();
+//				cP.setName(tableProperty.getText(i, 0));
+//				cP.setValue(tableProperty.getText(i, 1));
+//				cP.setActive(((CheckBox)tableProperty.getWidget(i,2)).getValue());
+//				em.persist(cP);
+//				props.put(cP.getId(), cP);
+//				
+//			}
+//			em.persist(x);
+//			
+//			
+//			tx.commit();
+//		}
+//		catch(Exception e)
+//		{
+//			if(tx!=null) 
+//			{
+//				tx.rollback();
+//			}
+//		}
+//		finally
+//		{
+//			if(em!=null) 
+//			{
+//				em.close();			
+//			}
+//		}
 		
 		
 		*/

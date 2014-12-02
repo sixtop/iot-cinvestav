@@ -8,18 +8,17 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "thing_property")
-public class SmartThingProperty
+public class SmartThingProperty implements IoTProperty
 {
 	@Id
 	@GeneratedValue
 	@Column(name = "idpropertything")
 	private int id;
-
 	private String name;
 	private String value;
-
 	@Column(name = "isactive")
 	private boolean active;
+	private int idthing;
 
 	public int getId()
 	{
@@ -61,4 +60,15 @@ public class SmartThingProperty
 		this.active = active;
 	}
 
+	@Override
+	public int getParentId()
+	{
+		return idthing;
+	}
+
+	@Override
+	public void setParentId(int idparent)
+	{
+		this.idthing = idparent;
+	}
 }
