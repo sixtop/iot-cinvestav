@@ -22,7 +22,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-
 public class EpController implements EntryPoint {
 	private TextBox tbControlerS = new TextBox();
 	
