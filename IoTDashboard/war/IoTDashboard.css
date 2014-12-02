@@ -10,19 +10,19 @@ h2 {
   font-size: 30px;
   font-weight: bold;
   margin-bottom: 3px;
-  
 }
 
 h3 {
-  font-size: 20px;
+  font-size: 25px;
   font-weight: bold;
 }
 
 a{
 	font-size: 15px;
+	 padding: 20px;
 }
 
-#centro {
+#container {
 	position: relative;
     left: 50px;
     
@@ -35,7 +35,25 @@ a{
 }
 
 .headerTableProperty{
+  font-size: 13px;
+  font-weight: bold;
   background-color: rgb(223,233,245);
   color: #000000;
-  width:8em;
+   width:8em;
+}
+
+.lbProperty {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.btSave {
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  left:280px;
+  
+   
 }

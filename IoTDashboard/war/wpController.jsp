@@ -5,8 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link type="text/css" rel="stylesheet" href="IoTDashboard.css">
-<script type="text/javascript" language="javascript"
-	src="controller/controller.nocache.js"></script>
+<script type="text/javascript" language="javascript" src="controller/controller.nocache.js"></script>
 
 <script type="text/javascript">
 	function addC() {
@@ -17,14 +16,11 @@
 		window.location = "addController.jsp";
 	}
 </script>
-
-
-<title>Insert title here</title>
+<title>SmartCity</title>
 </head>
 <body>
 	<jsp:include page="header.jsp" />
-	<div id="body">
-
+	<div id="container">
 		<h2>Controllers</h2>
 		<br />
 		<table>

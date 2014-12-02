@@ -5,41 +5,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link type="text/css" rel="stylesheet" href="IoTDashboard.css">
 <script type="text/javascript" language="javascript" src="controller/controller.nocache.js"></script>
-<title>SmartCity</title>
+<title>SmartCity</title> 
 </head>
 <body>
 <jsp:include page="header.jsp" />
-<div id="centro">
+<div id="container">
 <h2>Controller</h2>
-		<table>
-			<tr>
-				<td>Id:</td>
-				<td id="tbIdContainer"></td>
-			</tr>
-			<tr>
-				<td>Name:</td>
-				<td id="tbNameContainer"></td>
-			</tr>
-			<tr>
-				<td>Description:</td>
-				<td id="tbDescriptionContainer"></td>
-			</tr>
-			<tr>
-				<td>Location:</td>
-				<td id="tbLocationContainer"></td>
-			</tr>
-			<tr>
-		</table>
-<h3>Properties</h3>
-<div id="propertyContainer"></div>
-<table>
-	<tr></tr>
-			<tr>
-			 	<td colspan="3"></td>
-				<td id="btSaveContainer"></td>
-				<td id="btCancelContainer"></td>
-			</tr>
-		</table>
+<div id="formContainer"></div>
 </div>
 <jsp:include page="footer.jsp" />
 </body>

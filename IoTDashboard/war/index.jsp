@@ -5,13 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link type="text/css" rel="stylesheet" href="IoTDashboard.css">
+<script type="text/javascript" language="javascript" src="iotdashboard/iotdashboard.nocache.js"></script>
+
 <title>SmartCity</title>
 </head>
 <body>
 	<jsp:include page="header.jsp" />
-	<div id="centro">
-		<h2 align="center">Welcome</h2>
-	</div>
+	<h2 align="center">Welcome</h2>
 	<jsp:include page="footer.jsp" />
 </body>
 </html>
