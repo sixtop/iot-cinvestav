@@ -201,10 +201,6 @@ public class EpController implements EntryPoint {
 	private void addProperty() {
 		int row = tableProperty.getRowCount();
 		
-		TextBox name = new TextBox();
-		TextBox value = new TextBox();
-		CheckBox active = new CheckBox();
-		
 		tableProperty.setWidget(row, 0, name);
 		tableProperty.setWidget(row, 1, value);
 		tableProperty.setWidget(row, 2, active);
@@ -248,7 +244,6 @@ public class EpController implements EntryPoint {
 		}else{
 			symbola.setValue(false);
 		}
-		symbola.setName("sfgdfg");
 		
 		name.setText("");
 		value.setText("");
@@ -262,7 +257,6 @@ public class EpController implements EntryPoint {
 		listNameProperty.addItem(symboln);
 		listValueProperty.addItem(symbolv);
 		listActiveProperty.addItem(symbola.getValue()+"");
-		
 		
 		Button removeProperty = new Button("Remove");
 		
