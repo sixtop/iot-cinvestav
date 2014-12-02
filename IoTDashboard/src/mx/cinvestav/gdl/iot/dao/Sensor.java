@@ -41,6 +41,17 @@ public class Sensor implements IoTEntity
 	@JoinColumn(name = "idsensor")
 	@MapKey(name = "id")
 	private Map<Integer, SensorProperty> properties;
+	
+	public Sensor()
+	{
+		super();
+	}
+
+	public Sensor(boolean active2, String sensor_type2, String unit2, double latitude2,
+			double longitude2, double altitude2)
+	{
+		this.active = active2;
+	}
 
 	public int getId()
 	{

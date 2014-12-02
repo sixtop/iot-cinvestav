@@ -33,6 +33,19 @@ public class Controller implements IoTEntity
 	@MapKey(name = "id")
 	private Map<Integer, ControllerProperty> properties;
 
+	public Controller()
+	{
+		super();
+	}
+
+	public Controller(String location)
+	{
+		if (location != null)
+		{
+			this.location = location.trim();
+		}
+	}
+
 	public int getId()
 	{
 		return id;
