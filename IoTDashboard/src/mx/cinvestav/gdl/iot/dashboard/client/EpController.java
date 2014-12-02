@@ -17,17 +17,27 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class EpController implements EntryPoint {
+	private TextBox tbControlerS = new TextBox();
 	
 	private DialogBox dialogBox = new DialogBox();
 	private Button btClose = new Button("Close");
 	private Label lbDialogBox = new Label();
 
-	    
+	private ListBox listNameProperty=new ListBox();
+	private ListBox listValueProperty=new ListBox();
+	private ListBox listActiveProperty=new ListBox();
+	
+	private TextBox name = new TextBox();
+	private TextBox value = new TextBox();
+	private CheckBox active = new CheckBox();
+	
+	
 	private FormPanel form = new FormPanel();
 	private VerticalPanel formPanel = new VerticalPanel();
 	
@@ -47,18 +57,15 @@ public class EpController implements EntryPoint {
 	private Label lbProperty = new Label();
 	private FlexTable tableProperty = new FlexTable();
 	
-	private TextBox name = new TextBox();
-	private TextBox value = new TextBox();
-	private CheckBox active = new CheckBox();
-	
 	private Button btAddProperty = new Button("Add");
 	
 	private ArrayList<String> property = new ArrayList<String>();
 
 	public void onModuleLoad() {
-		form.setAction(GWT.getHostPageBaseURL() + "/wpController.jsp");
+		form.setAction(GWT.getHostPageBaseURL() + "addEntityServlet");
+		
 		form.setMethod(FormPanel.METHOD_POST);
-	    form.setEncoding(FormPanel.ENCODING_MULTIPART);
+	    form.setEncoding(FormPanel.ENCODING_URLENCODED);
 	    
 		tableFields.setText(0, 0,"Id: ");
 		tableFields.setWidget(0,1,tbId);
@@ -78,7 +85,14 @@ public class EpController implements EntryPoint {
 		tbName.setName("tbNameS");
 		tbDescription.setName("tbDescriptionS");
 		tbLocation.setName("tbLocationS");
+		listNameProperty.setName("listNamePropertyS");
+		listValueProperty.setName("listValuePropertyS");
+		listActiveProperty.setName("listActivePropertyS");
 		
+		
+	    tbControlerS.setName("IdOperation");
+		tbControlerS.setText("Controller");//Id Controller
+		tbControlerS.setVisible(false);
 		
 		tableProperty.setText(0, 0, "Name");
 		tableProperty.setText(0, 1, "Value");
@@ -120,7 +134,10 @@ public class EpController implements EntryPoint {
 	      // Add the widgets to the root panel.
 	    RootPanel.get("formContainer").add(decoratorPanel);
 	    
+
 		
+		RootPanel.get("formContainer").add(tbControlerS);
+	    
 	    dialogBox.add(btClose);
 	    
 	    btClose.addClickHandler(new ClickHandler() {
@@ -132,6 +149,7 @@ public class EpController implements EntryPoint {
 	     
 		btAddProperty.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				btAddProperty.setEnabled(false);
 				addProperty();
 			}
 		});
@@ -183,20 +201,37 @@ public class EpController implements EntryPoint {
 	private void addProperty() {
 		int row = tableProperty.getRowCount();
 		
+		TextBox name = new TextBox();
+		TextBox value = new TextBox();
+		CheckBox active = new CheckBox();
+		
 		tableProperty.setWidget(row, 0, name);
 		tableProperty.setWidget(row, 1, value);
 		tableProperty.setWidget(row, 2, active);
 		
 		// Add a button to remove this stock from the table.
 		Button saveProperty = new Button("Save");
-		
 		saveProperty.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				btAddProperty.setEnabled(true);
 				saveProperty();
 			}
 		});
 		
-		tableProperty.setWidget(row, 3, saveProperty);
+		Button cancelProperty = new Button("Cancel");
+		
+		cancelProperty.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				btAddProperty.setEnabled(true);
+			}
+		});
+		
+		HorizontalPanel buttonsPanel=new HorizontalPanel();
+		buttonsPanel.add(saveProperty);
+		buttonsPanel.add(cancelProperty);
+		
+		tableProperty.setWidget(row, 3, buttonsPanel);
+		
 	}
 	
 	private void saveProperty() {
@@ -213,6 +248,7 @@ public class EpController implements EntryPoint {
 		}else{
 			symbola.setValue(false);
 		}
+		symbola.setName("sfgdfg");
 		
 		name.setText("");
 		value.setText("");
@@ -223,6 +259,11 @@ public class EpController implements EntryPoint {
 		tableProperty.setText(row, 1, symbolv);
 		tableProperty.setWidget(row, 2, symbola);
 		
+		listNameProperty.addItem(symboln);
+		listValueProperty.addItem(symbolv);
+		listActiveProperty.addItem(symbola.getValue()+"");
+		
+		
 		Button removeProperty = new Button("Remove");
 		
 		removeProperty.addClickHandler(new ClickHandler() {
@@ -230,6 +271,13 @@ public class EpController implements EntryPoint {
 				int removedIndex = property.indexOf(symboln);
 				property.remove(removedIndex);
 				tableProperty.removeRow(removedIndex + 1);
+				
+				
+				listNameProperty.removeItem(removedIndex);
+				listValueProperty.removeItem(removedIndex);
+				listActiveProperty.removeItem(removedIndex);
+				
+				
 			}
 		});
 		
