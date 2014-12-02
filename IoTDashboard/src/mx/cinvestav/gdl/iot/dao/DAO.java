@@ -1,11 +1,17 @@
 package mx.cinvestav.gdl.iot.dao;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+
+import mx.cinvestav.gdl.iot.exception.DatabaseException;
 
 import com.google.appengine.api.utils.SystemProperty;
 
@@ -19,7 +25,12 @@ public class DAO
 	private static final String JDBC_URL = "javax.persistence.jdbc.url";
 	private static final String JDBC_DRIVER = "javax.persistence.jdbc.driver";
 	private static final String PERSISTENCE_UNIT_NAME = "SmartCitiesCloudSQL";
+
 	private static EntityManagerFactory emf = null;
+
+	/**
+	 * On class load, define which JDBC URL to use depending on production value
+	 */
 	static
 	{
 		try
@@ -39,26 +50,66 @@ public class DAO
 		}
 		catch (Exception e)
 		{
-
+			Logger logger = Logger.getLogger(DAO.class.getName());
+			logger.log(Level.SEVERE, "Unexpected exception initializing DAO", e);
 		}
 	}
 
+	/**
+	 * Returns an entity manager instance
+	 * @return
+	 */
 	public static EntityManager createEntityManager()
 	{
 		return emf.createEntityManager();
 	}
 
-	public static void insert(Object c)
+	/**
+	 * Insert a new controller with a collection of properties
+	 * @param controller
+	 * @param properties
+	 * @throws DatabaseException
+	 */
+	public static <T extends IoTEntity> void insertEntity(T entity, Collection<? extends IoTProperty> properties) 
+			throws DatabaseException
 	{
+		if (entity == null)
+		{
+			throw new IllegalArgumentException("Entity cannot be null.");
+		}
 		EntityManager em = null;
+		EntityTransaction tx = null;
 		try
 		{
 			em = emf.createEntityManager();
-			em.persist(c);
+			tx = em.getTransaction();
+			tx.begin();
+			em.persist(entity);
+			if (properties != null)
+			{
+				for (IoTProperty p : properties)
+				{
+					p.setParentId(entity.getId());
+					em.persist(p);
+				}
+			}
+			tx.commit();
+		}
+		catch (Exception e)
+		{
+			if (tx != null)
+			{
+				tx.rollback();
+			}
+			throw new DatabaseException("Database exception while inserting entity:"
+					+ e.getMessage(), e);
 		}
 		finally
 		{
-			if (em != null) em.close();
+			if (em != null)
+			{
+				em.close();
+			}
 		}
 	}
 }

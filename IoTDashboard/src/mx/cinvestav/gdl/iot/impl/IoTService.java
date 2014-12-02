@@ -1,6 +1,8 @@
 package mx.cinvestav.gdl.iot.impl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,10 +14,13 @@ import mx.cinvestav.gdl.iot.cloudclient.SensorData;
 import mx.cinvestav.gdl.iot.cloudclient.SmartThingData;
 import mx.cinvestav.gdl.iot.cloudclient.UpdateDataRequest;
 import mx.cinvestav.gdl.iot.cloudclient.UpdateDataResponse;
+import mx.cinvestav.gdl.iot.dao.Controller;
+import mx.cinvestav.gdl.iot.dao.ControllerProperty;
 import mx.cinvestav.gdl.iot.dao.DAO;
 import mx.cinvestav.gdl.iot.dao.Measure;
 import mx.cinvestav.gdl.iot.dao.Sensor;
 import mx.cinvestav.gdl.iot.dao.SmartThing;
+import mx.cinvestav.gdl.iot.exception.DatabaseException;
 import mx.cinvestav.gdl.iot.validation.UpdateRequestValidator;
 
 import com.google.api.server.spi.config.Api;
@@ -126,5 +131,41 @@ public class IoTService
 			res.setStatus(500);
 		}
 		return res;
+	}
+	
+	@ApiMethod(name = "createController", httpMethod = "post")
+	public UpdateDataResponse createController(UpdateDataRequest request) throws NotFoundException
+	{
+		
+		UpdateDataResponse res = new UpdateDataResponse();
+		
+		Controller c = new  Controller();
+		c.setDescription("desc");
+		c.setLocation("Loc");
+		c.setName("name");
+		List<ControllerProperty> props = new ArrayList<>();
+		
+		
+		for(int i= 0; i < 10 ; i++)
+		{
+			ControllerProperty prop = new ControllerProperty();
+			prop.setActive(false);
+			prop.setName("namep");
+			prop.setValue("valp");
+			props.add(prop);
+		}
+		
+		try
+		{
+			DAO.insertEntity(c, props);
+		}
+		catch (DatabaseException e1)
+		{
+			e1.printStackTrace();
+		}
+		
+		res.setStatus(200);
+		res.setMessage("OK");
+		return res ; 
 	}
 }
