@@ -21,8 +21,8 @@
 
 	<!-- Specify the app entry point class.                         -->
 	<entry-point
-		class='mx.cinvestav.gdl.iot.dashboard.client.EpController' />
-	<entry-point
+		class='mx.cinvestav.gdl.iot.dashboard.client.EpController'>
+	</entry-point>
 	
 	<!-- Specify the paths for translatable code                    -->
 	<source path='client' />
