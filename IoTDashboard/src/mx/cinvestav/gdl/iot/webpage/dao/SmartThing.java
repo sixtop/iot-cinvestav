@@ -1,4 +1,4 @@
-package mx.cinvestav.gdl.iot.dao;
+package mx.cinvestav.gdl.iot.webpage.dao;
 
 import java.util.Map;
 
@@ -12,39 +12,31 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "controller")
-public class Controller implements IoTEntity
+@Table(name = "smart_thing")
+public class SmartThing implements IoTEntity
 {
 	@Id
 	@GeneratedValue
-	@Column(name = "idcontroller")
+	@Column(name = "idthing")
 	private int id;
+
 	private String name;
 	private String description;
-	private String location;
 
 	@OneToMany
-	@JoinColumn(name = "idcontroller")
+	@JoinColumn(name = "idthing")
 	@MapKey(name = "id")
-	private Map<Integer, SmartThing> things;
+	private Map<Integer, Sensor> sensors;
 
 	@OneToMany
-	@JoinColumn(name = "idcontroller")
+	@JoinColumn(name = "idthing")
 	@MapKey(name = "id")
-	private Map<Integer, ControllerProperty> properties;
+	private Map<Integer, Measure> measures;
 
-	public Controller()
-	{
-		super();
-	}
-
-	public Controller(String location)
-	{
-		if (location != null)
-		{
-			this.location = location.trim();
-		}
-	}
+	@OneToMany
+	@JoinColumn(name = "idthing")
+	@MapKey(name = "id")
+	private Map<Integer, SmartThingProperty> properties;
 
 	public int getId()
 	{
@@ -76,33 +68,34 @@ public class Controller implements IoTEntity
 		this.description = description;
 	}
 
-	public String getLocation()
+	public Map<Integer, Sensor> getSensors()
 	{
-		return location;
+		return sensors;
 	}
 
-	public void setLocation(String location)
+	public void setSensors(Map<Integer, Sensor> sensors)
 	{
-		this.location = location;
+		this.sensors = sensors;
 	}
 
-	public Map<Integer, SmartThing> getThings()
+	public Map<Integer, Measure> getMeasures()
 	{
-		return things;
+		return measures;
 	}
 
-	public void setThings(Map<Integer, SmartThing> things)
+	public void setMeasures(Map<Integer, Measure> measures)
 	{
-		this.things = things;
+		this.measures = measures;
 	}
 
-	public Map<Integer, ControllerProperty> getProperties()
+	public Map<Integer, SmartThingProperty> getProperties()
 	{
 		return properties;
 	}
 
-	public void setProperties(Map<Integer, ControllerProperty> properties)
+	public void setProperties(Map<Integer, SmartThingProperty> properties)
 	{
 		this.properties = properties;
 	}
+
 }

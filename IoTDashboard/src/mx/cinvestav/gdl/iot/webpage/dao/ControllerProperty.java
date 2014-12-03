@@ -1,4 +1,4 @@
-package mx.cinvestav.gdl.iot.dao;
+package mx.cinvestav.gdl.iot.webpage.dao;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,18 +7,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "thing_property")
-public class SmartThingProperty implements IoTProperty
+@Table(name = "con_property")
+public class ControllerProperty implements IoTProperty
 {
 	@Id
 	@GeneratedValue
-	@Column(name = "idpropertything")
+	@Column(name = "idpropertycon")
 	private int id;
 	private String name;
 	private String value;
 	@Column(name = "isactive")
 	private boolean active;
-	private int idthing;
+	private int idcontroller;
 
 	public int getId()
 	{
@@ -60,15 +60,13 @@ public class SmartThingProperty implements IoTProperty
 		this.active = active;
 	}
 
-	@Override
 	public int getParentId()
 	{
-		return idthing;
+		return idcontroller;
 	}
 
-	@Override
 	public void setParentId(int idparent)
 	{
-		this.idthing = idparent;
+		this.idcontroller = idparent;
 	}
 }

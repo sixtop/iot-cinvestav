@@ -11,18 +11,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import mx.cinvestav.gdl.iot.dao.Controller;
-import mx.cinvestav.gdl.iot.dao.ControllerProperty;
-import mx.cinvestav.gdl.iot.dao.DAO;
-import mx.cinvestav.gdl.iot.dao.IoTEntity;
-import mx.cinvestav.gdl.iot.dao.IoTProperty;
-import mx.cinvestav.gdl.iot.dao.Sensor;
-import mx.cinvestav.gdl.iot.dao.SensorProperty;
-import mx.cinvestav.gdl.iot.dao.SmartThing;
-import mx.cinvestav.gdl.iot.dao.SmartThingProperty;
 import mx.cinvestav.gdl.iot.dashboard.client.ClientConstants;
 import mx.cinvestav.gdl.iot.exception.DatabaseException;
 import mx.cinvestav.gdl.iot.validation.AddEntityRequestValidator;
+import mx.cinvestav.gdl.iot.webpage.dao.Controller;
+import mx.cinvestav.gdl.iot.webpage.dao.ControllerProperty;
+import mx.cinvestav.gdl.iot.webpage.dao.DAO;
+import mx.cinvestav.gdl.iot.webpage.dao.IoTEntity;
+import mx.cinvestav.gdl.iot.webpage.dao.IoTProperty;
+import mx.cinvestav.gdl.iot.webpage.dao.Sensor;
+import mx.cinvestav.gdl.iot.webpage.dao.SensorProperty;
+import mx.cinvestav.gdl.iot.webpage.dao.SmartThing;
+import mx.cinvestav.gdl.iot.webpage.dao.SmartThingProperty;
 
 /**
  * Servlet implementation class AddControllerServlet
