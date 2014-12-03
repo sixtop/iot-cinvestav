@@ -7,18 +7,18 @@
 <link type="text/css" rel="stylesheet" href="IoTDashboard.css">
 <script type="text/javascript" language="javascript"
 	src="iotdashboard/iotdashboard.nocache.js"></script>
+
 <title>SmartCity</title>
 </head>
 <body>
 	<jsp:include page="header.jsp" />
 	<div id="container">
-		<h2>Sensor</h2>
+		<h2>Controllers</h2>
 		<div id="formContainer"></div>
 	</div>
 	<jsp:include page="footer.jsp" />
 </body>
 </html>
-
 
 
 

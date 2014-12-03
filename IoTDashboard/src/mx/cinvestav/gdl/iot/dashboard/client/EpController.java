@@ -166,7 +166,14 @@ public class EpController implements EntryPoint {
 	        		 listValueProperty.setItemSelected(i, true);
 	        		 listActiveProperty.setItemSelected(i, true);
 	        	 }
-	            form.submit();					
+	            form.submit();	
+	         }
+	      });
+	     
+	     btCancelController.addClickHandler(new ClickHandler() {
+	         @Override
+	         public void onClick(ClickEvent event) {
+	        	  Window.Location.replace("wpControllers.jsp");
 	         }
 	      });
 	      
@@ -197,7 +204,8 @@ public class EpController implements EntryPoint {
 	            // this event is fired. Assuming the service returned 
 	            // a response of type text/html, we can get the result
 	            // here.
-	            Window.alert(event.getResults());					
+	            Window.alert(event.getResults());	
+	            Window.Location.replace("wpControllers.jsp");
 	         }
 	      });
 	     

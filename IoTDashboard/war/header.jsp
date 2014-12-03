@@ -5,7 +5,7 @@
 </div>
 <div id="body">
   <p align="center">
-        <a href="wpController.jsp">Controllers</a>
+        <a href="wpControllers.jsp">Controllers</a>
         <a href="wpSmartThings.jsp">Smart Things</a>
         <a href="wpSensors.jsp">Sensors</a>
   </p>

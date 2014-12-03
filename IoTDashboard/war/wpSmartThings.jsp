@@ -5,17 +5,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link type="text/css" rel="stylesheet" href="IoTDashboard.css">
- <script type="text/javascript" language="javascript" src="iotdashboard/iotdashboard.nocache.js"></script>
+<script type="text/javascript" language="javascript"
+	src="iotdashboard/iotdashboard.nocache.js"></script>
 <title>SmartCity</title>
 </head>
 <body>
-<jsp:include page="header.jsp" />
-<jsp:include page="header.jsp" />
-<div id="container">
-<h2>SmartThings</h2>
-<div id="formContainer"></div>
-</div>
-<jsp:include page="footer.jsp" />
-</body>
+	<jsp:include page="header.jsp" />
+	<div id="container">
+		<h2>SmartThings</h2>
+		<div id="formContainer"></div>
+	</div>
+	<jsp:include page="footer.jsp" />
 </body>
 </html>
