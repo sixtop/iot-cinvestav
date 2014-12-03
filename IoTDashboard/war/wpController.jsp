@@ -5,45 +5,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link type="text/css" rel="stylesheet" href="IoTDashboard.css">
-<script type="text/javascript" language="javascript" src="controller/controller.nocache.js"></script>
+ <script type="text/javascript" language="javascript" src="iotdashboard/iotdashboard.nocache.js"></script>
 
-<script type="text/javascript">
-	function addC() {
-		window.location = "addController.jsp";
-	}
-
-	function ediC() {
-		window.location = "addController.jsp";
-	}
-</script>
 <title>SmartCity</title>
 </head>
 <body>
-	<jsp:include page="header.jsp" />
-	<div id="container">
-		<h2>Controllers</h2>
-		<br />
-		<table>
-			<tr>
-				<th>Id</th>
-				<th>Name</th>
-				<th>Description</th>
-				<th>Location</th>
-				<th>Status</th>
-			</tr>
-			<tr>
-				<td><input type="button" value="Edit" onClick="ediC();"></td>
-			</tr>
-		</table>
-
-		<table>
-			<tr>
-				<td><input type="button" value="Add" onClick="addC();"></td>
-			</tr>
-		</table>
-
-	</div>
-	<jsp:include page="footer.jsp" />
+<jsp:include page="header.jsp" />
+<jsp:include page="header.jsp" />
+<div id="container">
+<h2>Controllers</h2>
+<div id="formContainer"></div>
+</div>
+<jsp:include page="footer.jsp" />
+</body>
 </body>
 </html>
 

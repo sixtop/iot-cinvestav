@@ -36,8 +36,7 @@ public class EpController implements EntryPoint {
 	private TextBox name = new TextBox();
 	private TextBox value = new TextBox();
 	private CheckBox active = new CheckBox();
-	
-	
+		
 	private FormPanel form = new FormPanel();
 	private VerticalPanel formPanel = new VerticalPanel();
 	
@@ -139,9 +138,6 @@ public class EpController implements EntryPoint {
 	      decoratorPanel.add(form);
 	      // Add the widgets to the root panel.
 	    RootPanel.get("formContainer").add(decoratorPanel);
-	    
-
-		
 	    
 	    dialogBox.add(btClose);
 	    
@@ -289,60 +285,5 @@ public class EpController implements EntryPoint {
 		tableProperty.setWidget(row, 3, removeProperty);		
 	}
 	
-	private void saveController() {
-		/*
-		
-		
-//		EntityManager em = null;
-//		EntityTransaction tx = null;
-//		
-//		try{
-//			em = DAO.createEntityManager();
-//			tx = em.getTransaction();
-//			tx.begin();
-//			
-//			
-//			
-//			Controller x=new Controller();
-//			x.setDescription(tbName.getText());
-//			x.setDescription(tbLocation.getText());
-//			x.setDescription(tbDescription.getText());
-//			Map<Integer, ControllerProperty> props = x.getProperties();
-//			
-//			for(int i=0;i<tableProperty.getRowCount();i++){
-//				
-//				ControllerProperty cP=new ControllerProperty();
-//				cP.setName(tableProperty.getText(i, 0));
-//				cP.setValue(tableProperty.getText(i, 1));
-//				cP.setActive(((CheckBox)tableProperty.getWidget(i,2)).getValue());
-//				em.persist(cP);
-//				props.put(cP.getId(), cP);
-//				
-//			}
-//			em.persist(x);
-//			
-//			
-//			tx.commit();
-//		}
-//		catch(Exception e)
-//		{
-//			if(tx!=null) 
-//			{
-//				tx.rollback();
-//			}
-//		}
-//		finally
-//		{
-//			if(em!=null) 
-//			{
-//				em.close();			
-//			}
-//		}
-		
-		
-		*/
-		
-	}
-
 	
 }

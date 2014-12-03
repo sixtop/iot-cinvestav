@@ -30,7 +30,7 @@ import com.google.api.server.spi.response.NotFoundException;
 /**
  * Defines v1 of a IoT API, which provides simple update methods.
  */
-@Api(name = "iotService", version = "v1")
+@Api(name = "iotService", version = "v2")
 public class IoTService
 {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
@@ -133,7 +133,7 @@ public class IoTService
 		return res;
 	}
 	
-	@ApiMethod(name = "createController", httpMethod = "post")
+	/*@ApiMethod(name = "createController", httpMethod = "post")
 	public UpdateDataResponse createController(UpdateDataRequest request) throws NotFoundException
 	{
 		
@@ -167,5 +167,5 @@ public class IoTService
 		res.setStatus(200);
 		res.setMessage("OK");
 		return res ; 
-	}
+	}*/
 }
