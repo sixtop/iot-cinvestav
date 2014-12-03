@@ -30,7 +30,7 @@ import com.google.api.server.spi.response.NotFoundException;
 /**
  * Defines v1 of a IoT API, which provides simple update methods.
  */
-@Api(name = "iotService", version = "v2")
+@Api(name = "iotService", version = "v1")
 public class IoTService
 {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
