@@ -29,9 +29,9 @@ public class EpController implements EntryPoint {
 	private Button btClose = new Button("Close");
 	private Label lbDialogBox = new Label();
 
-	private ListBox listNameProperty=new ListBox();
-	private ListBox listValueProperty=new ListBox();
-	private ListBox listActiveProperty=new ListBox();
+	private ListBox listNameProperty=new ListBox(true);
+	private ListBox listValueProperty=new ListBox(true);
+	private ListBox listActiveProperty=new ListBox(true);
 	
 	private TextBox name = new TextBox();
 	private TextBox value = new TextBox();
@@ -86,9 +86,11 @@ public class EpController implements EntryPoint {
 		tbDescription.setName(ClientConstants.DESCRIPTION);
 		tbLocation.setName(ClientConstants.LOCATION);
 		listNameProperty.setName(ClientConstants.PROP_NAMES);
+		listNameProperty.setVisible(false);
 		listValueProperty.setName(ClientConstants.PROP_VALUES);
+		listValueProperty.setVisible(false);
 		listActiveProperty.setName(ClientConstants.PROP_ACTIVE);
-		
+		listActiveProperty.setVisible(false);
 		
 	    tbOperationS.setName(ClientConstants.OPERATION);
 		tbOperationS.setText(ClientConstants.CONTROLLER);//Id Controller
@@ -125,6 +127,10 @@ public class EpController implements EntryPoint {
 	    buttonsPanel.add(btSaveController);
 	    buttonsPanel.add(btCancelController);
 	    formPanel.add(buttonsPanel);
+	    formPanel.add(tbOperationS);
+	    formPanel.add(listNameProperty);
+	    formPanel.add(listValueProperty);
+	    formPanel.add(listActiveProperty);
 	    
 	    form.setWidget(formPanel);
 	    
@@ -136,7 +142,6 @@ public class EpController implements EntryPoint {
 	    
 
 		
-		RootPanel.get("formContainer").add(tbOperationS);
 	    
 	    dialogBox.add(btClose);
 	    
@@ -159,6 +164,12 @@ public class EpController implements EntryPoint {
 	     btSaveController.addClickHandler(new ClickHandler() {
 	         @Override
 	         public void onClick(ClickEvent event) {
+	        	 for(int i = 0 ; i < listNameProperty.getItemCount(); i++)
+	        	 {
+	        		 listNameProperty.setItemSelected(i, true);
+	        		 listValueProperty.setItemSelected(i, true);
+	        		 listActiveProperty.setItemSelected(i, true);
+	        	 }
 	            form.submit();					
 	         }
 	      });

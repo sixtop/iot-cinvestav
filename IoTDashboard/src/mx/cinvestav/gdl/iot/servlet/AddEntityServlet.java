@@ -1,6 +1,7 @@
 package mx.cinvestav.gdl.iot.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,11 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mx.cinvestav.gdl.iot.dao.Controller;
+import mx.cinvestav.gdl.iot.dao.ControllerProperty;
 import mx.cinvestav.gdl.iot.dao.DAO;
 import mx.cinvestav.gdl.iot.dao.IoTEntity;
 import mx.cinvestav.gdl.iot.dao.IoTProperty;
 import mx.cinvestav.gdl.iot.dao.Sensor;
+import mx.cinvestav.gdl.iot.dao.SensorProperty;
 import mx.cinvestav.gdl.iot.dao.SmartThing;
+import mx.cinvestav.gdl.iot.dao.SmartThingProperty;
 import mx.cinvestav.gdl.iot.dashboard.client.ClientConstants;
 import mx.cinvestav.gdl.iot.exception.DatabaseException;
 import mx.cinvestav.gdl.iot.validation.AddEntityRequestValidator;
@@ -27,7 +31,6 @@ public class AddEntityServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
 	Logger logger = Logger.getLogger(DAO.class.getName());
-
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -106,10 +109,32 @@ public class AddEntityServlet extends HttpServlet
 	private Collection<? extends IoTProperty> extractProperties(String operation,
 			HttpServletRequest request)
 	{
-		//for()
-		//{
+		String[] propNames = request.getParameterValues(ClientConstants.PROP_NAMES);
+		String[] propValues = request.getParameterValues(ClientConstants.PROP_VALUES);
+		String[] propActive = request.getParameterValues(ClientConstants.PROP_ACTIVE);
+		Collection<IoTProperty> props = new ArrayList<>();
 
-		//}
-		return null;
+		for (int i = 0; i < propNames.length; i++)
+		{
+			IoTProperty prop = null;
+			if (ClientConstants.CONTROLLER.equals(operation))
+			{
+				prop = new ControllerProperty();
+			}
+			else if (ClientConstants.SENSOR.equals(operation))
+			{
+				prop = new SensorProperty();
+			}
+			else if (ClientConstants.SMART_THING.equals(operation))
+			{
+				prop = new SmartThingProperty();
+			}
+			prop.setName(propNames[i]);
+			prop.setValue(propValues[i]);
+			prop.setActive(Boolean.parseBoolean(propActive[i]));
+			props.add(prop);
+		}
+
+		return props;
 	}
 }

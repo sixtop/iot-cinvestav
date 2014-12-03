@@ -43,6 +43,22 @@ public class AddEntityRequestValidator
 		{
 			errors.append("Entity description is null or empty; ");
 		}
+		String[] propNames = req.getParameterValues(ClientConstants.PROP_NAMES);
+		if (propNames != null && propNames.length > 0)
+		{
+			String[] propValues = req.getParameterValues(ClientConstants.PROP_VALUES);
+			if (propValues == null || propValues.length != propNames.length)
+			{
+				errors.append("Property values array is not valid; ");
+			}
+			//TODO: validate empty names
+
+			String[] propActive = req.getParameterValues(ClientConstants.PROP_ACTIVE);
+			if (propActive == null || propActive.length != propNames.length)
+			{
+				errors.append("Property active array is not valid; ");
+			}
+		}
 		return errors.toString();
 	}
 
