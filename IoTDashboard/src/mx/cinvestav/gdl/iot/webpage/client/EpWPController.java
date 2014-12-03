@@ -1,4 +1,4 @@
-package mx.cinvestav.gdl.iot.dashboard.client;
+package mx.cinvestav.gdl.iot.webpage.client;
 
 
 import com.google.gwt.core.client.EntryPoint;
