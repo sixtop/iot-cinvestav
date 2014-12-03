@@ -19,15 +19,34 @@ public class AddEntityRequestValidator
 			switch (operation)
 			{
 				case ClientConstants.CONTROLLER:
-				{
 					if (isNullOrEmpty(req.getParameter(ClientConstants.LOCATION)))
 					{
 
 						errors.append("Entity location is null or empty; ");
 					}
 					break;
-				}
 				case ClientConstants.SENSOR:
+					String param = req.getParameter(ClientConstants.ACTIVE);
+					if (!isNullOrEmpty(param) && !isBoolean(param))
+					{
+						errors.append("Parameter active is invalid; ");
+					}
+					param = req.getParameter(ClientConstants.LATITUDE);
+					if (!isNullOrEmpty(param) && !isDouble(param))
+					{
+						errors.append("Parameter latitude is invalid; ");
+					}
+					param = req.getParameter(ClientConstants.LONGITUDE);
+					if (!isNullOrEmpty(param) && !isDouble(param))
+					{
+						errors.append("Parameter longitude is invalid; ");
+					}
+					param = req.getParameter(ClientConstants.ALTITUDE);
+					if (!isNullOrEmpty(param) && !isDouble(param))
+					{
+						errors.append("Parameter altitude is invalid; ");
+					}
+					break;
 				case ClientConstants.SMART_THING:
 					break;
 				default:
@@ -51,8 +70,13 @@ public class AddEntityRequestValidator
 			{
 				errors.append("Property values array is not valid; ");
 			}
-			//TODO: validate empty names
-
+			for (int i = 0; i < propNames.length; i++)
+			{
+				if (isNullOrEmpty(propNames[i]))
+				{
+					errors.append("Property name cannot be null or empty; ");
+				}
+			}
 			String[] propActive = req.getParameterValues(ClientConstants.PROP_ACTIVE);
 			if (propActive == null || propActive.length != propNames.length)
 			{
@@ -65,6 +89,29 @@ public class AddEntityRequestValidator
 	private static boolean isNullOrEmpty(String string)
 	{
 		if (string == null || "".equals(string.trim())) return true;
+		return false;
+	}
+
+	private static boolean isBoolean(String string)
+	{
+		if ("true".equals(string) || "false".equals(string))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private static boolean isDouble(String string)
+	{
+		try
+		{
+			Double.parseDouble(string);
+			return true;
+		}
+		catch (Exception e)
+		{
+			// just to test if the string was actually a double
+		}
 		return false;
 	}
 }

@@ -70,12 +70,12 @@ public class AddEntityServlet extends HttpServlet
 				}
 				case ClientConstants.SENSOR:
 				{
-					boolean active = false;
-					String sensor_type = null;
-					String unit = null;
-					double latitude = 0;
-					double longitude = 0;
-					double altitude = 0;
+					boolean active = Boolean.valueOf(request.getParameter(ClientConstants.ACTIVE));
+					String sensor_type = request.getParameter(ClientConstants.SENSOR_TYPE);
+					String unit = request.getParameter(ClientConstants.UNIT);
+					double latitude = Double.parseDouble(request.getParameter(ClientConstants.LATITUDE));
+					double longitude = Double.parseDouble(request.getParameter(ClientConstants.LONGITUDE));
+					double altitude = Double.parseDouble(request.getParameter(ClientConstants.ALTITUDE));
 					entity = new Sensor(active, sensor_type, unit, latitude, longitude, altitude);
 					break;
 				}
