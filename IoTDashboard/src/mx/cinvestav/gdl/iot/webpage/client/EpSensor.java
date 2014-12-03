@@ -44,7 +44,7 @@ public class EpSensor implements EntryPoint {
 	private FormPanel form = new FormPanel();
 	private VerticalPanel formPanel = new VerticalPanel();
 
-	private Button btSaveSensor = new Button("Save sensor");
+	private Button btSaveSensor = new Button("Save Sensor");
 	private Button btCancelSensor = new Button("Cancel");
 	private HorizontalPanel buttonsPanel = new HorizontalPanel();
 

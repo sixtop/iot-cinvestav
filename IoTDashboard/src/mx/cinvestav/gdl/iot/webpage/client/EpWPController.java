@@ -17,7 +17,7 @@ public class EpWPController implements EntryPoint {
 	private FormPanel form = new FormPanel();
 	private VerticalPanel formPanel = new VerticalPanel();
 	
-	private Button btAddController = new Button("Add controller");
+	private Button btAddController = new Button("Add Controller");
 	
 	private FlexTable tableController = new FlexTable();
 	private HorizontalPanel buttonsPanel = new HorizontalPanel();
