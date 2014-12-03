@@ -42,10 +42,9 @@ public class EpController implements EntryPoint {
 	private FormPanel form = new FormPanel();
 	private VerticalPanel formPanel = new VerticalPanel();
 	
-	private Button btSaveController = new Button("Save controller");
+	private Button btSaveController = new Button("Save Controller");
 	private Button btCancelController = new Button("Cancel");
 	private HorizontalPanel buttonsPanel = new HorizontalPanel();
-	
 	
 	private FlexTable tableFields = new FlexTable();
 	private TextBox tbId = new TextBox();

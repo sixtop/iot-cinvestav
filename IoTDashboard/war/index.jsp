@@ -5,7 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link type="text/css" rel="stylesheet" href="IoTDashboard.css">
-<script type="text/javascript" language="javascript" src="MIndex/MIndex.nocache.js"></script>
+<script type="text/javascript" language="javascript"
+	src="MIndex/MIndex.nocache.js"></script>
 
 <title>SmartCity</title>
 </head>

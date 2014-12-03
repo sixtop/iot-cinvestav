@@ -16,7 +16,7 @@ public class EpWPSensor implements EntryPoint {
 	private FormPanel form = new FormPanel();
 	private VerticalPanel formPanel = new VerticalPanel();
 	
-	private Button btAddController = new Button("Add controller");
+	private Button btAddController = new Button("Add Sensor");
 	
 	private FlexTable tableController = new FlexTable();
 	private HorizontalPanel buttonsPanel = new HorizontalPanel();
