@@ -22,7 +22,7 @@
  */
 (function($wnd, $doc){
   // Don't support browsers without session storage: IE6/7
-  var badBrowser = 'Unable to load Super Dev Mode of "controller" because\n';
+  var badBrowser = 'Unable to load Super Dev Mode of "MEpWPSensor" because\n';
   if (!('sessionStorage' in $wnd)) {
     $wnd.alert(badBrowser +  'this browser does not support "sessionStorage".');
     return;
@@ -30,8 +30,8 @@
 
   //We don't import properties.js so we have to update active modules here
   $wnd.__gwt_activeModules = $wnd.__gwt_activeModules || {};
-  $wnd.__gwt_activeModules['controller'] = {
-    'moduleName' : 'controller',
+  $wnd.__gwt_activeModules['MEpWPSensor'] = {
+    'moduleName' : 'MEpWPSensor',
     'bindings' : function() {
       return {};
     }
@@ -60,7 +60,7 @@
  * web page to override it using a meta tag.)
  *
  * Prerequisite: we assume that the first script tag using a URL ending with
- * "/controller.nocache.js" is the one that loaded us. Normally this happens
+ * "/MEpWPSensor.nocache.js" is the one that loaded us. Normally this happens
  * because DevModeRedirectHook.js loaded this nocache.js script by prepending a
  * script tag with an absolute URL to head. (However, it's also okay for an html
  * file included in the GWT compiler's output to load the nocache.js file using
@@ -69,9 +69,9 @@
 function computeScriptBase() {
   // TODO(skybrian) This approach won't work for workers.
 
-  $wnd.__gwt_activeModules['controller'].superdevmode = true;
+  $wnd.__gwt_activeModules['MEpWPSensor'].superdevmode = true;
 
-  var expectedSuffix = '/controller.nocache.js';
+  var expectedSuffix = '/MEpWPSensor.nocache.js';
 
   var scriptTags = $doc.getElementsByTagName('script');
   for (var i = 0;; i++) {
@@ -88,7 +88,7 @@ function computeScriptBase() {
     }
   }
 
-  $wnd.alert('Unable to load Super Dev Mode version of ' + controller + ".");
+  $wnd.alert('Unable to load Super Dev Mode version of ' + MEpWPSensor + ".");
 }
 ;
 
@@ -110,13 +110,13 @@ function computeScriptBase() {
 
   // We use a different key for each module so that we can turn on dev mode
   // independently for each.
-  var devModeHookKey = '__gwtDevModeHook:controller';
-  var devModeSessionKey = '__gwtDevModeSession:controller';
+  var devModeHookKey = '__gwtDevModeHook:MEpWPSensor';
+  var devModeSessionKey = '__gwtDevModeSession:MEpWPSensor';
 
   // Compute some codeserver urls so as the user does not need bookmarklets
   var hostName = $wnd.location.hostname;
   var serverUrl = 'http://' + hostName + ':9876';
-  var nocacheUrl = serverUrl + '/controller/controller.nocache.js';
+  var nocacheUrl = serverUrl + '/MEpWPSensor/MEpWPSensor.nocache.js';
 
   // Save supder-devmode url in session
   $wnd.sessionStorage[devModeHookKey] = nocacheUrl;
@@ -129,8 +129,8 @@ function computeScriptBase() {
   $wnd[devModeHookKey + ':moduleBase'] = computeScriptBase();
 
   // Needed in the real nocache.js logic
-  $wnd.__gwt_activeModules['controller'].canRedirect = true;
-  $wnd.__gwt_activeModules['controller'].superdevmode = true;
+  $wnd.__gwt_activeModules['MEpWPSensor'].canRedirect = true;
+  $wnd.__gwt_activeModules['MEpWPSensor'].superdevmode = true;
 
   // Insert the superdevmode nocache script in the first position of the head
   var devModeScript = $doc.createElement('script');
@@ -154,7 +154,7 @@ function computeScriptBase() {
   // The status message container
   compileButton.innerHTML = '<div></div>';
   // User knows who module to compile, hovering the button
-  compileButton.title = 'Compile module:\ncontroller';
+  compileButton.title = 'Compile module:\nMEpWPSensor';
 
   // Use CSS so the app could change button style
   var compileStyle = $doc.createElement('style');
@@ -202,7 +202,7 @@ function computeScriptBase() {
   // Only insert common css the first time
   css = (moduleIdx == 1 ? css : '') +
     ".gwt-DevModeModule-" + moduleIdx + ".gwt-DevModeCompiling div:before{" +
-      "content:'COMPILING controller';" +
+      "content:'COMPILING MEpWPSensor';" +
       "font-size:24px;" +
       "color:#d2d9ee;" +
     "}";
@@ -253,7 +253,7 @@ function computeScriptBase() {
     // maybe a request returning status='idle'
     var compileScript = $doc.createElement('script');
     compileScript.src = serverUrl +
-      '/recompile/controller?user.agent=' + ua + '&_callback=' + callback;
+      '/recompile/MEpWPSensor?user.agent=' + ua + '&_callback=' + callback;
     $head.appendChild(compileScript);
     compileButton.className = buttonClassName  + ' gwt-DevModeCompiling';
   }

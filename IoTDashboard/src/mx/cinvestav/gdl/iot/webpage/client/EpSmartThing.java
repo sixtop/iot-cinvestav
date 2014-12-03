@@ -1,6 +1,8 @@
-package mx.cinvestav.gdl.iot.dashboard.client;
+package mx.cinvestav.gdl.iot.webpage.client;
 
 import java.util.ArrayList;
+
+import mx.cinvestav.gdl.iot.dashboard.client.ClientConstants;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -168,7 +170,7 @@ public class EpSmartThing implements EntryPoint {
 		 btCancelSmartThing.addClickHandler(new ClickHandler() {
 	         @Override
 	         public void onClick(ClickEvent event) {
-	        	  Window.Location.replace("wpSmartThing.jsp");
+	        	  Window.Location.replace("wpSmartThings.jsp");
 	         }
 	      });
 	      

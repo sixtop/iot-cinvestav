@@ -1,8 +1,10 @@
-package mx.cinvestav.gdl.iot.dashboard.client;
+package mx.cinvestav.gdl.iot.webpage.client;
 
 import com.google.gwt.core.client.EntryPoint;
 
 import java.util.ArrayList;
+
+import mx.cinvestav.gdl.iot.dashboard.client.ClientConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
