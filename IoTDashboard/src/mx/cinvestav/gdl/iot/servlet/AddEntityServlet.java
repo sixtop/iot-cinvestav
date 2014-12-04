@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mx.cinvestav.gdl.iot.dashboard.client.ClientConstants;
-import mx.cinvestav.gdl.iot.exception.DatabaseException;
 import mx.cinvestav.gdl.iot.validation.AddEntityRequestValidator;
+import mx.cinvestav.gdl.iot.webpage.client.DatabaseException;
 import mx.cinvestav.gdl.iot.webpage.dao.Controller;
 import mx.cinvestav.gdl.iot.webpage.dao.ControllerProperty;
 import mx.cinvestav.gdl.iot.webpage.dao.DAO;

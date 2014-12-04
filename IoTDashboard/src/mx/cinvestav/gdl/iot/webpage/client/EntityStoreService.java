@@ -8,8 +8,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import mx.cinvestav.gdl.iot.webpage.dao.IoTEntity;
 import mx.cinvestav.gdl.iot.webpage.dao.IoTProperty;
 
-@RemoteServiceRelativePath("storeSeSrvice")
+@RemoteServiceRelativePath("storeService")
 public interface EntityStoreService extends RemoteService
 {
-	public void storeEntity(IoTEntity entity, Collection<? extends IoTProperty> props);
+	public void storeEntity(IoTEntity entity, Collection<? extends IoTProperty> props) throws DatabaseException;
 }

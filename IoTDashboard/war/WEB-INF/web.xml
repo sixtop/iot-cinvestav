@@ -8,6 +8,16 @@
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/iotdashboard/greet</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>storeService</servlet-name>
+    <servlet-class>mx.cinvestav.gdl.iot.webpage.server.EntityStoreImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>storeService</servlet-name>
+    <url-pattern>/MEpController/storeService</url-pattern>
+  </servlet-mapping>
+  
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>

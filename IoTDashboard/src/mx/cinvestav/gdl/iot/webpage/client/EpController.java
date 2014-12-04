@@ -1,14 +1,19 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import mx.cinvestav.gdl.iot.dashboard.client.ClientConstants;
+import mx.cinvestav.gdl.iot.webpage.dao.Controller;
+import mx.cinvestav.gdl.iot.webpage.dao.ControllerProperty;
+import mx.cinvestav.gdl.iot.webpage.dao.IoTProperty;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DecoratorPanel;
@@ -60,6 +65,8 @@ public class EpController implements EntryPoint {
 	private Button btAddProperty = new Button("Add");
 	
 	private ArrayList<String> property = new ArrayList<String>();
+	
+	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 
 	@Override
 	public void onModuleLoad() {
@@ -161,14 +168,40 @@ public class EpController implements EntryPoint {
 		 // Add a 'submit' button.
 	     btSaveController.addClickHandler(new ClickHandler() {
 	         @Override
-	         public void onClick(ClickEvent event) {
-	        	 for(int i = 0 ; i < listNameProperty.getItemCount(); i++)
-	        	 {
-	        		 listNameProperty.setItemSelected(i, true);
-	        		 listValueProperty.setItemSelected(i, true);
-	        		 listActiveProperty.setItemSelected(i, true);
-	        	 }
-	            form.submit();	
+	         public void onClick(ClickEvent event) 
+	         {
+	        	 
+	        	Controller c = new Controller();
+	        	c.setName(tbName.getText());
+	        	c.setDescription(tbDescription.getText());
+	        	c.setLocation(tbLocation.getText());
+	        	
+				Collection<IoTProperty> props = new ArrayList<>();
+				for(int i = 0; i < listNameProperty.getItemCount(); i++)
+				{
+					IoTProperty prop = new ControllerProperty();
+					prop.setName(listNameProperty.getItemText(i));
+					prop.setValue(listValueProperty.getItemText(i));
+					prop.setActive(Boolean.valueOf(listActiveProperty.getValue(i)));
+					props.add(prop);
+				}
+				
+				
+				entityService.storeEntity(c, props, new AsyncCallback<Void>()
+				{
+					@Override
+					public void onSuccess(Void result)
+					{
+						Window.alert("OK!");
+					}
+					
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						Window.alert(caught.getMessage());
+					}
+				});
+	            //form.submit();
 	         }
 	      });
 	     

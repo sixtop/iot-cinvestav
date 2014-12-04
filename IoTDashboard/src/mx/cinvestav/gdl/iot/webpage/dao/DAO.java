@@ -11,7 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import mx.cinvestav.gdl.iot.exception.DatabaseException;
+import mx.cinvestav.gdl.iot.webpage.client.DatabaseException;
 
 import com.google.appengine.api.utils.SystemProperty;
 
