@@ -15,6 +15,8 @@ import javax.persistence.Table;
 @Table(name = "sensor")
 public class Sensor implements IoTEntity
 {
+	private static final long serialVersionUID = -1165471382042735357L;
+
 	@Id
 	@GeneratedValue
 	@Column(name = "idsensor")

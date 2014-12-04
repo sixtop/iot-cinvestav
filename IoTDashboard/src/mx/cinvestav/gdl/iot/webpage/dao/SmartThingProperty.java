@@ -10,6 +10,7 @@ import javax.persistence.Table;
 @Table(name = "thing_property")
 public class SmartThingProperty implements IoTProperty
 {
+	private static final long serialVersionUID = 1364448876804303998L;
 	@Id
 	@GeneratedValue
 	@Column(name = "idpropertything")

@@ -52,7 +52,7 @@ public class IoTService
 					EntityTransaction tx = null;
 					try
 					{
-						em = DAO.createEntityManager();
+						em = DAO.getEntityManager();
 						tx = em.getTransaction();
 						tx.begin();
 						for (SmartThingData thing_data : thing_data_array)

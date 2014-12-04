@@ -15,6 +15,8 @@ import javax.persistence.Table;
 @Table(name = "smart_thing")
 public class SmartThing implements IoTEntity
 {
+	private static final long serialVersionUID = 3539643120571649894L;
+
 	@Id
 	@GeneratedValue
 	@Column(name = "idthing")

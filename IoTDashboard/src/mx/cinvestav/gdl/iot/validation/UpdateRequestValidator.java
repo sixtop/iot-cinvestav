@@ -23,7 +23,7 @@ public class UpdateRequestValidator
 		EntityManager em = null;
 		try
 		{
-			em = DAO.createEntityManager();
+			em = DAO.getEntityManager();
 			int c_id = req.getControllerId();
 			Controller c = em.find(Controller.class, c_id);
 			if (c == null)

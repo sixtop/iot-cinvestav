@@ -29,38 +29,36 @@ public class DAO
 	private static EntityManagerFactory emf = null;
 
 	/**
-	 * On class load, define which JDBC URL to use depending on production value
-	 */
-	static
-	{
-		try
-		{
-			Map<String, String> db_props = new HashMap<String, String>();
-			if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production)
-			{
-				db_props.put(JDBC_DRIVER, GOOGLE_DRIVER);
-				db_props.put(JDBC_URL, System.getProperty(PROD_URL_ENDPOINT));
-			}
-			else
-			{
-				db_props.put(JDBC_DRIVER, MYSQL_DRIVER);
-				db_props.put(JDBC_URL, System.getProperty(DEV_URL_ENDPOINT));
-			}
-			emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, db_props);
-		}
-		catch (Exception e)
-		{
-			Logger logger = Logger.getLogger(DAO.class.getName());
-			logger.log(Level.SEVERE, "Unexpected exception initializing DAO", e);
-		}
-	}
-
-	/**
 	 * Returns an entity manager instance
 	 * @return
+	 * @throws DatabaseException 
 	 */
-	public static EntityManager createEntityManager()
+	public static EntityManager getEntityManager() throws DatabaseException
 	{
+		if(emf == null)
+		{
+			try
+			{
+				Map<String, String> db_props = new HashMap<String, String>();
+				if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production)
+				{
+					db_props.put(JDBC_DRIVER, GOOGLE_DRIVER);
+					db_props.put(JDBC_URL, System.getProperty(PROD_URL_ENDPOINT));
+				}
+				else
+				{
+					db_props.put(JDBC_DRIVER, MYSQL_DRIVER);
+					db_props.put(JDBC_URL, System.getProperty(DEV_URL_ENDPOINT));
+				}
+				emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, db_props);
+			}
+			catch (Exception e)
+			{
+				Logger logger = Logger.getLogger(DAO.class.getName());
+				logger.log(Level.SEVERE, "Unexpected exception initializing DAO", e);
+				throw new DatabaseException("Exception creating entity manager", e);
+			}
+		}
 		return emf.createEntityManager();
 	}
 
@@ -81,7 +79,7 @@ public class DAO
 		EntityTransaction tx = null;
 		try
 		{
-			em = emf.createEntityManager();
+			em = getEntityManager();
 			tx = em.getTransaction();
 			tx.begin();
 			em.persist(entity);

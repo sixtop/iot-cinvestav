@@ -15,6 +15,8 @@ import javax.persistence.Table;
 @Table(name = "controller")
 public class Controller implements IoTEntity
 {
+	private static final long serialVersionUID = 6343944649241458664L;
+	
 	@Id
 	@GeneratedValue
 	@Column(name = "idcontroller")

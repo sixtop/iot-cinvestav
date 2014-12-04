@@ -114,7 +114,7 @@ public class AddEntityServlet extends HttpServlet
 		String[] propActive = request.getParameterValues(ClientConstants.PROP_ACTIVE);
 		Collection<IoTProperty> props = new ArrayList<>();
 
-		for (int i = 0; i < propNames.length; i++)
+		for (int i = 0; propNames!=null && i < propNames.length; i++)
 		{
 			IoTProperty prop = null;
 			if (ClientConstants.CONTROLLER.equals(operation))

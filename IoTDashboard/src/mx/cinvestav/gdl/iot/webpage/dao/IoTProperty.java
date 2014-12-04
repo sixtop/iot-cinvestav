@@ -1,6 +1,8 @@
 package mx.cinvestav.gdl.iot.webpage.dao;
 
-public interface IoTProperty
+import java.io.Serializable;
+
+public interface IoTProperty extends Serializable
 {
 	public int getParentId();
 	public void setParentId(int idparent);

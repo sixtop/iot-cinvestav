@@ -1,6 +1,8 @@
 package mx.cinvestav.gdl.iot.webpage.dao;
 
-public interface IoTEntity
+import java.io.Serializable;
+
+public interface IoTEntity extends Serializable
 {
 	public int getId();
 
