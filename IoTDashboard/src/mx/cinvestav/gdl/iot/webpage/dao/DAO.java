@@ -1,7 +1,9 @@
 package mx.cinvestav.gdl.iot.webpage.dao;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaQuery;
 
 import mx.cinvestav.gdl.iot.webpage.client.DatabaseException;
 
@@ -35,7 +38,7 @@ public class DAO
 	 */
 	public static EntityManager getEntityManager() throws DatabaseException
 	{
-		if(emf == null)
+		if (emf == null)
 		{
 			try
 			{
@@ -62,14 +65,50 @@ public class DAO
 		return emf.createEntityManager();
 	}
 
+	public static <T extends IoTEntity> List<T> getEntity(Class<T> entityClass, Integer id)
+			throws DatabaseException
+	{
+		EntityManager em = null;
+		List<T> resultList = null;
+		try
+		{
+			em = getEntityManager();
+			if (id == null)
+			{
+				CriteriaQuery<T> cq = em.getCriteriaBuilder().createQuery(entityClass);
+				cq.select(cq.from(entityClass));
+				resultList = em.createQuery(cq).getResultList();
+			}
+			else
+			{
+				resultList = new ArrayList<>(1);
+				T e = em.find(entityClass, id);
+				resultList.add(e);
+			}
+			return resultList;
+		}
+		catch (Exception e)
+		{
+			throw new DatabaseException("Database exception while inserting entity:"
+					+ e.getMessage(), e);
+		}
+		finally
+		{
+			if (em != null)
+			{
+				em.close();
+			}
+		}
+	}
+
 	/**
 	 * Insert a new controller with a collection of properties
 	 * @param controller
 	 * @param properties
 	 * @throws DatabaseException
 	 */
-	public static <T extends IoTEntity> void insertEntity(T entity, Collection<? extends IoTProperty> properties) 
-			throws DatabaseException
+	public static <T extends IoTEntity> void insertEntity(T entity,
+			Collection<? extends IoTProperty> properties) throws DatabaseException
 	{
 		if (entity == null)
 		{
@@ -81,14 +120,13 @@ public class DAO
 		{
 			em = getEntityManager();
 			tx = em.getTransaction();
-			tx.begin();
-			em.persist(entity);
+			em.merge(entity);
 			if (properties != null)
 			{
 				for (IoTProperty p : properties)
 				{
 					p.setParentId(entity.getId());
-					em.persist(p);
+					em.merge(p);
 				}
 			}
 			tx.commit();

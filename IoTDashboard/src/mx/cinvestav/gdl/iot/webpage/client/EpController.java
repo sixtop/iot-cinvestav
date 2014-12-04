@@ -2,6 +2,7 @@ package mx.cinvestav.gdl.iot.webpage.client;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import mx.cinvestav.gdl.iot.dashboard.client.ClientConstants;
 import mx.cinvestav.gdl.iot.webpage.dao.Controller;
@@ -186,6 +187,24 @@ public class EpController implements EntryPoint {
 					props.add(prop);
 				}
 				
+				
+				entityService.getEntity(Controller.class, 1, new AsyncCallback<List<Controller>>()
+				{
+
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(List<Controller> result)
+					{
+						// TODO Auto-generated method stub
+						
+					}
+				});				
 				
 				entityService.storeEntity(c, props, new AsyncCallback<Void>()
 				{
