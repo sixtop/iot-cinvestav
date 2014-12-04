@@ -1,17 +1,18 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
-import com.google.gwt.core.client.EntryPoint;
-
 import java.util.ArrayList;
 
 import mx.cinvestav.gdl.iot.dashboard.client.ClientConstants;
 
+import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+
+
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -64,8 +65,12 @@ public class EpSensor implements EntryPoint {
 	private VerticalPanel propertyPanel = new VerticalPanel();
 	private Label lbProperty = new Label();
 	private FlexTable tableProperty = new FlexTable();
-
 	private Button btAddProperty = new Button("Add");
+	
+	private VerticalPanel smartThingPanel = new VerticalPanel();
+	private Label lbSmartThing = new Label();
+	private ListBox cbSmartThing=new ListBox(); 
+	
 
 	private ArrayList<String> property = new ArrayList<String>();
 
@@ -146,9 +151,18 @@ public class EpSensor implements EntryPoint {
 		propertyPanel.add(lbProperty);
 		propertyPanel.add(btAddProperty);
 		propertyPanel.add(tableProperty);
-
+		
+		//Add name to the combo that has the smartthings that belows to that sensor
+		lbSmartThing.setText("SmartThing:");
+		lbSmartThing.addStyleName("lbProperty");
+		cbSmartThing.setName("cbSmartThingsS");
+		smartThingPanel.add(lbSmartThing);
+		smartThingPanel.add(cbSmartThing);
+		
 		formPanel.add(tableFields);
 		formPanel.add(propertyPanel);
+		formPanel.add(smartThingPanel);
+		
 
 		btSaveSensor.addStyleName("btSave");
 		btCancelSensor.addStyleName("btSave");
@@ -258,6 +272,7 @@ public class EpSensor implements EntryPoint {
 		cancelProperty.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				btAddProperty.setEnabled(true);
+				
 			}
 		});
 
@@ -272,8 +287,8 @@ public class EpSensor implements EntryPoint {
 	private void saveProperty() {
 		tableProperty.removeRow(tableProperty.getRowCount() - 1);
 
-		final String symboln = name.getText().toUpperCase().trim();
-		final String symbolv = value.getText().toUpperCase().trim();
+		final String symboln = name.getText();
+		final String symbolv = value.getText();
 		CheckBox symbola = new CheckBox();
 
 		property.add(symboln);

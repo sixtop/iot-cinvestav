@@ -57,6 +57,11 @@ public class EpSmartThing implements EntryPoint {
 	private FlexTable tableProperty = new FlexTable();
 
 	private Button btAddProperty = new Button("Add");
+	
+	private VerticalPanel controllerPanel = new VerticalPanel();
+	private Label lbController = new Label();
+	private ListBox cbController=new ListBox(); 
+		
 
 	private ArrayList<String> property = new ArrayList<String>();
 
@@ -117,9 +122,17 @@ public class EpSmartThing implements EntryPoint {
 		propertyPanel.add(btAddProperty);
 		propertyPanel.add(tableProperty);
 
+		//Add name to the combo that has the controller that belows to that smartthing
+		lbController.setText("Controller:");
+		lbController.addStyleName("lbProperty");
+		cbController.setName("cbControllerS");
+		controllerPanel.add(lbController);
+		controllerPanel.add(cbController);
+		
 		formPanel.add(tableFields);
 		formPanel.add(propertyPanel);
-
+		formPanel.add(controllerPanel);
+		
 		btSaveSmartThing.addStyleName("btSave");
 		btCancelSmartThing.addStyleName("btSave");
 
@@ -244,8 +257,8 @@ public class EpSmartThing implements EntryPoint {
 	private void saveProperty() {
 		tableProperty.removeRow(tableProperty.getRowCount() - 1);
 
-		final String symboln = name.getText().toUpperCase().trim();
-		final String symbolv = value.getText().toUpperCase().trim();
+		final String symboln = name.getText();
+		final String symbolv = value.getText();
 		CheckBox symbola = new CheckBox();
 
 		property.add(symboln);
