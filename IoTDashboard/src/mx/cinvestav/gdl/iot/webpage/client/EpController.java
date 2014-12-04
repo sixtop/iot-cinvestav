@@ -290,8 +290,8 @@ public class EpController implements EntryPoint {
 	private void saveProperty() {
 		tableProperty.removeRow(tableProperty.getRowCount()-1);
 		
-		final String symboln = name.getText().toUpperCase().trim();
-		final String symbolv = value.getText().toUpperCase().trim();
+		final String symboln = name.getText().trim();
+		final String symbolv = value.getText().trim();
 		CheckBox symbola=new CheckBox();
 		
 		property.add(symboln);
