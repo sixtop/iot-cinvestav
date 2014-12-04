@@ -1,1 +1,15 @@
 /iotdashboard/
+/MEpController/*
+!/MEpController/MEpController.nocache.js
+/MEpWPController/*
+!/MEpWPController/MEpWPController.nocache.js
+/MEpSensor/*
+!/MEpSensor/MEpSensor.nocache.js
+/MEpWPSensor/*
+!/MEpWPSensor/MEpWPSensor.nocache.js
+/MIndex/*
+!/MIndex/MIndex.nocache.js
+/MEpSmartThing/*
+!/MEpSmartThing/MEpSmartThing.nocache.js
+/MEpWPSmartThing/*
+!/MEpWPSmartThing/MEpWPSmartThing.nocache.js
