@@ -16,6 +16,9 @@ import javax.persistence.criteria.CriteriaQuery;
 
 import mx.cinvestav.gdl.iot.webpage.client.DatabaseException;
 
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
+
 import com.google.appengine.api.utils.SystemProperty;
 
 public class DAO
@@ -85,6 +88,39 @@ public class DAO
 				T e = em.find(entityClass, id);
 				resultList.add(e);
 			}
+			
+			Mapper mapper = new DozerBeanMapper();
+			
+			List<T> res = new ArrayList<T>();
+			for(T entity : resultList)
+			{
+				if(entity instanceof Controller)
+				{
+					Controller c = new Controller();
+					mapper.map(entity, c);
+					c.setProperties(null);
+					c.setThings(null);
+					entity = (T) c;
+				}
+				if(entity instanceof Sensor)
+				{
+					Sensor c = (Sensor)entity;
+					mapper.map(entity, c);
+					c.setProperties(null);
+					c.setMeasures(null);
+					entity = (T) c;
+				}
+				if(entity instanceof SmartThing)
+				{
+					SmartThing c = (SmartThing)entity;
+					mapper.map(entity, c);
+					c.setProperties(null);
+					c.setMeasures(null);
+					c.setSensors(null);
+					entity = (T) c;
+				}
+				res.add(entity);
+			}
 			return resultList;
 		}
 		catch (Exception e)
@@ -100,6 +136,8 @@ public class DAO
 			}
 		}
 	}
+	
+	
 
 	/**
 	 * Insert a new controller with a collection of properties

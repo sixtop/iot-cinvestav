@@ -14,7 +14,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>storeService</servlet-name>
-    <url-pattern>/MEpController/storeService</url-pattern>
+    <url-pattern>*.store</url-pattern>
   </servlet-mapping>
   
   <welcome-file-list>
