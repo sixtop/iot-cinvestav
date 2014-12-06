@@ -24,8 +24,7 @@ a{
 
 #container {
 	position: relative;
-    left: 50px;
-    
+    left: 10px;
 }
 
 .tableProperty{
@@ -54,6 +53,5 @@ a{
   text-align: center;
   position: relative;
   left:280px;
-  
-   
 }
+

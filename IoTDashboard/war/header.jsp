@@ -1,7 +1,6 @@
 <div id="header">
 <p align="center">
-<h1>CityFarm</h1>
-</p>
+<h1>SmartCity</h1>
 </div>
 <div id="body">
   <p align="center">

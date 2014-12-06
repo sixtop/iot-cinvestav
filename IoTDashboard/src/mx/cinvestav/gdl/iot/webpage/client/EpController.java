@@ -2,13 +2,10 @@ package mx.cinvestav.gdl.iot.webpage.client;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 import mx.cinvestav.gdl.iot.dashboard.client.ClientConstants;
 import mx.cinvestav.gdl.iot.webpage.dao.Controller;
 import mx.cinvestav.gdl.iot.webpage.dao.ControllerProperty;
 import mx.cinvestav.gdl.iot.webpage.dao.IoTProperty;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,12 +14,12 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -35,7 +32,12 @@ public class EpController implements EntryPoint {
 	
 	private DialogBox dialogBox = new DialogBox();
 	private Button btClose = new Button("Close");
+	private Button btError = new Button("Close");
+	
+	private VerticalPanel dialogPanel=new VerticalPanel();
 	private Label lbDialogBox = new Label();
+	
+	final DecoratedPopupPanel popup = new DecoratedPopupPanel(true);
 
 	private ListBox listNameProperty=new ListBox(true);
 	private ListBox listValueProperty=new ListBox(true);
@@ -58,7 +60,6 @@ public class EpController implements EntryPoint {
 	private TextBox tbDescription = new TextBox();
 	private TextBox tbLocation = new TextBox();
 	
-
 	private VerticalPanel propertyPanel = new VerticalPanel();
 	private Label lbProperty = new Label();
 	private FlexTable tableProperty = new FlexTable();
@@ -71,11 +72,6 @@ public class EpController implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		form.setAction(GWT.getHostPageBaseURL() + "addEntityServlet");
-		
-		form.setMethod(FormPanel.METHOD_POST);
-	    form.setEncoding(FormPanel.ENCODING_URLENCODED);
-	    
 		tableFields.setText(0, 0,"Id: ");
 		tableFields.setWidget(0,1,tbId);
 		
@@ -145,17 +141,23 @@ public class EpController implements EntryPoint {
 	    
 	     DecoratorPanel decoratorPanel = new DecoratorPanel();
 	      
-	      decoratorPanel.add(form);
+	     decoratorPanel.add(form);
 	      // Add the widgets to the root panel.
 	    RootPanel.get("formContainer").add(decoratorPanel);
 	    
-	    dialogBox.add(btClose);
-	    
+	  
 	    btClose.addClickHandler(new ClickHandler() {
 	              public void onClick(ClickEvent event) {
 	                dialogBox.hide();
+	                Window.Location.replace("wpControllers.jsp");
 	              }
 	            });
+	    
+	    btError.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+              dialogBox.hide();
+            }
+          });
 	    
 	     
 		btAddProperty.addClickHandler(new ClickHandler() {
@@ -177,7 +179,7 @@ public class EpController implements EntryPoint {
 	        	c.setDescription(tbDescription.getText());
 	        	c.setLocation(tbLocation.getText());
 	        	
-				Collection<IoTProperty> props = new ArrayList<>();
+				Collection<IoTProperty> props = new ArrayList<IoTProperty>();
 				for(int i = 0; i < listNameProperty.getItemCount(); i++)
 				{
 					IoTProperty prop = new ControllerProperty();
@@ -187,31 +189,29 @@ public class EpController implements EntryPoint {
 					props.add(prop);
 				}
 				
-				
-				entityService.getEntity(Controller.class, 1, new AsyncCallback<List<Controller>>()
-				{
-
-					@Override
-					public void onFailure(Throwable caught)
-					{
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void onSuccess(List<Controller> result)
-					{
-						// TODO Auto-generated method stub
-						
-					}
-				});				
-				
+								
 				entityService.storeEntity(c, props, new AsyncCallback<Void>()
 				{
 					@Override
 					public void onSuccess(Void result)
 					{
-						Window.alert("OK!");
+						dialogBox.setAnimationEnabled(true);
+						dialogBox.setGlassEnabled(true);
+					    dialogBox.center();
+
+					    dialogBox.setText("Information");
+
+					    lbDialogBox.setText("Controller succesfully stored");
+					    dialogPanel.add(lbDialogBox);
+					    dialogPanel.setCellHorizontalAlignment(lbDialogBox, HasHorizontalAlignment.ALIGN_CENTER);
+
+					    dialogPanel.add(btClose);
+					    dialogPanel.setCellHorizontalAlignment(btClose, HasHorizontalAlignment.ALIGN_CENTER);
+					    
+					    dialogBox.add(dialogPanel);
+					    
+					    dialogBox.show();
+					   
 					}
 					
 					@Override
@@ -220,7 +220,7 @@ public class EpController implements EntryPoint {
 						Window.alert(caught.getMessage());
 					}
 				});
-	            //form.submit();
+
 	         }
 	      });
 	     
@@ -231,38 +231,6 @@ public class EpController implements EntryPoint {
 	         }
 	      });
 	      
-	     // Add an event handler to the form.
-	      form.addSubmitHandler(new FormPanel.SubmitHandler() {
-	         @Override
-	         public void onSubmit(SubmitEvent event) {
-	            // This event is fired just before the form is submitted. 
-	            // We can take this opportunity to perform validation.
-	            if (tbName.getText().length() == 0) {
-	            	
-	            	dialogBox.setGlassEnabled(true);
-	        	    dialogBox.setAnimationEnabled(true);
-	        	    dialogBox.center();
-	        	    dialogBox.setText("No more....");
-	            	dialogBox.show();
-	            	
-	               event.cancel();
-	            }
-	            
-	         }
-	      });
-
-	     form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
-	         @Override
-	         public void onSubmitComplete(SubmitCompleteEvent event) {
-	            // When the form submission is successfully completed,
-	            // this event is fired. Assuming the service returned 
-	            // a response of type text/html, we can get the result
-	            // here.
-	            Window.alert(event.getResults());	
-	            Window.Location.replace("wpControllers.jsp");
-	         }
-	      });
-	     
 	      
 	}
 
@@ -312,6 +280,48 @@ public class EpController implements EntryPoint {
 			symbola.setValue(true);
 		}else{
 			symbola.setValue(false);
+		}
+		
+		if(symboln.length()>45){
+			dialogBox.setAnimationEnabled(true);
+			dialogBox.setGlassEnabled(true);
+		    dialogBox.center();
+
+		    dialogBox.setText("Error");
+
+		    lbDialogBox.setText("The name must have less than 45 characters");
+		    dialogPanel.add(lbDialogBox);
+		    dialogPanel.setCellHorizontalAlignment(lbDialogBox, HasHorizontalAlignment.ALIGN_CENTER);
+		    
+		    dialogPanel.add(btError);
+		    dialogPanel.setCellHorizontalAlignment(btError, HasHorizontalAlignment.ALIGN_CENTER);
+		    
+		    dialogBox.add(dialogPanel);
+		    
+		    dialogBox.show();
+		    
+		    return;
+		}
+		
+		if(symbolv.length()>45){
+			dialogBox.setAnimationEnabled(true);
+			dialogBox.setGlassEnabled(true);
+		    dialogBox.center();
+
+		    dialogBox.setText("Error");
+
+		    lbDialogBox.setText("The value must have less than 45 characters");
+		    dialogPanel.add(lbDialogBox);
+		    dialogPanel.setCellHorizontalAlignment(lbDialogBox, HasHorizontalAlignment.ALIGN_CENTER);
+		    
+		    dialogPanel.add(btError);
+		    dialogPanel.setCellHorizontalAlignment(btError, HasHorizontalAlignment.ALIGN_CENTER);
+		    
+		    dialogBox.add(dialogPanel);
+		    
+		    dialogBox.show();
+		    
+			return;
 		}
 		
 		name.setText("");

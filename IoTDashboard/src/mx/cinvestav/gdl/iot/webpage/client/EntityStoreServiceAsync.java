@@ -8,13 +8,13 @@ import mx.cinvestav.gdl.iot.webpage.dao.IoTProperty;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public interface EntityStoreServiceAsync
+public interface EntityStoreServiceAsync 
 {
 
 	public <T extends IoTEntity> void storeEntity(T entity,
 			Collection<? extends IoTProperty> props, AsyncCallback<Void> callback);
 
-	public <T extends IoTEntity> void getEntity(Class<T> entityClass, Integer id,
+	public <T extends IoTEntity> void getEntity(T entity, Integer id,
 			AsyncCallback<List<T>> callback);
 
 }

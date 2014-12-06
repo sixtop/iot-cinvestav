@@ -40,6 +40,7 @@ public class Controller implements IoTEntity
 		super();
 	}
 
+	
 	public Controller(String location)
 	{
 		if (location != null)

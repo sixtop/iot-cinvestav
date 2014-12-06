@@ -120,6 +120,7 @@ public class DAO
 		{
 			em = getEntityManager();
 			tx = em.getTransaction();
+			tx.begin();
 			em.merge(entity);
 			if (properties != null)
 			{

@@ -1,28 +1,35 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import mx.cinvestav.gdl.iot.dashboard.client.ClientConstants;
+import mx.cinvestav.gdl.iot.webpage.dao.IoTProperty;
+import mx.cinvestav.gdl.iot.webpage.dao.Sensor;
+import mx.cinvestav.gdl.iot.webpage.dao.SensorProperty;
+import mx.cinvestav.gdl.iot.webpage.dao.SmartThing;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+
 
 public class EpSmartThing implements EntryPoint {
 
@@ -30,6 +37,9 @@ public class EpSmartThing implements EntryPoint {
 
 	private DialogBox dialogBox = new DialogBox();
 	private Button btClose = new Button("Close");
+	private Button btError = new Button("Close");
+
+	private VerticalPanel dialogPanel = new VerticalPanel();
 	private Label lbDialogBox = new Label();
 
 	private ListBox listNameProperty = new ListBox(true);
@@ -57,13 +67,14 @@ public class EpSmartThing implements EntryPoint {
 	private FlexTable tableProperty = new FlexTable();
 
 	private Button btAddProperty = new Button("Add");
-	
+
 	private VerticalPanel controllerPanel = new VerticalPanel();
 	private Label lbController = new Label();
-	private ListBox cbController=new ListBox(); 
-		
+	private ListBox cbController = new ListBox();
 
 	private ArrayList<String> property = new ArrayList<String>();
+	private static final EntityStoreServiceAsync entityService = GWT
+			.create(EntityStoreService.class);
 
 	@Override
 	public void onModuleLoad() {
@@ -95,7 +106,7 @@ public class EpSmartThing implements EntryPoint {
 		listActiveProperty.setVisible(false);
 
 		tbOperationS.setName(ClientConstants.OPERATION);
-		tbOperationS.setText(ClientConstants.CONTROLLER);// Id Controller
+		tbOperationS.setText(ClientConstants.SMART_THING);// Id Controller
 		tbOperationS.setVisible(false);
 
 		tableProperty.setText(0, 0, "Name");
@@ -122,17 +133,18 @@ public class EpSmartThing implements EntryPoint {
 		propertyPanel.add(btAddProperty);
 		propertyPanel.add(tableProperty);
 
-		//Add name to the combo that has the controller that belows to that smartthing
+		// Add name to the combo that has the controller that belows to that
+		// smartthing
 		lbController.setText("Controller:");
 		lbController.addStyleName("lbProperty");
 		cbController.setName("cbControllerS");
 		controllerPanel.add(lbController);
 		controllerPanel.add(cbController);
-		
+
 		formPanel.add(tableFields);
 		formPanel.add(propertyPanel);
 		formPanel.add(controllerPanel);
-		
+
 		btSaveSmartThing.addStyleName("btSave");
 		btCancelSmartThing.addStyleName("btSave");
 
@@ -160,6 +172,12 @@ public class EpSmartThing implements EntryPoint {
 			}
 		});
 
+		btError.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				dialogBox.hide();
+			}
+		});
+
 		btAddProperty.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				btAddProperty.setEnabled(false);
@@ -171,51 +189,56 @@ public class EpSmartThing implements EntryPoint {
 		btSaveSmartThing.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+
+				Sensor s = new Sensor();
+				s.setName(tbName.getText());
+				s.setDescription(tbDescription.getText());
+
+				Collection<IoTProperty> props = new ArrayList<>();
 				for (int i = 0; i < listNameProperty.getItemCount(); i++) {
-					listNameProperty.setItemSelected(i, true);
-					listValueProperty.setItemSelected(i, true);
-					listActiveProperty.setItemSelected(i, true);
-				}
-				form.submit();
-			}
-		});
-		
-		 btCancelSmartThing.addClickHandler(new ClickHandler() {
-	         @Override
-	         public void onClick(ClickEvent event) {
-	        	  Window.Location.replace("wpSmartThings.jsp");
-	         }
-	      });
-	      
-
-		// Add an event handler to the form.
-		form.addSubmitHandler(new FormPanel.SubmitHandler() {
-			@Override
-			public void onSubmit(SubmitEvent event) {
-				// This event is fired just before the form is submitted.
-				// We can take this opportunity to perform validation.
-				if (tbName.getText().length() == 0) {
-
-					dialogBox.setGlassEnabled(true);
-					dialogBox.setAnimationEnabled(true);
-					dialogBox.center();
-					dialogBox.setText("No more....");
-					dialogBox.show();
-
-					event.cancel();
+					IoTProperty prop = new SensorProperty();
+					prop.setName(listNameProperty.getItemText(i));
+					prop.setValue(listValueProperty.getItemText(i));
+					prop.setActive(Boolean.valueOf(listActiveProperty
+							.getValue(i)));
+					props.add(prop);
 				}
 
+				entityService.storeEntity(s, props, new AsyncCallback<Void>() {
+					@Override
+					public void onSuccess(Void result) {
+						dialogBox.setAnimationEnabled(true);
+						dialogBox.setGlassEnabled(true);
+						dialogBox.center();
+
+						dialogBox.setText("Information");
+
+						lbDialogBox.setText("SmartThing succesfully stored");
+						dialogPanel.add(lbDialogBox);
+						dialogPanel.setCellHorizontalAlignment(lbDialogBox,
+								HasHorizontalAlignment.ALIGN_CENTER);
+
+						dialogPanel.add(btClose);
+						dialogPanel.setCellHorizontalAlignment(btClose,
+								HasHorizontalAlignment.ALIGN_CENTER);
+
+						dialogBox.add(dialogPanel);
+
+						dialogBox.show();
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert(caught.getMessage());
+					}
+				});
+
 			}
 		});
 
-		form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
+		btCancelSmartThing.addClickHandler(new ClickHandler() {
 			@Override
-			public void onSubmitComplete(SubmitCompleteEvent event) {
-				// When the form submission is successfully completed,
-				// this event is fired. Assuming the service returned
-				// a response of type text/html, we can get the result
-				// here.
-				Window.alert(event.getResults());
+			public void onClick(ClickEvent event) {
 				Window.Location.replace("wpSmartThings.jsp");
 			}
 		});
@@ -269,6 +292,51 @@ public class EpSmartThing implements EntryPoint {
 			symbola.setValue(false);
 		}
 
+		if (symboln.length() > 45) {
+			dialogBox.setAnimationEnabled(true);
+			dialogBox.setGlassEnabled(true);
+			dialogBox.center();
+
+			dialogBox.setText("Error");
+
+			lbDialogBox.setText("The name must have less than 45 characters");
+			dialogPanel.add(lbDialogBox);
+			dialogPanel.setCellHorizontalAlignment(lbDialogBox,
+					HasHorizontalAlignment.ALIGN_CENTER);
+
+			dialogPanel.add(btError);
+			dialogPanel.setCellHorizontalAlignment(btError,
+					HasHorizontalAlignment.ALIGN_CENTER);
+
+			dialogBox.add(dialogPanel);
+
+			dialogBox.show();
+
+			return;
+		}
+
+		if (symbolv.length() > 45) {
+			dialogBox.setAnimationEnabled(true);
+			dialogBox.setGlassEnabled(true);
+			dialogBox.center();
+
+			dialogBox.setText("Error");
+
+			lbDialogBox.setText("The value must have less than 45 characters");
+			dialogPanel.add(lbDialogBox);
+			dialogPanel.setCellHorizontalAlignment(lbDialogBox,
+					HasHorizontalAlignment.ALIGN_CENTER);
+
+			dialogPanel.add(btError);
+			dialogPanel.setCellHorizontalAlignment(btError,
+					HasHorizontalAlignment.ALIGN_CENTER);
+
+			dialogBox.add(dialogPanel);
+
+			dialogBox.show();
+
+			return;
+		}
 		name.setText("");
 		value.setText("");
 		active.setValue(false);

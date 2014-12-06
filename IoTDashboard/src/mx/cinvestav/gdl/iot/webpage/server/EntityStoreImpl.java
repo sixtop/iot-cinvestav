@@ -33,13 +33,14 @@ public class EntityStoreImpl extends RemoteServiceServlet implements EntityStore
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends IoTEntity> List<T> getEntity(Class<T> entityClass, Integer id)
+	public <T extends IoTEntity> List<T> getEntity(T entityClass, Integer id)
 			throws DatabaseException
 	{
 		try
 		{
-			return DAO.getEntity(entityClass, id);
+			return (List<T>) DAO.getEntity(entityClass.getClass() , id);
 		}
 		catch (DatabaseException e)
 		{

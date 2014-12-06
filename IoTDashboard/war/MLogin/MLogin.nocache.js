@@ -22,7 +22,7 @@
  */
 (function($wnd, $doc){
   // Don't support browsers without session storage: IE6/7
-  var badBrowser = 'Unable to load Super Dev Mode of "MEpController" because\n';
+  var badBrowser = 'Unable to load Super Dev Mode of "MLogin" because\n';
   if (!('sessionStorage' in $wnd)) {
     $wnd.alert(badBrowser +  'this browser does not support "sessionStorage".');
     return;
@@ -30,8 +30,8 @@
 
   //We don't import properties.js so we have to update active modules here
   $wnd.__gwt_activeModules = $wnd.__gwt_activeModules || {};
-  $wnd.__gwt_activeModules['MEpController'] = {
-    'moduleName' : 'MEpController',
+  $wnd.__gwt_activeModules['MLogin'] = {
+    'moduleName' : 'MLogin',
     'bindings' : function() {
       return {};
     }
@@ -60,7 +60,7 @@
  * web page to override it using a meta tag.)
  *
  * Prerequisite: we assume that the first script tag using a URL ending with
- * "/MEpController.nocache.js" is the one that loaded us. Normally this happens
+ * "/MLogin.nocache.js" is the one that loaded us. Normally this happens
  * because DevModeRedirectHook.js loaded this nocache.js script by prepending a
  * script tag with an absolute URL to head. (However, it's also okay for an html
  * file included in the GWT compiler's output to load the nocache.js file using
@@ -69,9 +69,9 @@
 function computeScriptBase() {
   // TODO(skybrian) This approach won't work for workers.
 
-  $wnd.__gwt_activeModules['MEpController'].superdevmode = true;
+  $wnd.__gwt_activeModules['MLogin'].superdevmode = true;
 
-  var expectedSuffix = '/MEpController.nocache.js';
+  var expectedSuffix = '/MLogin.nocache.js';
 
   var scriptTags = $doc.getElementsByTagName('script');
   for (var i = 0;; i++) {
@@ -88,7 +88,7 @@ function computeScriptBase() {
     }
   }
 
-  $wnd.alert('Unable to load Super Dev Mode version of ' + MEpController + ".");
+  $wnd.alert('Unable to load Super Dev Mode version of ' + MLogin + ".");
 }
 ;
 
@@ -110,13 +110,13 @@ function computeScriptBase() {
 
   // We use a different key for each module so that we can turn on dev mode
   // independently for each.
-  var devModeHookKey = '__gwtDevModeHook:MEpController';
-  var devModeSessionKey = '__gwtDevModeSession:MEpController';
+  var devModeHookKey = '__gwtDevModeHook:MLogin';
+  var devModeSessionKey = '__gwtDevModeSession:MLogin';
 
   // Compute some codeserver urls so as the user does not need bookmarklets
   var hostName = $wnd.location.hostname;
   var serverUrl = 'http://' + hostName + ':9876';
-  var nocacheUrl = serverUrl + '/MEpController/MEpController.nocache.js';
+  var nocacheUrl = serverUrl + '/MLogin/MLogin.nocache.js';
 
   // Save supder-devmode url in session
   $wnd.sessionStorage[devModeHookKey] = nocacheUrl;
@@ -129,8 +129,8 @@ function computeScriptBase() {
   $wnd[devModeHookKey + ':moduleBase'] = computeScriptBase();
 
   // Needed in the real nocache.js logic
-  $wnd.__gwt_activeModules['MEpController'].canRedirect = true;
-  $wnd.__gwt_activeModules['MEpController'].superdevmode = true;
+  $wnd.__gwt_activeModules['MLogin'].canRedirect = true;
+  $wnd.__gwt_activeModules['MLogin'].superdevmode = true;
 
   // Insert the superdevmode nocache script in the first position of the head
   var devModeScript = $doc.createElement('script');
@@ -154,7 +154,7 @@ function computeScriptBase() {
   // The status message container
   compileButton.innerHTML = '<div></div>';
   // User knows who module to compile, hovering the button
-  compileButton.title = 'Compile module:\nMEpController';
+  compileButton.title = 'Compile module:\nMLogin';
 
   // Use CSS so the app could change button style
   var compileStyle = $doc.createElement('style');
@@ -202,7 +202,7 @@ function computeScriptBase() {
   // Only insert common css the first time
   css = (moduleIdx == 1 ? css : '') +
     ".gwt-DevModeModule-" + moduleIdx + ".gwt-DevModeCompiling div:before{" +
-      "content:'COMPILING MEpController';" +
+      "content:'COMPILING MLogin';" +
       "font-size:24px;" +
       "color:#d2d9ee;" +
     "}";
@@ -253,7 +253,7 @@ function computeScriptBase() {
     // maybe a request returning status='idle'
     var compileScript = $doc.createElement('script');
     compileScript.src = serverUrl +
-      '/recompile/MEpController?user.agent=' + ua + '&_callback=' + callback;
+      '/recompile/MLogin?user.agent=' + ua + '&_callback=' + callback;
     $head.appendChild(compileScript);
     compileButton.className = buttonClassName  + ' gwt-DevModeCompiling';
   }

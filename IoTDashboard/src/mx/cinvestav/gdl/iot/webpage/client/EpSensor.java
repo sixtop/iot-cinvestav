@@ -1,24 +1,27 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
 import java.util.ArrayList;
+import java.util.Collection;
+
 
 import mx.cinvestav.gdl.iot.dashboard.client.ClientConstants;
+import mx.cinvestav.gdl.iot.webpage.dao.IoTProperty;
+import mx.cinvestav.gdl.iot.webpage.dao.Sensor;
+import mx.cinvestav.gdl.iot.webpage.dao.SensorProperty;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-
-
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -32,6 +35,9 @@ public class EpSensor implements EntryPoint {
 
 	private DialogBox dialogBox = new DialogBox();
 	private Button btClose = new Button("Close");
+	private Button btError = new Button("Close");
+
+	private VerticalPanel dialogPanel = new VerticalPanel();
 	private Label lbDialogBox = new Label();
 
 	private ListBox listNameProperty = new ListBox(true);
@@ -66,21 +72,18 @@ public class EpSensor implements EntryPoint {
 	private Label lbProperty = new Label();
 	private FlexTable tableProperty = new FlexTable();
 	private Button btAddProperty = new Button("Add");
-	
+
 	private VerticalPanel smartThingPanel = new VerticalPanel();
 	private Label lbSmartThing = new Label();
-	private ListBox cbSmartThing=new ListBox(); 
-	
+	private ListBox cbSmartThing = new ListBox();
 
 	private ArrayList<String> property = new ArrayList<String>();
 
+	private static final EntityStoreServiceAsync entityService = GWT
+			.create(EntityStoreService.class);
+
 	@Override
 	public void onModuleLoad() {
-		form.setAction(GWT.getHostPageBaseURL() + "addEntityServlet");
-
-		form.setMethod(FormPanel.METHOD_POST);
-		form.setEncoding(FormPanel.ENCODING_URLENCODED);
-
 		tableFields.setText(0, 0, "Id: ");
 		tableFields.setWidget(0, 1, tbId);
 
@@ -116,6 +119,13 @@ public class EpSensor implements EntryPoint {
 
 		tbName.setName(ClientConstants.NAME);
 		tbDescription.setName(ClientConstants.DESCRIPTION);
+		tbAltitude.setName(ClientConstants.ALTITUDE);
+		tbLongitude.setName(ClientConstants.LONGITUDE);
+		tbLatitude.setName(ClientConstants.LONGITUDE);
+		tbType.setName(ClientConstants.SENSOR_TYPE);
+		tbUnit.setName(ClientConstants.UNIT);
+		// UNIT MEASURE ////////
+		chActive.setName(ClientConstants.ACTIVE);
 
 		listNameProperty.setName(ClientConstants.PROP_NAMES);
 		listNameProperty.setVisible(false);
@@ -125,7 +135,7 @@ public class EpSensor implements EntryPoint {
 		listActiveProperty.setVisible(false);
 
 		tbOperationS.setName(ClientConstants.OPERATION);
-		tbOperationS.setText(ClientConstants.CONTROLLER);// Id Controller
+		tbOperationS.setText(ClientConstants.SENSOR);
 		tbOperationS.setVisible(false);
 
 		tableProperty.setText(0, 0, "Name");
@@ -151,18 +161,18 @@ public class EpSensor implements EntryPoint {
 		propertyPanel.add(lbProperty);
 		propertyPanel.add(btAddProperty);
 		propertyPanel.add(tableProperty);
-		
-		//Add name to the combo that has the smartthings that belows to that sensor
+
+		// Add name to the combo that has the smartthings that belows to that
+		// sensor
 		lbSmartThing.setText("SmartThing:");
 		lbSmartThing.addStyleName("lbProperty");
 		cbSmartThing.setName("cbSmartThingsS");
 		smartThingPanel.add(lbSmartThing);
 		smartThingPanel.add(cbSmartThing);
-		
+
 		formPanel.add(tableFields);
 		formPanel.add(propertyPanel);
 		formPanel.add(smartThingPanel);
-		
 
 		btSaveSensor.addStyleName("btSave");
 		btCancelSensor.addStyleName("btSave");
@@ -190,6 +200,12 @@ public class EpSensor implements EntryPoint {
 			}
 		});
 
+		btError.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				dialogBox.hide();
+			}
+		});
+
 		btAddProperty.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				btAddProperty.setEnabled(false);
@@ -197,54 +213,67 @@ public class EpSensor implements EntryPoint {
 			}
 		});
 
-
 		btSaveSensor.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+
+				Sensor s = new Sensor();
+				s.setName(tbName.getText());
+				s.setDescription(tbDescription.getText());
+				s.setActive(chActive.getValue());
+				s.setAltitude(Double.parseDouble(tbAltitude.getText()));
+				s.setLatitude(Double.parseDouble(tbLatitude.getText()));
+				s.setLongitude(Double.parseDouble(tbLongitude.getText()));
+				s.setUnit(tbUnit.getText());
+				s.setSensor_type(tbType.getText());
+
+				// TODO: s.setMeasures(measures);
+
+				Collection<IoTProperty> props = new ArrayList<>();
 				for (int i = 0; i < listNameProperty.getItemCount(); i++) {
-					listNameProperty.setItemSelected(i, true);
-					listValueProperty.setItemSelected(i, true);
-					listActiveProperty.setItemSelected(i, true);
+					IoTProperty prop = new SensorProperty();
+					prop.setName(listNameProperty.getItemText(i));
+					prop.setValue(listValueProperty.getItemText(i));
+					prop.setActive(Boolean.valueOf(listActiveProperty
+							.getValue(i)));
+					props.add(prop);
 				}
-				form.submit();
+
+				entityService.storeEntity(s, props, new AsyncCallback<Void>() {
+					@Override
+					public void onSuccess(Void result) {
+						dialogBox.setAnimationEnabled(true);
+						dialogBox.setGlassEnabled(true);
+						dialogBox.center();
+
+						dialogBox.setText("Information");
+
+						lbDialogBox.setText("Sensor succesfully stored");
+						dialogPanel.add(lbDialogBox);
+						dialogPanel.setCellHorizontalAlignment(lbDialogBox,
+								HasHorizontalAlignment.ALIGN_CENTER);
+
+						dialogPanel.add(btClose);
+						dialogPanel.setCellHorizontalAlignment(btClose,
+								HasHorizontalAlignment.ALIGN_CENTER);
+
+						dialogBox.add(dialogPanel);
+
+						dialogBox.show();
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert(caught.getMessage());
+					}
+				});
+
 			}
 		});
 
-		 btCancelSensor.addClickHandler(new ClickHandler() {
-	         @Override
-	         public void onClick(ClickEvent event) {
-	        	  Window.Location.replace("wpSensors.jsp");
-	         }
-	      });
-	      
-		// Add an event handler to the form.
-		form.addSubmitHandler(new FormPanel.SubmitHandler() {
+		btCancelSensor.addClickHandler(new ClickHandler() {
 			@Override
-			public void onSubmit(SubmitEvent event) {
-				// This event is fired just before the form is submitted.
-				// We can take this opportunity to perform validation.
-				if (tbName.getText().length() == 0) {
-
-					dialogBox.setGlassEnabled(true);
-					dialogBox.setAnimationEnabled(true);
-					dialogBox.center();
-					dialogBox.setText("No more....");
-					dialogBox.show();
-
-					event.cancel();
-				}
-
-			}
-		});
-
-		form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
-			@Override
-			public void onSubmitComplete(SubmitCompleteEvent event) {
-				// When the form submission is successfully completed,
-				// this event is fired. Assuming the service returned
-				// a response of type text/html, we can get the result
-				// here.
-				Window.alert(event.getResults());
+			public void onClick(ClickEvent event) {
 				Window.Location.replace("wpSensors.jsp");
 			}
 		});
@@ -272,7 +301,7 @@ public class EpSensor implements EntryPoint {
 		cancelProperty.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				btAddProperty.setEnabled(true);
-				
+
 			}
 		});
 
@@ -299,6 +328,51 @@ public class EpSensor implements EntryPoint {
 			symbola.setValue(false);
 		}
 
+		if (symboln.length() > 45) {
+			dialogBox.setAnimationEnabled(true);
+			dialogBox.setGlassEnabled(true);
+			dialogBox.center();
+
+			dialogBox.setText("Error");
+
+			lbDialogBox.setText("The name must have less than 45 characters");
+			dialogPanel.add(lbDialogBox);
+			dialogPanel.setCellHorizontalAlignment(lbDialogBox,
+					HasHorizontalAlignment.ALIGN_CENTER);
+
+			dialogPanel.add(btError);
+			dialogPanel.setCellHorizontalAlignment(btError,
+					HasHorizontalAlignment.ALIGN_CENTER);
+
+			dialogBox.add(dialogPanel);
+
+			dialogBox.show();
+
+			return;
+		}
+
+		if (symbolv.length() > 45) {
+			dialogBox.setAnimationEnabled(true);
+			dialogBox.setGlassEnabled(true);
+			dialogBox.center();
+
+			dialogBox.setText("Error");
+
+			lbDialogBox.setText("The value must have less than 45 characters");
+			dialogPanel.add(lbDialogBox);
+			dialogPanel.setCellHorizontalAlignment(lbDialogBox,
+					HasHorizontalAlignment.ALIGN_CENTER);
+
+			dialogPanel.add(btError);
+			dialogPanel.setCellHorizontalAlignment(btError,
+					HasHorizontalAlignment.ALIGN_CENTER);
+
+			dialogBox.add(dialogPanel);
+
+			dialogBox.show();
+
+			return;
+		}
 		name.setText("");
 		value.setText("");
 		active.setValue(false);
