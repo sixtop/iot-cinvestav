@@ -5,9 +5,9 @@ import java.util.Collection;
 
 
 import mx.cinvestav.gdl.iot.dashboard.client.ClientConstants;
-import mx.cinvestav.gdl.iot.webpage.dao.IoTProperty;
-import mx.cinvestav.gdl.iot.webpage.dao.Sensor;
-import mx.cinvestav.gdl.iot.webpage.dao.SensorProperty;
+import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.SensorPropertyDTO;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -217,7 +217,7 @@ public class EpSensor implements EntryPoint {
 			@Override
 			public void onClick(ClickEvent event) {
 
-				Sensor s = new Sensor();
+				SensorDTO s = new SensorDTO();
 				s.setName(tbName.getText());
 				s.setDescription(tbDescription.getText());
 				s.setActive(chActive.getValue());
@@ -229,9 +229,9 @@ public class EpSensor implements EntryPoint {
 
 				// TODO: s.setMeasures(measures);
 
-				Collection<IoTProperty> props = new ArrayList<>();
+				Collection<IoTPropertyDTO> props = new ArrayList<>();
 				for (int i = 0; i < listNameProperty.getItemCount(); i++) {
-					IoTProperty prop = new SensorProperty();
+					IoTPropertyDTO prop = new SensorPropertyDTO();
 					prop.setName(listNameProperty.getItemText(i));
 					prop.setValue(listValueProperty.getItemText(i));
 					prop.setActive(Boolean.valueOf(listActiveProperty

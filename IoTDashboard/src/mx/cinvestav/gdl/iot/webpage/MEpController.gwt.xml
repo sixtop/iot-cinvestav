@@ -6,6 +6,7 @@
 	<source path="client" />
 	<source path='shared' />
 	<source path='dao' />
+	<source path='dto' />
 	<add-linker name="xsiframe" />
 
 	<entry-point

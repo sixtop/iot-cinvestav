@@ -4,7 +4,7 @@ package mx.cinvestav.gdl.iot.webpage.client;
 import java.util.Comparator;
 import java.util.List;
 
-import mx.cinvestav.gdl.iot.webpage.dao.Controller;
+import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.core.client.EntryPoint;
@@ -30,21 +30,21 @@ public class EpWPController implements EntryPoint {
 	private FormPanel form = new FormPanel();
 	private VerticalPanel formPanel = new VerticalPanel();
 	
-	private Button btAddController = new Button("Add Controller");
+	private Button btAddControllerDTO = new Button("Add ControllerDTO");
 	private HorizontalPanel buttonsPanel = new HorizontalPanel();
 	
-	private CellTable<Controller> tableController = new CellTable<Controller>();
-	private ListDataProvider<Controller> dataProvider = new ListDataProvider<Controller>();
-	private List<Controller> list;
+	private CellTable<ControllerDTO> tableControllerDTO = new CellTable<ControllerDTO>();
+	private ListDataProvider<ControllerDTO> dataProvider = new ListDataProvider<ControllerDTO>();
+	private List<ControllerDTO> list;
 
 	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
-	private List<Controller> CONTROLLERS;
+	private List<ControllerDTO> CONTROLLERS;
 	
 	
 	@Override
 	public void onModuleLoad() {
 		
-		entityService.getEntity(new Controller(), 1, new AsyncCallback<List<Controller>>()
+		entityService.getEntity(new ControllerDTO(), 1, new AsyncCallback<List<ControllerDTO>>()
 				{
 
 					@Override
@@ -54,13 +54,13 @@ public class EpWPController implements EntryPoint {
 					}
 
 					@Override
-					public void onSuccess(List<Controller> result)
+					public void onSuccess(List<ControllerDTO> result)
 					{
 						CONTROLLERS=result;
 						  // Add the data to the data provider, which automatically pushes it to the
 			  		    // widget.
-			  	        List<Controller> list = dataProvider.getList();
-			  		    for (Controller c : CONTROLLERS) {
+			  	        List<ControllerDTO> list = dataProvider.getList();
+			  		    for (ControllerDTO c : CONTROLLERS) {
 			  		      list.add(c);
 			  		    }
 
@@ -70,70 +70,70 @@ public class EpWPController implements EntryPoint {
 		
 		
 		
-	    TextColumn<Controller> idColumn = new TextColumn<Controller>() {
+	    TextColumn<ControllerDTO> idColumn = new TextColumn<ControllerDTO>() {
 	      @Override
-	      public String getValue(Controller c) {
+	      public String getValue(ControllerDTO c) {
 	        return c.getId()+"";
 	      }
 	    };
 	    idColumn.setSortable(true);
 	    
-	    TextColumn<Controller> nameColumn = new TextColumn<Controller>() {
+	    TextColumn<ControllerDTO> nameColumn = new TextColumn<ControllerDTO>() {
 	      @Override
-	      public String getValue(Controller c) {
+	      public String getValue(ControllerDTO c) {
 	        return c.getName();
 	      }
 	    };
 	    nameColumn.setSortable(true);
 
-	    TextColumn<Controller> descriptionColumn = new TextColumn<Controller>() {
+	    TextColumn<ControllerDTO> descriptionColumn = new TextColumn<ControllerDTO>() {
 		      @Override
-		      public String getValue(Controller c) {
+		      public String getValue(ControllerDTO c) {
 		        return c.getDescription();
 		      }
 		    };
 		    
-	    TextColumn<Controller> locationColumn = new TextColumn<Controller>() {
+	    TextColumn<ControllerDTO> locationColumn = new TextColumn<ControllerDTO>() {
 		      @Override
-		      public String getValue(Controller c) {
+		      public String getValue(ControllerDTO c) {
 		        return c.getLocation();
 		      }
 		    };
 	     locationColumn.setSortable(true);
 	    
-	      Column<Controller, String> edit = new Column<Controller, String>(new ButtonCell()) {
+	      Column<ControllerDTO, String> edit = new Column<ControllerDTO, String>(new ButtonCell()) {
 	    	  @Override
-	    	  public String getValue(Controller object) {
+	    	  public String getValue(ControllerDTO object) {
 	    	    // The value to display in the button.
 	    	    return object.getName();
 	    	  }
 	      };
 	      
-	      Column<Controller, String> delete = new Column<Controller, String>(new ButtonCell()) {
+	      Column<ControllerDTO, String> delete = new Column<ControllerDTO, String>(new ButtonCell()) {
 	    	  @Override
-	    	  public String getValue(Controller object) {
+	    	  public String getValue(ControllerDTO object) {
 	    	    return object.getName();
 	    	  }
 	      };
 	          
 		 
-  		     tableController.addColumn(idColumn, "ID");
-  			 tableController.addColumn(nameColumn, "Name");
-  			 tableController.addColumn(descriptionColumn, "Description");
-  			 tableController.addColumn(locationColumn, "Location");
-  			 tableController.addColumn(edit,"Edit");
-  			 tableController.addColumn(delete,"Delete");
+  		     tableControllerDTO.addColumn(idColumn, "ID");
+  			 tableControllerDTO.addColumn(nameColumn, "Name");
+  			 tableControllerDTO.addColumn(descriptionColumn, "Description");
+  			 tableControllerDTO.addColumn(locationColumn, "Location");
+  			 tableControllerDTO.addColumn(edit,"Edit");
+  			 tableControllerDTO.addColumn(delete,"Delete");
 		 
   			
   		    // Connect the table to the data provider.
-  		    dataProvider.addDataDisplay(tableController);
+  		    dataProvider.addDataDisplay(tableControllerDTO);
 
   		  
   		    // Add a ColumnSortEvent.ListHandler to connect sorting to the
   		    // java.util.List.
-  		    ListHandler<Controller> idSort = new ListHandler<Controller>(list);
-  		    idSort.setComparator(idColumn,new Comparator<Controller>() {
-  		          public int compare(Controller o1, Controller o2) {
+  		    ListHandler<ControllerDTO> idSort = new ListHandler<ControllerDTO>(list);
+  		    idSort.setComparator(idColumn,new Comparator<ControllerDTO>() {
+  		          public int compare(ControllerDTO o1, ControllerDTO o2) {
   		            if (o1 == o2) {
   		              return 0;
   		            }
@@ -144,13 +144,13 @@ public class EpWPController implements EntryPoint {
   		            return -1;
   		          }
   		        });
-  		    tableController.addColumnSortHandler(idSort);
-  		    tableController.getColumnSortList().push(idColumn);
+  		    tableControllerDTO.addColumnSortHandler(idSort);
+  		    tableControllerDTO.getColumnSortList().push(idColumn);
 
   		    
-  		    ListHandler<Controller> nameSort = new ListHandler<Controller>(list);
-  		    nameSort.setComparator(nameColumn,new Comparator<Controller>() {
-  		          public int compare(Controller o1, Controller o2) {
+  		    ListHandler<ControllerDTO> nameSort = new ListHandler<ControllerDTO>(list);
+  		    nameSort.setComparator(nameColumn,new Comparator<ControllerDTO>() {
+  		          public int compare(ControllerDTO o1, ControllerDTO o2) {
   		            if (o1 == o2) {
   		              return 0;
   		            }
@@ -161,12 +161,12 @@ public class EpWPController implements EntryPoint {
   		            return -1;
   		          }
   		        });
-  		    tableController.addColumnSortHandler(nameSort);
-  		   tableController.getColumnSortList().push(nameColumn);
+  		    tableControllerDTO.addColumnSortHandler(nameSort);
+  		   tableControllerDTO.getColumnSortList().push(nameColumn);
 
-  		  ListHandler<Controller> locationSort = new ListHandler<Controller>(list);
-		    locationSort.setComparator(locationColumn,new Comparator<Controller>() {
-		          public int compare(Controller o1, Controller o2) {
+  		  ListHandler<ControllerDTO> locationSort = new ListHandler<ControllerDTO>(list);
+		    locationSort.setComparator(locationColumn,new Comparator<ControllerDTO>() {
+		          public int compare(ControllerDTO o1, ControllerDTO o2) {
 		            if (o1 == o2) {
 		              return 0;
 		            }
@@ -177,11 +177,11 @@ public class EpWPController implements EntryPoint {
 		            return -1;
 		          }
 		        });
-		    tableController.addColumnSortHandler(locationSort);
-		    tableController.getColumnSortList().push(locationColumn);
+		    tableControllerDTO.addColumnSortHandler(locationSort);
+		    tableControllerDTO.getColumnSortList().push(locationColumn);
 
-		    formPanel.add(btAddController);
-		    formPanel.add(tableController);
+		    formPanel.add(btAddControllerDTO);
+		    formPanel.add(tableControllerDTO);
 		    form.add(formPanel);
 		    
 		    DecoratorPanel decoratorPanel = new DecoratorPanel();
@@ -190,28 +190,28 @@ public class EpWPController implements EntryPoint {
 		    RootPanel.get("formContainer").add(decoratorPanel);
 		    
 	    
-	    btAddController.addClickHandler(new ClickHandler() {
+	    btAddControllerDTO.addClickHandler(new ClickHandler() {
 	              public void onClick(ClickEvent event) {
-	                Window.Location.replace("addController.jsp");
+	                Window.Location.replace("addControllerDTO.jsp");
 	              }
 	            });
 	    
 	    /////////////////////////////////////////// 
 	    
 		   
-	    Button btEditController = new Button("Edit");
-	    Button btDeleteController = new Button("Delete");
+	    Button btEditControllerDTO = new Button("Edit");
+	    Button btDeleteControllerDTO = new Button("Delete");
 	    
-	    buttonsPanel.add(btEditController);
-	    buttonsPanel.add(btDeleteController);
-	    btEditController.addClickHandler(new ClickHandler() {
+	    buttonsPanel.add(btEditControllerDTO);
+	    buttonsPanel.add(btDeleteControllerDTO);
+	    btEditControllerDTO.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
               
             }
           });
 	    
 	    
-	    btDeleteController.addClickHandler(new ClickHandler() {
+	    btDeleteControllerDTO.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
               
             

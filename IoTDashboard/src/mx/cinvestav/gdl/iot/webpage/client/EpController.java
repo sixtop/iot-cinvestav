@@ -3,9 +3,9 @@ package mx.cinvestav.gdl.iot.webpage.client;
 import java.util.ArrayList;
 import java.util.Collection;
 import mx.cinvestav.gdl.iot.dashboard.client.ClientConstants;
-import mx.cinvestav.gdl.iot.webpage.dao.Controller;
-import mx.cinvestav.gdl.iot.webpage.dao.ControllerProperty;
-import mx.cinvestav.gdl.iot.webpage.dao.IoTProperty;
+import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.ControllerPropertyDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -174,15 +174,15 @@ public class EpController implements EntryPoint {
 	         public void onClick(ClickEvent event) 
 	         {
 	        	 
-	        	Controller c = new Controller();
+	        	ControllerDTO c = new ControllerDTO();
 	        	c.setName(tbName.getText());
 	        	c.setDescription(tbDescription.getText());
 	        	c.setLocation(tbLocation.getText());
 	        	
-				Collection<IoTProperty> props = new ArrayList<IoTProperty>();
+				Collection<IoTPropertyDTO> props = new ArrayList<IoTPropertyDTO>();
 				for(int i = 0; i < listNameProperty.getItemCount(); i++)
 				{
-					IoTProperty prop = new ControllerProperty();
+					IoTPropertyDTO prop = new ControllerPropertyDTO();
 					prop.setName(listNameProperty.getItemText(i));
 					prop.setValue(listValueProperty.getItemText(i));
 					prop.setActive(Boolean.valueOf(listActiveProperty.getValue(i)));
