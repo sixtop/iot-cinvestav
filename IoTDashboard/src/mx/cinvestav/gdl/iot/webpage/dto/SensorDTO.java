@@ -1,6 +1,5 @@
 package mx.cinvestav.gdl.iot.webpage.dto;
 
-import java.io.Serializable;
 import java.util.Map;
 
 public class SensorDTO implements IoTEntityDTO
@@ -16,11 +15,10 @@ public class SensorDTO implements IoTEntityDTO
 	private double latitude;
 	private double longitude;
 	private double altitude;
-
 	private Map<Integer, MeasureDTO> measures;
-
 	private Map<Integer, SensorPropertyDTO> properties;
-	
+	private int idthing;
+
 	public SensorDTO()
 	{
 		super();
@@ -142,4 +140,13 @@ public class SensorDTO implements IoTEntityDTO
 		this.properties = properties;
 	}
 
+	public int getIdthing()
+	{
+		return idthing;
+	}
+
+	public void setIdthing(int idthing)
+	{
+		this.idthing = idthing;
+	}
 }

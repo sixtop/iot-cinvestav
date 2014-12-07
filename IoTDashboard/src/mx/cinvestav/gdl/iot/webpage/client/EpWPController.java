@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.ControllerPropertyDTO;
 
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.core.client.EntryPoint;
@@ -44,7 +45,7 @@ public class EpWPController implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		
-		entityService.getEntity(new ControllerDTO(), 1, new AsyncCallback<List<ControllerDTO>>()
+		entityService.getEntity(new ControllerDTO(), null, new AsyncCallback<List<ControllerDTO>>()
 				{
 
 					@Override
@@ -68,7 +69,21 @@ public class EpWPController implements EntryPoint {
 					}
 				});				
 		
-		
+		entityService.getProperties(new ControllerPropertyDTO(), 0, new AsyncCallback<List<ControllerPropertyDTO>>()
+		{
+
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				Window.alert("Property fail!");
+			}
+
+			@Override
+			public void onSuccess(List<ControllerPropertyDTO> result)
+			{
+				Window.alert("Property sucess!" + result.size());
+			}
+		});
 		
 	    TextColumn<ControllerDTO> idColumn = new TextColumn<ControllerDTO>() {
 	      @Override

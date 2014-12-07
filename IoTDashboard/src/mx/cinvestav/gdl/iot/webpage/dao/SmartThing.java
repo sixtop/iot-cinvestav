@@ -6,10 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapKey;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "smart_thing")
@@ -21,24 +19,16 @@ public class SmartThing implements IoTEntity
 	@GeneratedValue
 	@Column(name = "idthing")
 	private int id;
-
 	private String name;
 	private String description;
-
-	@OneToMany
-	@JoinColumn(name = "idthing")
-	@MapKey(name = "id")
+	@Transient
 	private Map<Integer, Sensor> sensors;
-
-	@OneToMany
-	@JoinColumn(name = "idthing")
-	@MapKey(name = "id")
+	@Transient
 	private Map<Integer, Measure> measures;
-
-	@OneToMany
-	@JoinColumn(name = "idthing")
-	@MapKey(name = "id")
+	@Transient
 	private Map<Integer, SmartThingProperty> properties;
+
+	private int idcontroller;
 
 	public int getId()
 	{
@@ -100,4 +90,13 @@ public class SmartThing implements IoTEntity
 		this.properties = properties;
 	}
 
+	public int getIdcontroller()
+	{
+		return idcontroller;
+	}
+
+	public void setIdcontroller(int idcontroller)
+	{
+		this.idcontroller = idcontroller;
+	}
 }

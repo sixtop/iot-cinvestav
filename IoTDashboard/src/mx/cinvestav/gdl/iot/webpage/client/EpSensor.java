@@ -216,21 +216,27 @@ public class EpSensor implements EntryPoint {
 		btSaveSensor.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-
 				SensorDTO s = new SensorDTO();
 				s.setName(tbName.getText());
 				s.setDescription(tbDescription.getText());
 				s.setActive(chActive.getValue());
-				s.setAltitude(Double.parseDouble(tbAltitude.getText()));
-				s.setLatitude(Double.parseDouble(tbLatitude.getText()));
-				s.setLongitude(Double.parseDouble(tbLongitude.getText()));
+				
+				// TODO:VALIDATE!
+//				s.setAltitude(Double.parseDouble(tbAltitude.getText()));
+//				s.setLatitude(Double.parseDouble(tbLatitude.getText()));
+//				s.setLongitude(Double.parseDouble(tbLongitude.getText()));
+				
 				s.setUnit(tbUnit.getText());
 				s.setSensor_type(tbType.getText());
+				
+				//TODO: set parent smart thing
+				s.setIdthing(0);
 
 				// TODO: s.setMeasures(measures);
 
 				Collection<IoTPropertyDTO> props = new ArrayList<>();
-				for (int i = 0; i < listNameProperty.getItemCount(); i++) {
+				for (int i = 0; i < listNameProperty.getItemCount(); i++) 
+				{
 					IoTPropertyDTO prop = new SensorPropertyDTO();
 					prop.setName(listNameProperty.getItemText(i));
 					prop.setValue(listValueProperty.getItemText(i));

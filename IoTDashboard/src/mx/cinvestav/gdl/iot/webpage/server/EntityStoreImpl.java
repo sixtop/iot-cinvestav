@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 
 import mx.cinvestav.gdl.iot.webpage.client.DatabaseException;
 import mx.cinvestav.gdl.iot.webpage.client.EntityStoreService;
-import mx.cinvestav.gdl.iot.webpage.dao.Controller;
 import mx.cinvestav.gdl.iot.webpage.dao.DAO;
 import mx.cinvestav.gdl.iot.webpage.dao.IoTEntity;
+import mx.cinvestav.gdl.iot.webpage.dao.IoTProperty;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTEntityDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
 
@@ -24,22 +24,27 @@ public class EntityStoreImpl extends RemoteServiceServlet implements EntityStore
 {
 	private static final long serialVersionUID = -8306702743270115220L;
 	Logger logger = Logger.getLogger(EntityStoreImpl.class.getName());
-	Mapper mapper = new DozerBeanMapper(Arrays.asList(new String[]{"dozer-bean-mappings.xml"}));
-	
+	Mapper mapper = new DozerBeanMapper(Arrays.asList(new String[] { "dozer-bean-mappings.xml" }));
+
 	public EntityStoreImpl()
 	{
 		super();
 		System.setProperty("dozer.debug", "true");
 	}
 
-	public void storeEntity(IoTEntityDTO entityDTO, Collection<? extends IoTPropertyDTO> propsDTO)
+	@Override
+	public void storeEntity(IoTEntityDTO entityDTO, Collection<? extends IoTPropertyDTO> propDTOList)
 			throws DatabaseException
 	{
 		try
 		{
-			IoTEntity entity = mapper.map(entityDTO, Controller.class);
-			//Collection prop = mapper.map(propsDTO, Collection.class);
-			DAO.insertEntity(entity, null);
+			IoTEntity entity = mapper.map(entityDTO, IoTEntity.class);
+			Collection<IoTProperty> propList = new ArrayList<>();
+			for (IoTPropertyDTO prop : propDTOList)
+			{
+				propList.add(mapper.map(prop, IoTProperty.class));
+			}
+			DAO.insertEntity(entity, propList);
 		}
 		catch (DatabaseException e)
 		{
@@ -49,18 +54,52 @@ public class EntityStoreImpl extends RemoteServiceServlet implements EntityStore
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends IoTEntityDTO> List<T> getEntity(T entityClassDTO, Integer id)
-			throws DatabaseException
+	public List<IoTEntityDTO> getEntity(IoTEntityDTO entityDTO, Integer id) throws DatabaseException
 	{
 		try
 		{
-			IoTEntity entity = mapper.map(entityClassDTO, IoTEntity.class);
-			List<? extends IoTEntity> entity2 = DAO.getEntity(entity.getClass() , id);
-			
-			Collection map = mapper.map(entity2, Collection.class);
-			return (List<T>) map;
+			//map to non DTO object
+			IoTEntity entity = mapper.map(entityDTO, IoTEntity.class);
+
+			// perform query
+			List<? extends IoTEntity> entityList = DAO.getEntity(entity.getClass(), id);
+
+			//map back to DTO
+			List<IoTEntityDTO> propDTOList = new ArrayList<>();
+			for (IoTEntity result : entityList)
+			{
+				IoTEntityDTO dto = mapper.map(result, IoTEntityDTO.class);
+				propDTOList.add(dto);
+			}
+			return propDTOList;
+		}
+		catch (DatabaseException e)
+		{
+			String message = "Exception in getEntity: " + e.getMessage();
+			logger.log(Level.SEVERE, message, e);
+			throw e;
+		}
+	}
+
+	@Override
+	public List<IoTPropertyDTO> getProperties(IoTPropertyDTO entityDTO, Integer id)
+			throws DatabaseException
+	{
+		//map to non DTO object
+		IoTProperty entity = mapper.map(entityDTO, IoTProperty.class);
+		try
+		{
+			List<? extends IoTProperty> properties = DAO.getProperties(entity.getClass(), id);
+
+			//map back to DTO
+			List<IoTPropertyDTO> propDTOList = new ArrayList<>();
+			for (IoTProperty result : properties)
+			{
+				IoTPropertyDTO dto = mapper.map(result, IoTPropertyDTO.class);
+				propDTOList.add(dto);
+			}
+			return propDTOList;
 		}
 		catch (DatabaseException e)
 		{

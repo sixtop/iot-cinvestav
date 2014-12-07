@@ -6,17 +6,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapKey;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "controller")
 public class Controller implements IoTEntity
 {
 	private static final long serialVersionUID = 6343944649241458664L;
-	
+
 	@Id
 	@GeneratedValue
 	@Column(name = "idcontroller")
@@ -24,23 +22,11 @@ public class Controller implements IoTEntity
 	private String name;
 	private String description;
 	private String location;
-
-	@OneToMany
-	@JoinColumn(name = "idcontroller")
-	@MapKey(name = "id")
+	@Transient
 	private Map<Integer, SmartThing> things;
-
-	@OneToMany
-	@JoinColumn(name = "idcontroller")
-	@MapKey(name = "id")
+	@Transient
 	private Map<Integer, ControllerProperty> properties;
 
-	public Controller()
-	{
-		super();
-	}
-
-	
 	public Controller(String location)
 	{
 		if (location != null)

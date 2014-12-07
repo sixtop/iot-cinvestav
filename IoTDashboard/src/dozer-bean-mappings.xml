@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mappings xmlns="http://dozer.sourceforge.net"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://dozer.sourceforge.net
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
-          
-  <mapping> 
-    <class-a>mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO</class-a>
-    <class-b>mx.cinvestav.gdl.iot.webpage.dao.Controller</class-b>
-  </mapping>  
-  
-    <mapping> 
-    <class-a>mx.cinvestav.gdl.iot.webpage.dao.ControllerProperty</class-a>
-    <class-b>mx.cinvestav.gdl.iot.webpage.dto.ControllerPropertyDTO</class-b>
-  </mapping>  
+
+	<mapping>
+		<class-a>mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO</class-a>
+		<class-b>mx.cinvestav.gdl.iot.webpage.dao.Controller</class-b>
+	</mapping>
+	<mapping>
+		<class-a>mx.cinvestav.gdl.iot.webpage.dao.ControllerProperty</class-a>
+		<class-b>mx.cinvestav.gdl.iot.webpage.dto.ControllerPropertyDTO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>mx.cinvestav.gdl.iot.webpage.dto.SensorDTO</class-a>
+		<class-b>mx.cinvestav.gdl.iot.webpage.dao.Sensor</class-b>
+	</mapping>
+	<mapping>
+		<class-a>mx.cinvestav.gdl.iot.webpage.dao.SensorProperty</class-a>
+		<class-b>mx.cinvestav.gdl.iot.webpage.dto.SensorPropertyDTO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO</class-a>
+		<class-b>mx.cinvestav.gdl.iot.webpage.dao.SmartThing</class-b>
+	</mapping>
+	<mapping>
+		<class-a>mx.cinvestav.gdl.iot.webpage.dao.SmartThingProperty</class-a>
+		<class-b>mx.cinvestav.gdl.iot.webpage.dto.SensorPropertyDTO</class-b>
+	</mapping>
 
 </mappings>

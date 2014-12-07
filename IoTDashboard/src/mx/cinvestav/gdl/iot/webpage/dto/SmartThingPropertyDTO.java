@@ -1,6 +1,5 @@
 package mx.cinvestav.gdl.iot.webpage.dto;
 
-import java.io.Serializable;
 
 public class SmartThingPropertyDTO implements IoTPropertyDTO
 {

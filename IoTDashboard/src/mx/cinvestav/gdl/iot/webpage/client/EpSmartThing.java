@@ -2,13 +2,11 @@ package mx.cinvestav.gdl.iot.webpage.client;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import mx.cinvestav.gdl.iot.dashboard.client.ClientConstants;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
-import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
-import mx.cinvestav.gdl.iot.webpage.dto.SensorPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.SmartThingPropertyDTO;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -190,13 +188,15 @@ public class EpSmartThing implements EntryPoint {
 			@Override
 			public void onClick(ClickEvent event) {
 
-				SensorDTO s = new SensorDTO();
-				s.setName(tbName.getText());
-				s.setDescription(tbDescription.getText());
+				SmartThingDTO st = new SmartThingDTO();
+				st.setName(tbName.getText());
+				st.setDescription(tbDescription.getText());
+				//TODO: set controller id
+				st.setIdcontroller(0);
 
 				Collection<IoTPropertyDTO> props = new ArrayList<>();
 				for (int i = 0; i < listNameProperty.getItemCount(); i++) {
-					IoTPropertyDTO prop = new SensorPropertyDTO();
+					IoTPropertyDTO prop = new SmartThingPropertyDTO();
 					prop.setName(listNameProperty.getItemText(i));
 					prop.setValue(listValueProperty.getItemText(i));
 					prop.setActive(Boolean.valueOf(listActiveProperty
@@ -204,7 +204,7 @@ public class EpSmartThing implements EntryPoint {
 					props.add(prop);
 				}
 
-				entityService.storeEntity(s, props, new AsyncCallback<Void>() {
+				entityService.storeEntity(st, props, new AsyncCallback<Void>() {
 					@Override
 					public void onSuccess(Void result) {
 						dialogBox.setAnimationEnabled(true);

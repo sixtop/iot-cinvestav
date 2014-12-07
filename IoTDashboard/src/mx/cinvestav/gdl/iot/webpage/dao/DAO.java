@@ -12,12 +12,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Root;
 
 import mx.cinvestav.gdl.iot.webpage.client.DatabaseException;
-
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
 
 import com.google.appengine.api.utils.SystemProperty;
 
@@ -88,39 +89,6 @@ public class DAO
 				T e = em.find(entityClass, id);
 				resultList.add(e);
 			}
-			
-			Mapper mapper = new DozerBeanMapper();
-			
-			List<T> res = new ArrayList<T>();
-			for(T entity : resultList)
-			{
-				if(entity instanceof Controller)
-				{
-					Controller c = new Controller();
-					mapper.map(entity, c);
-					c.setProperties(null);
-					c.setThings(null);
-					entity = (T) c;
-				}
-				if(entity instanceof Sensor)
-				{
-					Sensor c = (Sensor)entity;
-					mapper.map(entity, c);
-					c.setProperties(null);
-					c.setMeasures(null);
-					entity = (T) c;
-				}
-				if(entity instanceof SmartThing)
-				{
-					SmartThing c = (SmartThing)entity;
-					mapper.map(entity, c);
-					c.setProperties(null);
-					c.setMeasures(null);
-					c.setSensors(null);
-					entity = (T) c;
-				}
-				res.add(entity);
-			}
 			return resultList;
 		}
 		catch (Exception e)
@@ -136,8 +104,6 @@ public class DAO
 			}
 		}
 	}
-	
-	
 
 	/**
 	 * Insert a new controller with a collection of properties
@@ -186,5 +152,49 @@ public class DAO
 				em.close();
 			}
 		}
+	}
+
+	public static <T extends IoTProperty> List<T> getProperties(Class<T> propertyClass, Integer id)
+			throws DatabaseException
+	{
+		EntityManager em = null;
+		List<T> resultList = null;
+		if (id == null)
+		{
+			throw new IllegalArgumentException("getProperties: must provide IoTEntity id.");
+		}
+		try
+		{
+			em = getEntityManager();
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<T> cq = em.getCriteriaBuilder().createQuery(propertyClass);
+			Root<T> from = cq.from(propertyClass);
+			ParameterExpression<Integer> parent = cb.parameter(Integer.class);
+			cq.select(from).where(cb.equal(from.get(getParentRowName(propertyClass)), parent));
+			TypedQuery<T> createQuery = em.createQuery(cq);
+			createQuery.setParameter(parent, id);
+			resultList = createQuery.getResultList();
+			return resultList;
+		}
+		catch (Exception e)
+		{
+			throw new DatabaseException("Database exception while inserting entity:"
+					+ e.getMessage(), e);
+		}
+		finally
+		{
+			if (em != null)
+			{
+				em.close();
+			}
+		}
+	}
+
+	private static <T extends IoTProperty> String getParentRowName(Class<T> propertyClass)
+	{
+		if (propertyClass.equals(ControllerProperty.class)) return "idcontroller";
+		if (propertyClass.equals(SensorProperty.class)) return "idsensor";
+		if (propertyClass.equals(SmartThingProperty.class)) return "idthing";
+		return null;
 	}
 }

@@ -1,7 +1,5 @@
 package mx.cinvestav.gdl.iot.webpage.dto;
 
-import java.io.Serializable;
-
 public class SensorPropertyDTO implements IoTPropertyDTO
 {
 	private static final long serialVersionUID = 6750305088263892973L;

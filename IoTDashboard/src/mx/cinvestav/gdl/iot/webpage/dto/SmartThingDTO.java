@@ -1,6 +1,5 @@
 package mx.cinvestav.gdl.iot.webpage.dto;
 
-import java.io.Serializable;
 import java.util.Map;
 
 public class SmartThingDTO implements IoTEntityDTO
@@ -17,6 +16,8 @@ public class SmartThingDTO implements IoTEntityDTO
 	private Map<Integer, MeasureDTO> measures;
 
 	private Map<Integer, SmartThingPropertyDTO> properties;
+
+	private int idcontroller;
 
 	public int getId()
 	{
@@ -78,4 +79,13 @@ public class SmartThingDTO implements IoTEntityDTO
 		this.properties = properties;
 	}
 
+	public int getIdcontroller()
+	{
+		return idcontroller;
+	}
+
+	public void setIdcontroller(int idcontroller)
+	{
+		this.idcontroller = idcontroller;
+	}
 }

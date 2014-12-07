@@ -10,9 +10,14 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("iot.store")
-public interface EntityStoreService extends RemoteService 
+public interface EntityStoreService extends RemoteService
 {
-	public void storeEntity(IoTEntityDTO entity, Collection<? extends IoTPropertyDTO> props) throws DatabaseException;
+	public void storeEntity(IoTEntityDTO entity, Collection<? extends IoTPropertyDTO> props)
+			throws DatabaseException;
 
-	public <T extends IoTEntityDTO> List<T> getEntity(T entityClass, Integer id) throws DatabaseException;
+	public List<IoTEntityDTO> getEntity(IoTEntityDTO entityDTO, Integer id)
+			throws DatabaseException;
+
+	public List<IoTPropertyDTO> getProperties(IoTPropertyDTO entityClass, Integer id)
+			throws DatabaseException;
 }

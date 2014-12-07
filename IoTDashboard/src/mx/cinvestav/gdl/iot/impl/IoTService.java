@@ -1,8 +1,6 @@
 package mx.cinvestav.gdl.iot.impl;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,9 +13,6 @@ import mx.cinvestav.gdl.iot.cloudclient.SmartThingData;
 import mx.cinvestav.gdl.iot.cloudclient.UpdateDataRequest;
 import mx.cinvestav.gdl.iot.cloudclient.UpdateDataResponse;
 import mx.cinvestav.gdl.iot.validation.UpdateRequestValidator;
-import mx.cinvestav.gdl.iot.webpage.client.DatabaseException;
-import mx.cinvestav.gdl.iot.webpage.dao.Controller;
-import mx.cinvestav.gdl.iot.webpage.dao.ControllerProperty;
 import mx.cinvestav.gdl.iot.webpage.dao.DAO;
 import mx.cinvestav.gdl.iot.webpage.dao.Measure;
 import mx.cinvestav.gdl.iot.webpage.dao.Sensor;

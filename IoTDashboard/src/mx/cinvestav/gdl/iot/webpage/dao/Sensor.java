@@ -6,10 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapKey;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "sensor")
@@ -33,17 +31,12 @@ public class Sensor implements IoTEntity
 	private double latitude;
 	private double longitude;
 	private double altitude;
-
-	@OneToMany
-	@JoinColumn(name = "idsensor")
-	@MapKey(name = "id")
+	@Transient
 	private Map<Integer, Measure> measures;
-
-	@OneToMany
-	@JoinColumn(name = "idsensor")
-	@MapKey(name = "id")
+	@Transient
 	private Map<Integer, SensorProperty> properties;
-	
+	private int idthing;
+
 	public Sensor()
 	{
 		super();
@@ -165,4 +158,13 @@ public class Sensor implements IoTEntity
 		this.properties = properties;
 	}
 
+	public int getIdthing()
+	{
+		return idthing;
+	}
+
+	public void setIdthing(int idthing)
+	{
+		this.idthing = idthing;
+	}
 }
