@@ -303,7 +303,6 @@ public class EpSensor implements EntryPoint {
 		});
 
 		Button cancelProperty = new Button("Cancel");
-
 		cancelProperty.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				btAddProperty.setEnabled(true);
@@ -393,7 +392,6 @@ public class EpSensor implements EntryPoint {
 		listActiveProperty.addItem(symbola.getValue() + "");
 
 		Button removeProperty = new Button("Remove");
-
 		removeProperty.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				int removedIndex = property.indexOf(symboln);
@@ -403,7 +401,6 @@ public class EpSensor implements EntryPoint {
 				listNameProperty.removeItem(removedIndex);
 				listValueProperty.removeItem(removedIndex);
 				listActiveProperty.removeItem(removedIndex);
-
 			}
 		});
 
