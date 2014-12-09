@@ -201,25 +201,7 @@ public class DAO
 		}
 		try
 		{
-			if(propertyClass.equals(IoTEntity.class))
-			{
-				
-			}
-			else
-			{
-				
-			}
-			
-			em = getEntityManager();
-			CriteriaBuilder cb = em.getCriteriaBuilder();
-			CriteriaQuery<T> cq = em.getCriteriaBuilder().createQuery(propertyClass);
-			Root<T> from = cq.from(propertyClass);
-			ParameterExpression<Integer> parent = cb.parameter(Integer.class);
-			cq.select(from).where(cb.equal(from.get(getParentRowName(propertyClass)), parent));
-			TypedQuery<T> createQuery = em.createQuery(cq);
-			createQuery.setParameter(parent, id);
-			resultList = createQuery.getResultList();
-			return resultList;
+			//TODO: deletion
 		}
 		catch (Exception e)
 		{
