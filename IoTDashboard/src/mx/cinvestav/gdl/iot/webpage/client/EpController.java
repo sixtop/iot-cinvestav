@@ -44,6 +44,7 @@ public class EpController implements EntryPoint {
 
 	final DecoratedPopupPanel popup = new DecoratedPopupPanel(true);
 
+	private ListBox listIdProperty = new ListBox(true);
 	private ListBox listNameProperty = new ListBox(true);
 	private ListBox listValueProperty = new ListBox(true);
 	private ListBox listActiveProperty = new ListBox(true);
@@ -121,9 +122,11 @@ public class EpController implements EntryPoint {
 		propertyPanel.add(btAddProperty);
 		propertyPanel.add(tableProperty);
 
+		listIdProperty.setVisible(false);
 		listNameProperty.setVisible(false);
 		listValueProperty.setVisible(false);
 		listActiveProperty.setVisible(false);
+		formPanel.add(listIdProperty);
 		formPanel.add(listNameProperty);
 		formPanel.add(listValueProperty);
 		formPanel.add(listActiveProperty);
@@ -180,7 +183,10 @@ public class EpController implements EntryPoint {
 				Collection<IoTPropertyDTO> props = new ArrayList<>();
 				for (int i = 0; i < listNameProperty.getItemCount(); i++) 
 				{
-					IoTPropertyDTO prop = new SensorPropertyDTO();
+					
+					IoTPropertyDTO prop = new ControllerPropertyDTO();
+					prop.setParentId(c.getId());
+					prop.setId(Integer.parseInt(listIdProperty.getItemText(i)));
 					prop.setName(listNameProperty.getItemText(i));
 					prop.setValue(listValueProperty.getItemText(i));
 					prop.setActive(Boolean.valueOf(listActiveProperty.getValue(i)));
@@ -284,6 +290,7 @@ public class EpController implements EntryPoint {
 												cb.setEnabled(false);
 												tableProperty.setWidget(i+1, 3, cb);
 
+												listIdProperty.addItem(resultP.get(i).getId()+"");
 												listNameProperty.addItem(resultP.get(i).getName());
 												listValueProperty.addItem(resultP.get(i).getValue());
 												listActiveProperty.addItem(resultP.get(i).isActive()+ "");

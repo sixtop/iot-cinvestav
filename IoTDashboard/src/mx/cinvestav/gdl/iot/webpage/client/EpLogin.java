@@ -39,12 +39,11 @@ public class EpLogin implements EntryPoint {
 		Label password=new Label();
 		password.setText("Password");
 		tableLogin.setWidget(1, 0,password);
-		
 		tableLogin.setWidget(1, 1,tbPassword);
-		tableLogin.setWidget(2, 3,btLogin);
-		tableLogin.setWidget(2, 2,btLogin);
 		
+		formPanel.add(tableLogin);
 		formPanel.add(btLogin);
+		formPanel.setCellHorizontalAlignment(btLogin, HasHorizontalAlignment.ALIGN_CENTER);
 		
 	    form.setWidget(formPanel);
 	    
