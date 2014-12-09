@@ -24,13 +24,7 @@ public class EntityStoreImpl extends RemoteServiceServlet implements EntityStore
 {
 	private static final long serialVersionUID = -8306702743270115220L;
 	Logger logger = Logger.getLogger(EntityStoreImpl.class.getName());
-	Mapper mapper = new DozerBeanMapper(Arrays.asList(new String[] { "dozer-bean-mappings.xml" }));
-
-	public EntityStoreImpl()
-	{
-		super();
-		System.setProperty("dozer.debug", "true");
-	}
+	private static Mapper mapper = new DozerBeanMapper(Arrays.asList(new String[] { "dozer-bean-mappings.xml" }));
 
 	@Override
 	public void storeEntity(IoTEntityDTO entityDTO, Collection<? extends IoTPropertyDTO> propDTOList)

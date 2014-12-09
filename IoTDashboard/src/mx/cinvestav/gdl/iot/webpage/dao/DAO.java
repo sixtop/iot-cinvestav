@@ -40,7 +40,7 @@ public class DAO
 	 * @return
 	 * @throws DatabaseException 
 	 */
-	public static EntityManager getEntityManager() throws DatabaseException
+	public static synchronized EntityManager getEntityManager() throws DatabaseException
 	{
 		if (emf == null)
 		{
@@ -165,6 +165,51 @@ public class DAO
 		}
 		try
 		{
+			em = getEntityManager();
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<T> cq = em.getCriteriaBuilder().createQuery(propertyClass);
+			Root<T> from = cq.from(propertyClass);
+			ParameterExpression<Integer> parent = cb.parameter(Integer.class);
+			cq.select(from).where(cb.equal(from.get(getParentRowName(propertyClass)), parent));
+			TypedQuery<T> createQuery = em.createQuery(cq);
+			createQuery.setParameter(parent, id);
+			resultList = createQuery.getResultList();
+			return resultList;
+		}
+		catch (Exception e)
+		{
+			throw new DatabaseException("Database exception while inserting entity:"
+					+ e.getMessage(), e);
+		}
+		finally
+		{
+			if (em != null)
+			{
+				em.close();
+			}
+		}
+	}
+	
+	public static <T extends IoTProperty> void delete(Class<T> propertyClass, Integer id)
+			throws DatabaseException
+	{
+		EntityManager em = null;
+		List<T> resultList = null;
+		if (id == null)
+		{
+			throw new IllegalArgumentException("delete: must provide IoTEntity id.");
+		}
+		try
+		{
+			if(propertyClass.equals(IoTEntity.class))
+			{
+				
+			}
+			else
+			{
+				
+			}
+			
 			em = getEntityManager();
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<T> cq = em.getCriteriaBuilder().createQuery(propertyClass);
