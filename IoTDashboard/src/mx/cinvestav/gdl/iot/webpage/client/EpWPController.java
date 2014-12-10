@@ -209,6 +209,22 @@ public class EpWPController implements EntryPoint {
 		    	
 		    	btYes.addClickHandler(new ClickHandler() {
 		              public void onClick(ClickEvent event) {
+		            	  entityService.deleteEntity(new ControllerDTO(), index, new AsyncCallback<Void>()
+						{
+
+							@Override
+							public void onFailure(Throwable caught)
+							{
+								Window.alert("no deletion!" + caught.getMessage());
+								
+							}
+
+							@Override
+							public void onSuccess(Void result)
+							{
+								Window.alert("Deletion ok");								
+							}
+						});
 		            	Window.alert("SE ELIMINA "+index);
 		          //      Window.Location.replace("wpControllers.jsp");
 		            	  dialogBox.hide();
