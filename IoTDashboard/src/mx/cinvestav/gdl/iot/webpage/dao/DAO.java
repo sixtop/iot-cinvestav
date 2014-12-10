@@ -12,7 +12,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -139,7 +138,7 @@ public class DAO
 		}
 		catch (Exception e)
 		{
-			if (tx != null)
+			if (tx != null && tx.isActive())
 			{
 				tx.rollback();
 			}
@@ -211,7 +210,7 @@ public class DAO
 		}
 		catch (Exception e)
 		{
-			if (tx != null)
+			if (tx != null && tx.isActive())
 			{
 				tx.rollback();
 			}
