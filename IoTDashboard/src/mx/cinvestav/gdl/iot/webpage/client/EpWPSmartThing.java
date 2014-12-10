@@ -36,7 +36,6 @@ public class EpWPSmartThing implements EntryPoint {
 
 	private int index;
 	
-	private FormPanel form = new FormPanel();
 	private VerticalPanel formPanel = new VerticalPanel();
 	
 	private Button btAddSmartThingDTO = new Button("Add SmartThing");
@@ -81,22 +80,7 @@ public class EpWPSmartThing implements EntryPoint {
 					}
 				});				
 		
-		entityService.getProperties(new SmartThingPropertyDTO(), 0, new AsyncCallback<List<SmartThingPropertyDTO>>()
-		{
-
-			@Override
-			public void onFailure(Throwable caught)
-			{
-				//Window.alert("Property fail!");
-			}
-
-			@Override
-			public void onSuccess(List<SmartThingPropertyDTO> result)
-			{
-				//Window.alert("Property sucess!" + result.size());
-			}
-		});
-		
+			
 	   TextColumn<SmartThingDTO> idColumn = new TextColumn<SmartThingDTO>() {
 	      @Override
 	      public String getValue(SmartThingDTO c) {
@@ -193,12 +177,8 @@ public class EpWPSmartThing implements EntryPoint {
 		    formPanel.add(pager);
 		    formPanel.setCellHorizontalAlignment(pager, HasHorizontalAlignment.ALIGN_CENTER);
 		    
-		    form.add(formPanel);
-		    
-		    DecoratorPanel decoratorPanel = new DecoratorPanel();
-		    decoratorPanel.add(form);
-		    
-		    RootPanel.get("formContainer").add(decoratorPanel);
+		
+		    RootPanel.get("formContainer").add(formPanel);
 		    
 	    
 		    	btAddSmartThingDTO.addClickHandler(new ClickHandler() {

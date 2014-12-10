@@ -53,7 +53,6 @@ public class EpSmartThing implements EntryPoint {
 	private TextBox value = new TextBox();
 	private CheckBox active = new CheckBox();
 
-	private FormPanel form = new FormPanel();
 	private VerticalPanel formPanel = new VerticalPanel();
 
 	private Button btSaveSmartThing = new Button("Save SmartThing");
@@ -89,11 +88,12 @@ public class EpSmartThing implements EntryPoint {
 		tableFields.setText(3, 0, "Controller: ");
 		tableFields.setWidget(3, 1, lbController);
 		
-		tableProperty.setText(0, 0, "Name");
-		tableProperty.setText(0, 1, "Value");
-		tableProperty.setText(0, 2, "Active");
-		tableProperty.setText(0, 3, "       ");
-
+		tableProperty.setText(0, 0, "ID");
+		tableProperty.setText(0, 1, "Name");
+		tableProperty.setText(0, 2, "Value");
+		tableProperty.setText(0, 3, "Active");
+		tableProperty.setText(0, 4, "    ");
+	
 		tableProperty.getCellFormatter().addStyleName(0, 0,
 				"headerTableProperty");
 		tableProperty.getCellFormatter().addStyleName(0, 1,
@@ -101,6 +101,8 @@ public class EpSmartThing implements EntryPoint {
 		tableProperty.getCellFormatter().addStyleName(0, 2,
 				"headerTableProperty");
 		tableProperty.getCellFormatter().addStyleName(0, 3,
+				"headerTableProperty");
+		tableProperty.getCellFormatter().addStyleName(0, 4,
 				"headerTableProperty");
 
 		tableProperty.addStyleName("tableProperty");
@@ -113,6 +115,17 @@ public class EpSmartThing implements EntryPoint {
 		propertyPanel.add(btAddProperty);
 		propertyPanel.add(tableProperty);
 
+		
+		listIdProperty.setVisible(false);
+ 		listNameProperty.setVisible(false);
+ 		listValueProperty.setVisible(false);
+ 		listActiveProperty.setVisible(false);
+		formPanel.add(listIdProperty);
+ 		formPanel.add(listNameProperty);
+ 		formPanel.add(listValueProperty);
+ 		formPanel.add(listActiveProperty);
+ 		
+ 		
 		formPanel.add(tableFields);
 		formPanel.add(propertyPanel);
 		
@@ -123,15 +136,9 @@ public class EpSmartThing implements EntryPoint {
 		buttonsPanel.add(btCancelSmartThing);
 
 		formPanel.add(buttonsPanel);
-		formPanel.add(listNameProperty);
-		formPanel.add(listValueProperty);
-		formPanel.add(listActiveProperty);
+	
 
-		form.setWidget(formPanel);
-		DecoratorPanel decoratorPanel = new DecoratorPanel();
-		decoratorPanel.add(form);
-
-		RootPanel.get("formContainer").add(decoratorPanel);
+		RootPanel.get("formContainer").add(formPanel);
 
 		dialogBox.add(btClose);
 
@@ -205,7 +212,10 @@ public class EpSmartThing implements EntryPoint {
 			public void onClick(ClickEvent event) {
 
 				SmartThingDTO c = new SmartThingDTO();
-				c.setId(Integer.parseInt(idSmartThing));
+				if(idSmartThing != null){
+					c.setId(Integer.parseInt(idSmartThing));
+				}
+				
 				c.setName(tbName.getText());
 				c.setDescription(tbDescription.getText());
 				
@@ -427,8 +437,12 @@ public class EpSmartThing implements EntryPoint {
 		tableProperty.setWidget(row, 1, name);
 		tableProperty.setWidget(row, 2, value);
 		tableProperty.setWidget(row, 3, active);
-		tableProperty.setWidget(row, 4, saveProperty);
-		tableProperty.setWidget(row, 5, cancelProperty);
+		
+		HorizontalPanel buttonPanel=new HorizontalPanel();
+		buttonPanel.add(saveProperty);
+		buttonPanel.add(cancelProperty);
+		
+		tableProperty.setWidget(row, 4, buttonPanel);
 	}
 
 	private void saveProperty() {
@@ -520,6 +534,7 @@ public class EpSmartThing implements EntryPoint {
 				property.remove(removedIndex);
 				tableProperty.removeRow(removedIndex + 1);
 
+				listIdProperty.removeItem(removedIndex);
 				listNameProperty.removeItem(removedIndex);
 				listValueProperty.removeItem(removedIndex);
 				listActiveProperty.removeItem(removedIndex);

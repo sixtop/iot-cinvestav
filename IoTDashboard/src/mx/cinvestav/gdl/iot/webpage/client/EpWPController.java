@@ -34,8 +34,7 @@ import com.google.gwt.view.client.ListDataProvider;
 
 public class EpWPController implements EntryPoint {
 	private int index;
-	
-	private FormPanel form = new FormPanel();
+
 	private VerticalPanel formPanel = new VerticalPanel();
 	
 	private Button btAddControllerDTO = new Button("Add Controller");
@@ -82,21 +81,6 @@ public class EpWPController implements EntryPoint {
 					}
 				});				
 		
-		entityService.getProperties(new ControllerPropertyDTO(), 0, new AsyncCallback<List<ControllerPropertyDTO>>()
-		{
-
-			@Override
-			public void onFailure(Throwable caught)
-			{
-				//Window.alert("Property fail!");
-			}
-
-			@Override
-			public void onSuccess(List<ControllerPropertyDTO> result)
-			{
-				//Window.alert("Property sucess!" + result.size());
-			}
-		});
 		
 	   TextColumn<ControllerDTO> idColumn = new TextColumn<ControllerDTO>() {
 	      @Override
@@ -212,12 +196,9 @@ public class EpWPController implements EntryPoint {
 		    formPanel.add(pager);
 		    formPanel.setCellHorizontalAlignment(pager, HasHorizontalAlignment.ALIGN_CENTER);
 		    
-		    form.add(formPanel);
+		 
 		    
-		    DecoratorPanel decoratorPanel = new DecoratorPanel();
-		    decoratorPanel.add(form);
-		    
-		    RootPanel.get("formContainer").add(decoratorPanel);
+		    RootPanel.get("formContainer").add(formPanel);
 		    
 	    
 		    	btAddControllerDTO.addClickHandler(new ClickHandler() {

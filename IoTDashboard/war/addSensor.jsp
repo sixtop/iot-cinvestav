@@ -4,21 +4,23 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link type="text/css" rel="stylesheet" href="IoTDashboard.css">
+<link type="text/css" rel="stylesheet" href="css/IoTDashboard.css">
 <script type="text/javascript" language="javascript"
 	src="MEpSensor/MEpSensor.nocache.js"></script>
 <title>SmartCity</title>
 </head>
 <body>
 	<jsp:include page="header.jsp" />
-	<div id="container">
-		<h2>Sensor</h2>
-		<div id="formContainer"></div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Sensor</h3>
+		</div>
+		<div class="panel-body">
+			<div id="formContainer"></div>
+		</div>
 	</div>
+
 	<jsp:include page="footer.jsp" />
 </body>
 </html>
-
-
-
-

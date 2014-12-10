@@ -53,7 +53,6 @@ public class EpController implements EntryPoint {
 	private TextBox value = new TextBox();
 	private CheckBox active = new CheckBox();
 
-	private FormPanel form = new FormPanel();
 	private VerticalPanel formPanel = new VerticalPanel();
 
 	private Button btSaveController = new Button("Save Controller");
@@ -108,8 +107,7 @@ public class EpController implements EntryPoint {
 				"headerTableProperty");
 		tableProperty.getCellFormatter().addStyleName(0, 4,
 				"headerTableProperty");
-		tableProperty.getCellFormatter().addStyleName(0, 5,
-				"headerTableProperty");
+	
 
 		tableProperty.addStyleName("tableProperty");
 		tableProperty.setCellPadding(3);
@@ -120,16 +118,16 @@ public class EpController implements EntryPoint {
 		propertyPanel.add(lbProperty);
 		propertyPanel.add(btAddProperty);
 		propertyPanel.add(tableProperty);
-
-		listIdProperty.setVisible(false);
-		listNameProperty.setVisible(false);
-		listValueProperty.setVisible(false);
-		listActiveProperty.setVisible(false);
-		formPanel.add(listIdProperty);
-		formPanel.add(listNameProperty);
-		formPanel.add(listValueProperty);
-		formPanel.add(listActiveProperty);
 		
+		listIdProperty.setVisible(false);
+ 		listNameProperty.setVisible(false);
+ 		listValueProperty.setVisible(false);
+ 		listActiveProperty.setVisible(false);
+		formPanel.add(listIdProperty);
+ 		formPanel.add(listNameProperty);
+ 		formPanel.add(listValueProperty);
+ 		formPanel.add(listActiveProperty);
+ 		
 		formPanel.add(tableFields);
 		formPanel.add(propertyPanel);
 
@@ -139,13 +137,8 @@ public class EpController implements EntryPoint {
 		formPanel.setCellHorizontalAlignment(buttonsPanel,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		form.setWidget(formPanel);
 
-		DecoratorPanel decoratorPanel = new DecoratorPanel();
-
-		decoratorPanel.add(form);
-		// Add the widgets to the root panel.
-		RootPanel.get("formContainer").add(decoratorPanel);
+		RootPanel.get("formContainer").add(formPanel);
 
 		btClose.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -174,7 +167,11 @@ public class EpController implements EntryPoint {
 			public void onClick(ClickEvent event) {
 
 				ControllerDTO c = new ControllerDTO();
-				c.setId(Integer.parseInt(idController));
+				
+				if(idController != null){
+					c.setId(Integer.parseInt(idController));
+				}
+				
 				c.setName(tbName.getText());
 				c.setDescription(tbDescription.getText());
 				c.setLocation(tbLocation.getText());
@@ -406,8 +403,12 @@ public class EpController implements EntryPoint {
 		tableProperty.setWidget(row, 1, name);
 		tableProperty.setWidget(row, 2, value);
 		tableProperty.setWidget(row, 3, active);
-		tableProperty.setWidget(row, 4, saveProperty);
-		tableProperty.setWidget(row, 5, cancelProperty);
+		
+		HorizontalPanel buttonPanel=new HorizontalPanel();
+		buttonPanel.add(saveProperty);
+		buttonPanel.add(cancelProperty);
+		
+		tableProperty.setWidget(row, 4, buttonPanel);
 	}
 
 	private void saveProperty() {
@@ -499,6 +500,7 @@ public class EpController implements EntryPoint {
 				property.remove(removedIndex);
 				tableProperty.removeRow(removedIndex + 1);
 
+				listIdProperty.removeItem(removedIndex);
 				listNameProperty.removeItem(removedIndex);
 				listValueProperty.removeItem(removedIndex);
 				listActiveProperty.removeItem(removedIndex);
