@@ -6,19 +6,19 @@ public class ControllerDTO implements IoTEntityDTO
 {
 	private static final long serialVersionUID = 6343944649241458664L;
 	
-	private int id;
+	private Integer id;
 	private String name;
 	private String description;
 	private String location;
 	private Map<Integer, SmartThingDTO> things;
 	private Map<Integer, ControllerPropertyDTO> properties;
 
-	public int getId()
+	public Integer getId()
 	{
 		return id;
 	}
 
-	public void setId(int id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}

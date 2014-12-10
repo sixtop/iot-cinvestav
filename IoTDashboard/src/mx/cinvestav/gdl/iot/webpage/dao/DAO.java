@@ -125,7 +125,8 @@ public class DAO
 			em = getEntityManager();
 			tx = em.getTransaction();
 			tx.begin();
-			em.merge(entity);
+			if(entity.getId() == null) em.persist(entity);
+			else em.merge(entity);
 			if (properties != null)
 			{
 				for (IoTProperty p : properties)

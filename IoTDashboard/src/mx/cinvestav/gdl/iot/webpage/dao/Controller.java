@@ -18,7 +18,7 @@ public class Controller implements IoTEntity
 	@Id
 	@GeneratedValue
 	@Column(name = "idcontroller")
-	private int id;
+	private Integer id;
 	private String name;
 	private String description;
 	private String location;
@@ -35,12 +35,12 @@ public class Controller implements IoTEntity
 		}
 	}
 
-	public int getId()
+	public Integer getId()
 	{
 		return id;
 	}
 
-	public void setId(int id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}

@@ -8,7 +8,7 @@ public interface IoTProperty extends Serializable
 
 	public void setParentId(Integer idparent);
 
-	public void setId(int id);
+	public void setId(Integer id);
 	
 	public void setName(String name);
 

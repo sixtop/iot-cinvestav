@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public interface IoTEntity extends Serializable
 {
-	public int getId();
+	public Integer getId();
 
-	public void setId(int id);
+	public void setId(Integer id);
 
 	public String getName();
 

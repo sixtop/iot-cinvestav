@@ -14,19 +14,19 @@ public class SensorProperty implements IoTProperty
 	@Id
 	@GeneratedValue
 	@Column(name = "idpropertysensor")
-	private int id;
+	private Integer id;
 	private String name;
 	private String value;
 	@Column(name = "isactive")
 	private boolean active;
 	private Integer idsensor;
 
-	public int getId()
+	public Integer getId()
 	{
 		return id;
 	}
 
-	public void setId(int id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}

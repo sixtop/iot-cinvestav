@@ -6,6 +6,7 @@ import java.util.List;
 
 
 
+
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
@@ -166,16 +167,14 @@ public class EpController implements EntryPoint {
 		btSaveController.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-
 				ControllerDTO c = new ControllerDTO();
 				
-				if(idController != null){
+				if(idController != null)
+				{
+					Window.alert("idcontroller not null: '" + idController + "'");
 					c.setId(Integer.parseInt(idController));
+					Window.alert("idController parsed!");
 				}
-				else{
-					//c.setId(null);
-				}
-			
 				c.setName(tbName.getText());
 				c.setDescription(tbDescription.getText());
 				c.setLocation(tbLocation.getText());
@@ -183,16 +182,25 @@ public class EpController implements EntryPoint {
 				Collection<IoTPropertyDTO> props = new ArrayList<>();
 				for (int i = 0; i < listNameProperty.getItemCount(); i++) 
 				{
-					
 					IoTPropertyDTO prop = new ControllerPropertyDTO();
-					prop.setParentId(c.getId());
-					prop.setId(Integer.parseInt(listIdProperty.getItemText(i)));
+					if(idController != null)
+					{
+						prop.setParentId(c.getId());
+					}
+					String idProp = listIdProperty.getItemText(i);
+					if(!"".equals(idProp))
+					{
+						prop.setId(Integer.parseInt(idProp));
+					}
+					else
+					{
+						prop.setId(null);
+					}
 					prop.setName(listNameProperty.getItemText(i));
 					prop.setValue(listValueProperty.getItemText(i));
 					prop.setActive(Boolean.valueOf(listActiveProperty.getValue(i)));
 					props.add(prop);
 				}
-
 
 				entityService.storeEntity(c, props, new AsyncCallback<Void>() {
 					@Override

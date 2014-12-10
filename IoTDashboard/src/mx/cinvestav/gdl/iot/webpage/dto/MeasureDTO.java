@@ -6,18 +6,18 @@ import java.sql.Timestamp;
 public class MeasureDTO implements Serializable
 {
 	private static final long serialVersionUID = 7496999784301790738L;
-	private int id;
+	private Integer id;
 	private String measure;
 	private Timestamp measure_date;
 	private Integer idsensor;
 	private Integer idthing;
 
-	public int getId()
+	public Integer getId()
 	{
 		return id;
 	}
 
-	public void setId(int id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}

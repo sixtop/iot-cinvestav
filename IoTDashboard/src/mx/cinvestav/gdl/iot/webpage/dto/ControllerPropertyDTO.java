@@ -4,18 +4,18 @@ package mx.cinvestav.gdl.iot.webpage.dto;
 public class ControllerPropertyDTO implements IoTPropertyDTO
 {
 	private static final long serialVersionUID = -5541762445209122374L;
-	private int id;
+	private Integer id;
 	private String name;
 	private String value;
 	private boolean active;
 	private Integer idcontroller;
 
-	public int getId()
+	public Integer getId()
 	{
 		return id;
 	}
 
-	public void setId(int id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}

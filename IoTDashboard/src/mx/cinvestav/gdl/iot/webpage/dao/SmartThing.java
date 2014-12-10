@@ -18,7 +18,7 @@ public class SmartThing implements IoTEntity
 	@Id
 	@GeneratedValue
 	@Column(name = "idthing")
-	private int id;
+	private Integer id;
 	private String name;
 	private String description;
 	@Transient
@@ -30,12 +30,12 @@ public class SmartThing implements IoTEntity
 
 	private Integer idcontroller;
 
-	public int getId()
+	public Integer getId()
 	{
 		return id;
 	}
 
-	public void setId(int id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}

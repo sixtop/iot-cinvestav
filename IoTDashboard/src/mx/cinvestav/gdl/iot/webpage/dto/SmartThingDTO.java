@@ -6,7 +6,7 @@ public class SmartThingDTO implements IoTEntityDTO
 {
 	private static final long serialVersionUID = 3539643120571649894L;
 
-	private int id;
+	private Integer id;
 
 	private String name;
 	private String description;
@@ -19,12 +19,12 @@ public class SmartThingDTO implements IoTEntityDTO
 
 	private Integer idcontroller;
 
-	public int getId()
+	public Integer getId()
 	{
 		return id;
 	}
 
-	public void setId(int id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
