@@ -24,7 +24,8 @@ public class EntityStoreImpl extends RemoteServiceServlet implements EntityStore
 {
 	private static final long serialVersionUID = -8306702743270115220L;
 	Logger logger = Logger.getLogger(EntityStoreImpl.class.getName());
-	private static Mapper mapper = new DozerBeanMapper(Arrays.asList(new String[] { "dozer-bean-mappings.xml" }));
+	private static Mapper mapper = new DozerBeanMapper(
+			Arrays.asList(new String[] { "dozer-bean-mappings.xml" }));
 
 	@Override
 	public void storeEntity(IoTEntityDTO entityDTO, Collection<? extends IoTPropertyDTO> propDTOList)
@@ -49,7 +50,8 @@ public class EntityStoreImpl extends RemoteServiceServlet implements EntityStore
 	}
 
 	@Override
-	public List<IoTEntityDTO> getEntity(IoTEntityDTO entityDTO, Integer id) throws DatabaseException
+	public List<IoTEntityDTO> getEntity(IoTEntityDTO entityDTO, Integer id)
+			throws DatabaseException
 	{
 		try
 		{
@@ -98,6 +100,40 @@ public class EntityStoreImpl extends RemoteServiceServlet implements EntityStore
 		catch (DatabaseException e)
 		{
 			String message = "Exception in getEntity: " + e.getMessage();
+			logger.log(Level.SEVERE, message, e);
+			throw e;
+		}
+	}
+
+	@Override
+	public void deleteProperty(IoTPropertyDTO propertyDTO, Integer id) throws DatabaseException
+	{
+		//map to non DTO object
+		IoTProperty entity = mapper.map(propertyDTO, IoTProperty.class);
+		try
+		{
+			DAO.deleteProperty(entity.getClass(), id);
+		}
+		catch (DatabaseException e)
+		{
+			String message = "Exception in deleteEntity: " + e.getMessage();
+			logger.log(Level.SEVERE, message, e);
+			throw e;
+		}
+	}
+
+	@Override
+	public void deleteEntity(IoTEntityDTO entityDTO, Integer id) throws DatabaseException
+	{
+		//map to non DTO object
+		IoTEntity entity = mapper.map(entityDTO, IoTEntity.class);
+		try
+		{
+			DAO.deleteEntity(entity.getClass(), id);
+		}
+		catch (DatabaseException e)
+		{
+			String message = "Exception in deleteEntity: " + e.getMessage();
 			logger.log(Level.SEVERE, message, e);
 			throw e;
 		}

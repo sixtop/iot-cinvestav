@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -154,12 +155,12 @@ public class DAO
 		}
 	}
 
-	public static <T extends IoTProperty> List<T> getProperties(Class<T> propertyClass, Integer id)
-			throws DatabaseException
+	public static <T extends IoTProperty> List<T> getProperties(Class<T> propertyClass,
+			Integer parentId) throws DatabaseException
 	{
 		EntityManager em = null;
 		List<T> resultList = null;
-		if (id == null)
+		if (parentId == null)
 		{
 			throw new IllegalArgumentException("getProperties: must provide IoTEntity id.");
 		}
@@ -172,7 +173,7 @@ public class DAO
 			ParameterExpression<Integer> parent = cb.parameter(Integer.class);
 			cq.select(from).where(cb.equal(from.get(getParentRowName(propertyClass)), parent));
 			TypedQuery<T> createQuery = em.createQuery(cq);
-			createQuery.setParameter(parent, id);
+			createQuery.setParameter(parent, parentId);
 			resultList = createQuery.getResultList();
 			return resultList;
 		}
@@ -189,22 +190,72 @@ public class DAO
 			}
 		}
 	}
-	
-	public static <T extends IoTProperty> void delete(Class<T> propertyClass, Integer id)
+
+	public static <T extends IoTProperty> void deleteProperty(Class<T> propertyClass, Integer id)
+			throws DatabaseException
+	{
+		if (id == null)
+		{
+			throw new IllegalArgumentException("delete: must provide IoTProperty id.");
+		}
+		EntityManager em = null;
+		EntityTransaction tx = null;
+		try
+		{
+			em = getEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
+			T prop = em.find(propertyClass, id);
+			em.remove(prop);
+			tx.commit();
+		}
+		catch (Exception e)
+		{
+			if (tx != null)
+			{
+				tx.rollback();
+			}
+			throw new DatabaseException("Database exception while deleting property:"
+					+ e.getMessage(), e);
+		}
+		finally
+		{
+			if (em != null)
+			{
+				em.close();
+			}
+		}
+	}
+
+	public static <T extends IoTEntity> void deleteEntity(Class<T> EntityClass, Integer id)
 			throws DatabaseException
 	{
 		EntityManager em = null;
-		List<T> resultList = null;
+		EntityTransaction tx = null;
 		if (id == null)
 		{
 			throw new IllegalArgumentException("delete: must provide IoTEntity id.");
 		}
 		try
 		{
-			//TODO: deletion
+			em = getEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
+
+			//delete all properties associated
+			Query query = em.createQuery("delete from :table WHERE :parent = :id");
+			query.setParameter("table", getTableName(EntityClass))
+					.setParameter("parent", getParentRowName(EntityClass)).setParameter("id", id);
+			query.executeUpdate();
+
+			tx.commit();
 		}
 		catch (Exception e)
 		{
+			if (tx != null)
+			{
+				tx.rollback();
+			}
 			throw new DatabaseException("Database exception while inserting entity:"
 					+ e.getMessage(), e);
 		}
@@ -217,11 +268,22 @@ public class DAO
 		}
 	}
 
-	private static <T extends IoTProperty> String getParentRowName(Class<T> propertyClass)
+	private static String getParentRowName(Class<?> propertyClass)
 	{
-		if (propertyClass.equals(ControllerProperty.class)) return "idcontroller";
-		if (propertyClass.equals(SensorProperty.class)) return "idsensor";
-		if (propertyClass.equals(SmartThingProperty.class)) return "idthing";
+		if (ControllerProperty.class.equals(propertyClass)) return "idcontroller";
+		if (SensorProperty.class.equals(propertyClass)) return "idsensor";
+		if (SmartThingProperty.class.equals(propertyClass)) return "idthing";
+		if (Controller.class.equals(propertyClass)) return "idcontroller";
+		if (Sensor.class.equals(propertyClass)) return "idsensor";
+		if (SmartThing.class.equals(propertyClass)) return "idthing";
+		return null;
+	}
+
+	private static String getTableName(Class<?> propertyClass)
+	{
+		if (Controller.class.equals(propertyClass)) return "con_property";
+		if (Sensor.class.equals(propertyClass)) return "sensor_property";
+		if (SmartThing.class.equals(propertyClass)) return "thing_property";
 		return null;
 	}
 }

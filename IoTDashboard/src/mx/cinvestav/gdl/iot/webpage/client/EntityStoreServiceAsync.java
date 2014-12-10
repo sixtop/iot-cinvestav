@@ -17,7 +17,12 @@ public interface EntityStoreServiceAsync
 	public <T extends IoTEntityDTO> void getEntity(T entityDTO, Integer id,
 			AsyncCallback<List<T>> callback);
 
-	public <T extends IoTPropertyDTO> void getProperties(T entityClass, Integer id,
+	public <T extends IoTPropertyDTO> void getProperties(T propertyClass, Integer id,
 			AsyncCallback<List<T>> callback);
 
+	public <T extends IoTPropertyDTO> void deleteProperty(T propertyClass, Integer id,
+			AsyncCallback<Void> callback);
+
+	public <T extends IoTEntityDTO> void deleteEntity(T entityDTO, Integer id,
+			AsyncCallback<Void> callback);
 }

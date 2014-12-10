@@ -18,6 +18,11 @@ public interface EntityStoreService extends RemoteService
 	public List<IoTEntityDTO> getEntity(IoTEntityDTO entityDTO, Integer id)
 			throws DatabaseException;
 
-	public List<IoTPropertyDTO> getProperties(IoTPropertyDTO entityClass, Integer id)
+	public List<IoTPropertyDTO> getProperties(IoTPropertyDTO propertyClass, Integer id)
 			throws DatabaseException;
+	
+	public void deleteProperty(IoTPropertyDTO propertyClass, Integer id)
+			throws DatabaseException;
+	
+	public void deleteEntity(IoTEntityDTO entityDTO, Integer id) throws DatabaseException;
 }
