@@ -1,78 +1,227 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
+import java.util.Comparator;
+import java.util.List;
+
+import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.SmartThingPropertyDTO;
+
+import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.IdentityColumn;
+import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.ListDataProvider;
 
 public class EpWPSmartThing implements EntryPoint {
 
+	private int index;
+	
 	private FormPanel form = new FormPanel();
 	private VerticalPanel formPanel = new VerticalPanel();
 	
-	private Button btAddSmartThing = new Button("Add SmartThing");
+	private Button btAddSmartThingDTO = new Button("Add SmartThing");
 	
-	private FlexTable tableSmartThing = new FlexTable();
-	private HorizontalPanel buttonsPanel = new HorizontalPanel();
+	private CellTable<SmartThingDTO> tableSmartThingDTO = new CellTable<SmartThingDTO>();
+	private ListDataProvider<SmartThingDTO> dataProvider = new ListDataProvider<SmartThingDTO>();
+	private List<SmartThingDTO> list;
+
+	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
+	private List<SmartThingDTO> SMARTTHINGS;
 	
+	private DialogBox dialogBox = new DialogBox();
+	private Label lbDialogBox=new Label();
+	private Button btYes = new Button("Yes");
+	private Button btNo = new Button("No");
+	private VerticalPanel dialogPanel=new VerticalPanel();
 	@Override
 	public void onModuleLoad() {
 		
-		tableSmartThing.setText(0, 0, "ID");
-		tableSmartThing.setText(0, 1, "Name");
-		tableSmartThing.setText(0, 2, "Description");
+		entityService.getEntity(new SmartThingDTO(), null, new AsyncCallback<List<SmartThingDTO>>()
+				{
+
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						// TODO Auto-generated method stub
+					}
+
+					@Override
+					public void onSuccess(List<SmartThingDTO> result)
+					{
+						SMARTTHINGS=result;
+					
+			  		    dataProvider.addDataDisplay(tableSmartThingDTO);
+			  		  
+			  	        list = dataProvider.getList();
+			  		    for (SmartThingDTO c : SMARTTHINGS) {
+			  		      list.add(c);
+			  		    }
+
+						
+					}
+				});				
 		
-		tableSmartThing.getCellFormatter().addStyleName(0, 0, "headerTableProperty");
-		tableSmartThing.getCellFormatter().addStyleName(0, 1, "headerTableProperty");
-		tableSmartThing.getCellFormatter().addStyleName(0, 2, "headerTableProperty");
+		entityService.getProperties(new SmartThingPropertyDTO(), 0, new AsyncCallback<List<SmartThingPropertyDTO>>()
+		{
+
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				//Window.alert("Property fail!");
+			}
+
+			@Override
+			public void onSuccess(List<SmartThingPropertyDTO> result)
+			{
+				//Window.alert("Property sucess!" + result.size());
+			}
+		});
 		
-		tableSmartThing.addStyleName("tableProperty");
-		tableSmartThing.setCellPadding(3);
-		
-		formPanel.add(btAddSmartThing);
-	    formPanel.add(tableSmartThing);
-	  
-	    form.setWidget(formPanel);
+	   TextColumn<SmartThingDTO> idColumn = new TextColumn<SmartThingDTO>() {
+	      @Override
+	      public String getValue(SmartThingDTO c) {
+	        return c.getId()+"";
+	      }
+	    };
+	    idColumn.setSortable(true);
 	    
-	    DecoratorPanel decoratorPanel = new DecoratorPanel();
-	    decoratorPanel.add(form);
+	   
+	    TextColumn<SmartThingDTO> nameColumn = new TextColumn<SmartThingDTO>() {
+	      @Override
+	      public String getValue(SmartThingDTO c) {
+	        return c.getName();
+	      }
+	    };
+	    nameColumn.setSortable(true);
+
+	    TextColumn<SmartThingDTO> descriptionColumn = new TextColumn<SmartThingDTO>() {
+		      @Override
+		      public String getValue(SmartThingDTO c) {
+		        return c.getDescription();
+		      }
+		    };
+		    
+	   
+	       ActionCell<SmartThingDTO> editAction = new ActionCell<SmartThingDTO>("Edit", new ActionCell.Delegate<SmartThingDTO>() {
+	            public void execute(SmartThingDTO c){
+	            	Window.Location.replace("addSmartThing.jsp?idSmartThing="+c.getId());
+	            }
+	        });
+
+	        Column<SmartThingDTO, ActionCell<SmartThingDTO>> editColumn = (new IdentityColumn(editAction));
+	        
+	        ActionCell<SmartThingDTO> deleteAction = new ActionCell<SmartThingDTO>("Delete", new ActionCell.Delegate<SmartThingDTO>() {
+	            public void execute(SmartThingDTO c){
+	            	index=c.getId();
+	            	
+	            	dialogBox.setAnimationEnabled(true);
+					dialogBox.setGlassEnabled(true);
+				    dialogBox.center();
+
+				    dialogBox.setText("Warning");
+
+				    lbDialogBox.setText("Are you sure to delete the SmartThing? ");
+				    dialogPanel.add(lbDialogBox);
+				    dialogPanel.setCellHorizontalAlignment(lbDialogBox, HasHorizontalAlignment.ALIGN_CENTER);
+
+				    HorizontalPanel buttonPanel=new HorizontalPanel();
+				    buttonPanel.add(btYes);
+				    buttonPanel.add(btNo);
+				    
+				    dialogPanel.add(buttonPanel);
+				    dialogPanel.setCellHorizontalAlignment(buttonPanel, HasHorizontalAlignment.ALIGN_CENTER);
+				    
+				    dialogBox.add(dialogPanel);
+				    
+				    dialogBox.show();
+				    
+	            }
+	        });
+
+	        Column<SmartThingDTO, ActionCell<SmartThingDTO>> deleteColumn = (new IdentityColumn(deleteAction));
+	
+  		     tableSmartThingDTO.addColumn(idColumn, "ID");
+  			 tableSmartThingDTO.addColumn(nameColumn, "Name");
+  			 tableSmartThingDTO.addColumn(descriptionColumn, "Description");
+  			
+  		    ListHandler<SmartThingDTO> sortHandler = new ListHandler<SmartThingDTO>(dataProvider.getList());
+  		    tableSmartThingDTO.addColumnSortHandler(sortHandler);
+  		
+  		  sortHandler.setComparator(idColumn,new Comparator<SmartThingDTO>() {
+  			  @Override
+  		          public int compare(SmartThingDTO o1, SmartThingDTO o2) {
+  		              return o1.getId()-o2.getId();
+  		          }
+  		        });
+	
+ 		    tableSmartThingDTO.getColumnSortList().push(idColumn);
+  		
+  		sortHandler.setComparator(nameColumn,new Comparator<SmartThingDTO>() {
+  			@Override
+  		          public int compare(SmartThingDTO o1, SmartThingDTO o2) {
+  		              return  o1.getName().compareTo(o2.getName());
+  		          }
+  		        });
+  	
+		  SimplePager pager = new SimplePager(TextLocation.CENTER, true, true);
+		  pager.setDisplay(tableSmartThingDTO);
+		  pager.setPageSize(10);  
+		    
+		    formPanel.add(btAddSmartThingDTO);
+		    formPanel.add(tableSmartThingDTO);
+		    formPanel.setCellHorizontalAlignment(tableSmartThingDTO, HasHorizontalAlignment.ALIGN_CENTER);
+		    formPanel.add(pager);
+		    formPanel.setCellHorizontalAlignment(pager, HasHorizontalAlignment.ALIGN_CENTER);
+		    
+		    form.add(formPanel);
+		    
+		    DecoratorPanel decoratorPanel = new DecoratorPanel();
+		    decoratorPanel.add(form);
+		    
+		    RootPanel.get("formContainer").add(decoratorPanel);
+		    
 	    
-	    RootPanel.get("formContainer").add(decoratorPanel);
-	    
-	    btAddSmartThing.addClickHandler(new ClickHandler() {
+		    	btAddSmartThingDTO.addClickHandler(new ClickHandler() {
 	              public void onClick(ClickEvent event) {
 	                Window.Location.replace("addSmartThing.jsp");
 	              }
 	            });
-	    
-	    /////////////////////////////////////////// 
+		    	
+		    	btYes.addClickHandler(new ClickHandler() {
+		              public void onClick(ClickEvent event) {
+		            	Window.alert("SE ELIMINA "+index);
+		          //      Window.Location.replace("wpSmartThings.jsp?idSmartThing="+);
+		            	  dialogBox.hide();
+		              }
+		            });
+		    
+		    btNo.addClickHandler(new ClickHandler() {
+	            public void onClick(ClickEvent event) {
+	              dialogBox.hide();
+	            }
+	          });
 	    
 	   
-	    Button btEditSmartThing = new Button("Edit");
-	    Button btDeleteSmartThing = new Button("Delete");
-	    
-	    buttonsPanel.add(btEditSmartThing);
-	    buttonsPanel.add(btDeleteSmartThing);
-	    btEditSmartThing.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-              
-            }
-          });
-	    
-	    
-	    btDeleteSmartThing.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-              
-            }
-          });
-
-	    
 	}
+	
 }
