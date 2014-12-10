@@ -7,7 +7,6 @@
 <link type="text/css" rel="stylesheet" href="css/IoTDashboard.css">
 <script type="text/javascript" language="javascript"
 	src="MEpWPData/MEpWPData.nocache.js"></script>
-
 <title>SmartCity</title>
 </head>
 <body>
@@ -25,5 +24,4 @@
 	<jsp:include page="footer.jsp" />
 </body>
 </html>
-
 
