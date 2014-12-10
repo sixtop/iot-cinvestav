@@ -35,7 +35,6 @@ import com.google.gwt.view.client.ListDataProvider;
 public class EpWPSensor implements EntryPoint {
 	private int index;
 	
-	private FormPanel form = new FormPanel();
 	private VerticalPanel formPanel = new VerticalPanel();
 	
 	private Button btAddSensorDTO = new Button("Add Sensor");
@@ -80,22 +79,7 @@ public class EpWPSensor implements EntryPoint {
 					}
 				});				
 		
-		entityService.getProperties(new SensorPropertyDTO(), 0, new AsyncCallback<List<SensorPropertyDTO>>()
-		{
-
-			@Override
-			public void onFailure(Throwable caught)
-			{
-				//Window.alert("Property fail!");
-			}
-
-			@Override
-			public void onSuccess(List<SensorPropertyDTO> result)
-			{
-				//Window.alert("Property sucess!" + result.size());
-			}
-		});
-		
+			
 	   TextColumn<SensorDTO> idColumn = new TextColumn<SensorDTO>() {
 	      @Override
 	      public String getValue(SensorDTO c) {
@@ -276,12 +260,8 @@ public class EpWPSensor implements EntryPoint {
 		    formPanel.add(pager);
 		    formPanel.setCellHorizontalAlignment(pager, HasHorizontalAlignment.ALIGN_CENTER);
 		    
-		    form.add(formPanel);
-		    
-		    DecoratorPanel decoratorPanel = new DecoratorPanel();
-		    decoratorPanel.add(form);
-		    
-		    RootPanel.get("formContainer").add(decoratorPanel);
+		  
+		    RootPanel.get("formContainer").add(formPanel);
 		    
 	    
 		    	btAddSensorDTO.addClickHandler(new ClickHandler() {

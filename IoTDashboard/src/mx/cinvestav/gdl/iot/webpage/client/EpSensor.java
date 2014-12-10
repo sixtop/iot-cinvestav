@@ -57,7 +57,6 @@ public class EpSensor implements EntryPoint {
 	private TextBox value = new TextBox();
 	private CheckBox active = new CheckBox();
 
-	private FormPanel form = new FormPanel();
 	private VerticalPanel formPanel = new VerticalPanel();
 
 	private Button btSaveSensor = new Button("Save Sensor");
@@ -118,11 +117,12 @@ public class EpSensor implements EntryPoint {
 		tableFields.setText(10, 0, "SmartThing: ");
 		tableFields.setWidget(10, 1, lbSmartThing);
 		
-		tableProperty.setText(0, 0, "Name");
-		tableProperty.setText(0, 1, "Value");
-		tableProperty.setText(0, 2, "Active");
-		tableProperty.setText(0, 3, "       ");
-
+		tableProperty.setText(0, 0, "ID");
+		tableProperty.setText(0, 1, "Name");
+		tableProperty.setText(0, 2, "Value");
+		tableProperty.setText(0, 3, "Active");
+		tableProperty.setText(0, 4, "    ");
+	
 		tableProperty.getCellFormatter().addStyleName(0, 0,
 				"headerTableProperty");
 		tableProperty.getCellFormatter().addStyleName(0, 1,
@@ -131,7 +131,8 @@ public class EpSensor implements EntryPoint {
 				"headerTableProperty");
 		tableProperty.getCellFormatter().addStyleName(0, 3,
 				"headerTableProperty");
-
+		tableProperty.getCellFormatter().addStyleName(0, 4,
+				"headerTableProperty");
 		
 		tableProperty.addStyleName("tableProperty");
 		tableProperty.setCellPadding(3);
@@ -143,6 +144,16 @@ public class EpSensor implements EntryPoint {
 		propertyPanel.add(btAddProperty);
 		propertyPanel.add(tableProperty);
 
+		listIdProperty.setVisible(false);
+ 		listNameProperty.setVisible(false);
+ 		listValueProperty.setVisible(false);
+ 		listActiveProperty.setVisible(false);
+		formPanel.add(listIdProperty);
+ 		formPanel.add(listNameProperty);
+ 		formPanel.add(listValueProperty);
+ 		formPanel.add(listActiveProperty);
+ 		
+ 		
 		formPanel.add(tableFields);
 		formPanel.add(propertyPanel);
 		
@@ -153,15 +164,9 @@ public class EpSensor implements EntryPoint {
 		buttonsPanel.add(btCancelSensor);
 
 		formPanel.add(buttonsPanel);
-		formPanel.add(listNameProperty);
-		formPanel.add(listValueProperty);
-		formPanel.add(listActiveProperty);
+		
 
-		form.setWidget(formPanel);
-		DecoratorPanel decoratorPanel = new DecoratorPanel();
-		decoratorPanel.add(form);
-
-		RootPanel.get("formContainer").add(decoratorPanel);
+		RootPanel.get("formContainer").add(formPanel);
 
 		dialogBox.add(btClose);
 
@@ -213,7 +218,13 @@ public class EpSensor implements EntryPoint {
 			public void onClick(ClickEvent event) {
 
 				SensorDTO c = new SensorDTO();
-				c.setId(Integer.parseInt(idSensor));
+				
+				if(idSensor != null){
+					c.setId(Integer.parseInt(idSensor));
+				}
+				
+				
+				
 				c.setName(tbName.getText());
 				c.setDescription(tbDescription.getText());
 				c.setAltitude(Double.parseDouble(tbAltitude.getText()));
@@ -456,14 +467,18 @@ public class EpSensor implements EntryPoint {
 	}
 
 	private void addProperty() {
-		int row = tableProperty.getRowCount();
+	int row = tableProperty.getRowCount();
 		
 		tableProperty.setText(row,0," ");
 		tableProperty.setWidget(row, 1, name);
 		tableProperty.setWidget(row, 2, value);
 		tableProperty.setWidget(row, 3, active);
-		tableProperty.setWidget(row, 4, saveProperty);
-		tableProperty.setWidget(row, 5, cancelProperty);
+		
+		HorizontalPanel buttonPanel=new HorizontalPanel();
+		buttonPanel.add(saveProperty);
+		buttonPanel.add(cancelProperty);
+		
+		tableProperty.setWidget(row, 4, buttonPanel);
 	}
 
 	private void saveProperty() {
@@ -555,6 +570,7 @@ public class EpSensor implements EntryPoint {
 				property.remove(removedIndex);
 				tableProperty.removeRow(removedIndex + 1);
 
+				listIdProperty.removeItem(removedIndex);
 				listNameProperty.removeItem(removedIndex);
 				listValueProperty.removeItem(removedIndex);
 				listActiveProperty.removeItem(removedIndex);
