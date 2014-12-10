@@ -17,7 +17,7 @@ public class SmartThingDTO implements IoTEntityDTO
 
 	private Map<Integer, SmartThingPropertyDTO> properties;
 
-	private int idcontroller;
+	private Integer idcontroller;
 
 	public int getId()
 	{
@@ -79,12 +79,12 @@ public class SmartThingDTO implements IoTEntityDTO
 		this.properties = properties;
 	}
 
-	public int getIdcontroller()
+	public Integer getIdcontroller()
 	{
 		return idcontroller;
 	}
 
-	public void setIdcontroller(int idcontroller)
+	public void setIdcontroller(Integer idcontroller)
 	{
 		this.idcontroller = idcontroller;
 	}

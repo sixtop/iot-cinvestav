@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public interface IoTPropertyDTO extends Serializable
 {
-	public int getParentId();
-	public void setParentId(int idparent);
+	public Integer getParentId();
+	public void setParentId(Integer idparent);
 	public void setId(int id);
 	public void setName(String name);
 	public void setValue(String value);

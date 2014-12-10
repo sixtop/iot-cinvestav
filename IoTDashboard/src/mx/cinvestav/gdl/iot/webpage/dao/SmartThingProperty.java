@@ -19,7 +19,7 @@ public class SmartThingProperty implements IoTProperty
 	private String value;
 	@Column(name = "isactive")
 	private boolean active;
-	private int idthing;
+	private Integer idthing;
 
 	public int getId()
 	{
@@ -62,13 +62,13 @@ public class SmartThingProperty implements IoTProperty
 	}
 
 	@Override
-	public int getParentId()
+	public Integer getParentId()
 	{
 		return idthing;
 	}
 
 	@Override
-	public void setParentId(int idparent)
+	public void setParentId(Integer idparent)
 	{
 		this.idthing = idparent;
 	}

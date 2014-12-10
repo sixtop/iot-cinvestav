@@ -7,7 +7,7 @@ public class SensorPropertyDTO implements IoTPropertyDTO
 	private String name;
 	private String value;
 	private boolean active;
-	private int idsensor;
+	private Integer idsensor;
 
 	public int getId()
 	{
@@ -49,12 +49,12 @@ public class SensorPropertyDTO implements IoTPropertyDTO
 		this.active = active;
 	}
 
-	public int getParentId()
+	public Integer getParentId()
 	{
 		return idsensor;
 	}
 
-	public void setParentId(int parentId)
+	public void setParentId(Integer parentId)
 	{
 		this.idsensor = parentId;
 	}
