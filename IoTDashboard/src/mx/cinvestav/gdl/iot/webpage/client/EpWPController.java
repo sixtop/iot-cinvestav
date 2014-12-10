@@ -226,8 +226,9 @@ public class EpWPController implements EntryPoint {
 							}
 						});
 		            	Window.alert("SE ELIMINA "+index);
-		          //      Window.Location.replace("wpControllers.jsp");
-		            	  dialogBox.hide();
+		            	dialogBox.hide();
+		            	Window.Location.reload();
+		            	
 		              }
 		            });
 		    

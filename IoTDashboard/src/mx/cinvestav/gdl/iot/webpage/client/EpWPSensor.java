@@ -3,6 +3,7 @@ package mx.cinvestav.gdl.iot.webpage.client;
 import java.util.Comparator;
 import java.util.List;
 
+import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorPropertyDTO;
 
@@ -271,13 +272,30 @@ public class EpWPSensor implements EntryPoint {
 	            });
 		    	
 		    	btYes.addClickHandler(new ClickHandler() {
-		              public void onClick(ClickEvent event) {
+		    		 public void onClick(ClickEvent event) {
+		            	  entityService.deleteEntity(new SensorDTO(), index, new AsyncCallback<Void>()
+						{
+
+							@Override
+							public void onFailure(Throwable caught)
+							{
+								Window.alert("no deletion!" + caught.getMessage());
+								
+							}
+
+							@Override
+							public void onSuccess(Void result)
+							{
+								Window.alert("Deletion ok");								
+							}
+						});
 		            	Window.alert("SE ELIMINA "+index);
-		          //      Window.Location.replace("wpSensors.jsp?idSensor="+);
-		            	  dialogBox.hide();
+		            	dialogBox.hide();
+		            	Window.Location.reload();
+		            	
 		              }
 		            });
-		    
+
 		    btNo.addClickHandler(new ClickHandler() {
 	            public void onClick(ClickEvent event) {
 	              dialogBox.hide();

@@ -3,6 +3,7 @@ package mx.cinvestav.gdl.iot.webpage.client;
 import java.util.Comparator;
 import java.util.List;
 
+import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingPropertyDTO;
 
@@ -147,7 +148,10 @@ public class EpWPSmartThing implements EntryPoint {
   		     tableSmartThingDTO.addColumn(idColumn, "ID");
   			 tableSmartThingDTO.addColumn(nameColumn, "Name");
   			 tableSmartThingDTO.addColumn(descriptionColumn, "Description");
+  			 tableSmartThingDTO.addColumn(editColumn,"Edit");
+  			 tableSmartThingDTO.addColumn(deleteColumn,"Delete");
   			
+  			 
   		    ListHandler<SmartThingDTO> sortHandler = new ListHandler<SmartThingDTO>(dataProvider.getList());
   		    tableSmartThingDTO.addColumnSortHandler(sortHandler);
   		
@@ -188,10 +192,27 @@ public class EpWPSmartThing implements EntryPoint {
 	            });
 		    	
 		    	btYes.addClickHandler(new ClickHandler() {
-		              public void onClick(ClickEvent event) {
+		    		 public void onClick(ClickEvent event) {
+		            	  entityService.deleteEntity(new SmartThingDTO(), index, new AsyncCallback<Void>()
+						{
+
+							@Override
+							public void onFailure(Throwable caught)
+							{
+								Window.alert("no deletion!" + caught.getMessage());
+								
+							}
+
+							@Override
+							public void onSuccess(Void result)
+							{
+								Window.alert("Deletion ok");								
+							}
+						});
 		            	Window.alert("SE ELIMINA "+index);
-		          //      Window.Location.replace("wpSmartThings.jsp?idSmartThing="+);
-		            	  dialogBox.hide();
+		            	dialogBox.hide();
+		                Window.Location.reload();
+		            	
 		              }
 		            });
 		    

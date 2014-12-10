@@ -4,6 +4,7 @@ import java.util.List;
 
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -41,6 +42,7 @@ public class EpWPData implements EntryPoint {
 	
 	private Button btGenerate = new Button("Generate");
 	private List<ControllerDTO> CONTROLLERS;
+	private List<SmartThingDTO> SMARTTHINGS;
 	private List<SensorDTO> SENSORS;
 	
 	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
@@ -61,7 +63,9 @@ public class EpWPData implements EntryPoint {
 					public void onSuccess(List<ControllerDTO> result)
 					{
 						CONTROLLERS=result;
-					
+						lbController.addItem("Select...");
+			  		    lbIdController.addItem("-");
+			  		      
 			  		    for (ControllerDTO c : CONTROLLERS) {
 			  		      lbController.addItem(c.getName());
 			  		      lbIdController.addItem(c.getId()+"");
@@ -74,14 +78,21 @@ public class EpWPData implements EntryPoint {
 		tableData.setText(0,0,"Controller: ");
 		tableData.setWidget(0,1,lbController);
 		
-		tableData.setText(1,0,"Sensor: ");
-		tableData.setWidget(1,1,lbSensor);
+		tableData.setText(1,0,"SmartThing: ");
+		tableData.setWidget(1,1,lbSmartThing);
 		
-		tableData.setText(2,0,"From: ");
-		tableData.setWidget(2,1,dbFrom);
 		
-		tableData.setText(3,0,"To: ");
-		tableData.setWidget(3,1,dbTo);
+		tableData.setText(2,0,"Sensor: ");
+		tableData.setWidget(2,1,lbSensor);
+		
+		tableData.setText(3,0,"From date: ");
+		tableData.setWidget(3,1,dbFrom);
+		
+		tableData.setText(4,0,"To date: ");
+		tableData.setWidget(4,1,dbTo);
+		
+		lbSmartThing.setEnabled(false);
+		lbSensor.setEnabled(false);
 		
 		formPanel.add(tableData);
 		formPanel.add(btGenerate);
@@ -99,11 +110,85 @@ public class EpWPData implements EntryPoint {
 			@Override
 			public void onChange(ChangeEvent event) {
 				
+				
+				final int idController=Integer.parseInt(lbIdController.getValue(lbController.getSelectedIndex()));
+				
+				Window.alert("Controller" + idController);
+				
+				
+				entityService.getEntity(new SmartThingDTO(), null, new AsyncCallback<List<SmartThingDTO>>()
+						{
+
+							@Override
+							public void onFailure(Throwable caught)
+							{
+								// TODO Auto-generated method stub
+							}
+
+							@Override
+							public void onSuccess(List<SmartThingDTO> result)
+							{
+								SMARTTHINGS=result;
+							
+								lbSmartThing.addItem("Select...");
+					  		    lbIdSmartThing.addItem("-");
+					  		    
+					  		  lbSmartThing.setEnabled(true);
+					  		
+								for (SmartThingDTO c : SMARTTHINGS) {
+									if(c.getIdcontroller()==idController){
+						  		      	lbSmartThing.addItem(c.getName());
+						  		      	lbIdSmartThing.addItem(c.getId()+"");
+						  		      }
+						  		  }
+
+							}
+						});				
+				
 			
 				
 			}
 		});
 	  
+	    
+	    lbSmartThing.addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				
+				final int idSmartThing=Integer.parseInt(lbIdSmartThing.getValue(lbSmartThing.getSelectedIndex()));
+				
+				Window.alert("idSmart" + idSmartThing);
+				
+				entityService.getEntity(new SensorDTO(), null, new AsyncCallback<List<SensorDTO>>()
+						{
+
+							@Override
+							public void onFailure(Throwable caught)
+							{
+								// TODO Auto-generated method stub
+							}
+
+							@Override
+							public void onSuccess(List<SensorDTO> result)
+							{
+								SENSORS=result;
+							
+								lbSensor.addItem("Select...");
+					  		    lbIdSensor.addItem("-");
+					  		    lbSensor.setEnabled(true);
+					  		    
+								for (SensorDTO c : SENSORS) {
+									if(c.getIdthing()==idSmartThing){
+						  		      	lbSensor.addItem(c.getName());
+						  		      	lbIdSensor.addItem(c.getId()+"");
+						  		      }
+						  		  }
+							}
+						});				
+					
+			}
+		});
+	    
 	  
 	    btGenerate.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
