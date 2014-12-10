@@ -48,8 +48,7 @@ public class EpController implements EntryPoint {
 	private ListBox listNameProperty = new ListBox(true);
 	private ListBox listValueProperty = new ListBox(true);
 	private ListBox listActiveProperty = new ListBox(true);
-	
-	
+		
 	private TextBox name = new TextBox();
 	private TextBox value = new TextBox();
 	private CheckBox active = new CheckBox();
@@ -193,7 +192,7 @@ public class EpController implements EntryPoint {
 					props.add(prop);
 				}
 
-				
+
 				entityService.storeEntity(c, props, new AsyncCallback<Void>() {
 					@Override
 					public void onSuccess(Void result) {
@@ -584,13 +583,7 @@ public class EpController implements EntryPoint {
 		buttonsPanel.add(removeProperty);
 		
 		tableProperty.setWidget(row, 4,buttonsPanel);
-		
-		
-		
-		
 	}
-
-	
 	
 }
 
