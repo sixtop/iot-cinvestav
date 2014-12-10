@@ -241,18 +241,13 @@ public class DAO
 			em = getEntityManager();
 			tx = em.getTransaction();
 			tx.begin();
-
-			//delete all properties associated
-			Query query = em.createQuery("delete from :table WHERE :parent = :id");
-			query.setParameter("table", getTableName(EntityClass))
-					.setParameter("parent", getParentRowName(EntityClass)).setParameter("id", id);
-			query.executeUpdate();
-
+			T prop = em.find(EntityClass, id);
+			em.remove(prop);
 			tx.commit();
 		}
 		catch (Exception e)
 		{
-			if (tx != null)
+			if (tx != null && tx.isActive())
 			{
 				tx.rollback();
 			}
@@ -276,14 +271,6 @@ public class DAO
 		if (Controller.class.equals(propertyClass)) return "idcontroller";
 		if (Sensor.class.equals(propertyClass)) return "idsensor";
 		if (SmartThing.class.equals(propertyClass)) return "idthing";
-		return null;
-	}
-
-	private static String getTableName(Class<?> propertyClass)
-	{
-		if (Controller.class.equals(propertyClass)) return "con_property";
-		if (Sensor.class.equals(propertyClass)) return "sensor_property";
-		if (SmartThing.class.equals(propertyClass)) return "thing_property";
 		return null;
 	}
 }

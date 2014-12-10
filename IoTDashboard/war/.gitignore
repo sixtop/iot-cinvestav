@@ -13,3 +13,5 @@
 !/MEpSmartThing/MEpSmartThing.nocache.js
 /MEpWPSmartThing/*
 !/MEpWPSmartThing/MEpWPSmartThing.nocache.js
+/MLogin/*
+!/MLogin/MLogin.nocache.js
