@@ -19,7 +19,7 @@ public class ControllerProperty implements IoTProperty
 	private String value;
 	@Column(name = "isactive")
 	private boolean active;
-	private int idcontroller;
+	private Integer idcontroller;
 
 	public int getId()
 	{
@@ -61,12 +61,12 @@ public class ControllerProperty implements IoTProperty
 		this.active = active;
 	}
 
-	public int getParentId()
+	public Integer getParentId()
 	{
 		return idcontroller;
 	}
 
-	public void setParentId(int idparent)
+	public void setParentId(Integer idparent)
 	{
 		this.idcontroller = idparent;
 	}

@@ -19,7 +19,7 @@ public class SensorProperty implements IoTProperty
 	private String value;
 	@Column(name = "isactive")
 	private boolean active;
-	private int idsensor;
+	private Integer idsensor;
 
 	public int getId()
 	{
@@ -61,12 +61,12 @@ public class SensorProperty implements IoTProperty
 		this.active = active;
 	}
 
-	public int getParentId()
+	public Integer getParentId()
 	{
 		return idsensor;
 	}
 
-	public void setParentId(int parentId)
+	public void setParentId(Integer parentId)
 	{
 		this.idsensor = parentId;
 	}

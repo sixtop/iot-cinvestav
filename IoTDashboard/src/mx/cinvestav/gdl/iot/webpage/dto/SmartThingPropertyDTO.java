@@ -8,7 +8,7 @@ public class SmartThingPropertyDTO implements IoTPropertyDTO
 	private String name;
 	private String value;
 	private boolean active;
-	private int idthing;
+	private Integer idthing;
 
 	public int getId()
 	{
@@ -50,12 +50,12 @@ public class SmartThingPropertyDTO implements IoTPropertyDTO
 		this.active = active;
 	}
 
-	public int getParentId()
+	public Integer getParentId()
 	{
 		return idthing;
 	}
 
-	public void setParentId(int idparent)
+	public void setParentId(Integer idparent)
 	{
 		this.idthing = idparent;
 	}

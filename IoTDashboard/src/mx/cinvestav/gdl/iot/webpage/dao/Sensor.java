@@ -35,7 +35,7 @@ public class Sensor implements IoTEntity
 	private Map<Integer, Measure> measures;
 	@Transient
 	private Map<Integer, SensorProperty> properties;
-	private int idthing;
+	private Integer idthing;
 
 	public Sensor()
 	{
@@ -158,12 +158,12 @@ public class Sensor implements IoTEntity
 		this.properties = properties;
 	}
 
-	public int getIdthing()
+	public Integer getIdthing()
 	{
 		return idthing;
 	}
 
-	public void setIdthing(int idthing)
+	public void setIdthing(Integer idthing)
 	{
 		this.idthing = idthing;
 	}

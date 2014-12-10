@@ -17,7 +17,7 @@ public class SensorDTO implements IoTEntityDTO
 	private double altitude;
 	private Map<Integer, MeasureDTO> measures;
 	private Map<Integer, SensorPropertyDTO> properties;
-	private int idthing;
+	private Integer idthing;
 
 	public SensorDTO()
 	{
@@ -140,12 +140,12 @@ public class SensorDTO implements IoTEntityDTO
 		this.properties = properties;
 	}
 
-	public int getIdthing()
+	public Integer getIdthing()
 	{
 		return idthing;
 	}
 
-	public void setIdthing(int idthing)
+	public void setIdthing(Integer idthing)
 	{
 		this.idthing = idthing;
 	}

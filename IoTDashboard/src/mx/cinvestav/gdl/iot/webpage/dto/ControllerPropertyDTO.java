@@ -8,7 +8,7 @@ public class ControllerPropertyDTO implements IoTPropertyDTO
 	private String name;
 	private String value;
 	private boolean active;
-	private int idcontroller;
+	private Integer idcontroller;
 
 	public int getId()
 	{
@@ -50,12 +50,12 @@ public class ControllerPropertyDTO implements IoTPropertyDTO
 		this.active = active;
 	}
 
-	public int getParentId()
+	public Integer getParentId()
 	{
 		return idcontroller;
 	}
 
-	public void setParentId(int idparent)
+	public void setParentId(Integer idparent)
 	{
 		this.idcontroller = idparent;
 	}

@@ -9,8 +9,8 @@ public class MeasureDTO implements Serializable
 	private int id;
 	private String measure;
 	private Timestamp measure_date;
-	private int idsensor;
-	private int idthing;
+	private Integer idsensor;
+	private Integer idthing;
 
 	public int getId()
 	{
@@ -42,22 +42,22 @@ public class MeasureDTO implements Serializable
 		this.measure_date = measure_date;
 	}
 
-	public int getIdsensor()
+	public Integer getIdsensor()
 	{
 		return idsensor;
 	}
 
-	public void setIdsensor(int idsensor)
+	public void setIdsensor(Integer idsensor)
 	{
 		this.idsensor = idsensor;
 	}
 
-	public int getIdthing()
+	public Integer getIdthing()
 	{
 		return idthing;
 	}
 
-	public void setIdthing(int idthing)
+	public void setIdthing(Integer idthing)
 	{
 		this.idthing = idthing;
 	}

@@ -28,7 +28,7 @@ public class SmartThing implements IoTEntity
 	@Transient
 	private Map<Integer, SmartThingProperty> properties;
 
-	private int idcontroller;
+	private Integer idcontroller;
 
 	public int getId()
 	{
@@ -90,12 +90,12 @@ public class SmartThing implements IoTEntity
 		this.properties = properties;
 	}
 
-	public int getIdcontroller()
+	public Integer getIdcontroller()
 	{
 		return idcontroller;
 	}
 
-	public void setIdcontroller(int idcontroller)
+	public void setIdcontroller(Integer idcontroller)
 	{
 		this.idcontroller = idcontroller;
 	}
