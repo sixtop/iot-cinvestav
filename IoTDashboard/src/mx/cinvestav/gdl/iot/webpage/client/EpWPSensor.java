@@ -273,7 +273,7 @@ public class EpWPSensor implements EntryPoint {
 		    	
 		    	btYes.addClickHandler(new ClickHandler() {
 		    		 public void onClick(ClickEvent event) {
-		            	  entityService.deleteEntity(new SensorDTO(), index, new AsyncCallback<Void>()
+		            	entityService.deleteEntity(new SensorDTO(), index, new AsyncCallback<Void>()
 						{
 
 							@Override

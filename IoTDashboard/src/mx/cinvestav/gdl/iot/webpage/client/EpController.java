@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 
+
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
@@ -171,7 +172,10 @@ public class EpController implements EntryPoint {
 				if(idController != null){
 					c.setId(Integer.parseInt(idController));
 				}
-				
+				else{
+					//c.setId(null);
+				}
+			
 				c.setName(tbName.getText());
 				c.setDescription(tbDescription.getText());
 				c.setLocation(tbLocation.getText());
@@ -303,7 +307,28 @@ public class EpController implements EntryPoint {
 											   
 												removeProperty.addClickHandler(new ClickHandler() {
 													public void onClick(ClickEvent event) {
-														//TODO
+														int deleteP=Integer.parseInt(listIdProperty.getItemText(property.indexOf(id)));
+														
+														entityService.deleteProperty(new ControllerPropertyDTO(), deleteP, new AsyncCallback<Void>()
+																{
+
+																	@Override
+																	public void onFailure(Throwable caught)
+																	{
+																		Window.alert("no deletion!" + caught.getMessage());
+																		
+																	}
+
+																	@Override
+																	public void onSuccess(Void result)
+																	{
+																		Window.alert("Deletion ok");	
+
+																	}
+																});
+												            	Window.alert("SE ELIMINA "+deleteP);
+												            	dialogBox.hide();
+												            	Window.Location.reload();
 													}
 												});
 
@@ -482,6 +507,7 @@ public class EpController implements EntryPoint {
 		tableProperty.setText(row, 2, symbolv);
 		tableProperty.setWidget(row, 3, symbola);
 
+		listIdProperty.addItem("");
 		listNameProperty.addItem(symboln);
 		listValueProperty.addItem(symbolv);
 		listActiveProperty.addItem(symbola.getValue() + "");

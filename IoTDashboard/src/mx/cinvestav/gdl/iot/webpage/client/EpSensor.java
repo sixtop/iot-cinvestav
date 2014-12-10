@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.ControllerPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
@@ -373,9 +374,31 @@ public class EpSensor implements EntryPoint {
 											   
 												removeProperty.addClickHandler(new ClickHandler() {
 													public void onClick(ClickEvent event) {
-														//TODO
+														int deleteP=Integer.parseInt(listIdProperty.getItemText(property.indexOf(id)));
+														
+														entityService.deleteProperty(new SensorPropertyDTO(), deleteP, new AsyncCallback<Void>()
+																{
+
+																	@Override
+																	public void onFailure(Throwable caught)
+																	{
+																		Window.alert("no deletion!" + caught.getMessage());
+																		
+																	}
+
+																	@Override
+																	public void onSuccess(Void result)
+																	{
+																		Window.alert("Deletion ok");	
+
+																	}
+																});
+												            	Window.alert("SE ELIMINA "+deleteP);
+												            	dialogBox.hide();
+												            	Window.Location.reload();
 													}
 												});
+
 
 												editProperty.addClickHandler(new ClickHandler() {
 													public void onClick(ClickEvent event) {
