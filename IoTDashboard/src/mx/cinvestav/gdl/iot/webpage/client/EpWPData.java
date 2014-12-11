@@ -225,7 +225,7 @@ public class EpWPData implements EntryPoint {
 						
 						table.setWidget(0,1,getDashboardWidget());
 						table.setWidget(1,1,getLineChart());
-						table.setWidget(2,1,getNumberRangeFilter());
+						table.setWidget(3,1,getNumberRangeFilter());
 						
 						draw();
 					}

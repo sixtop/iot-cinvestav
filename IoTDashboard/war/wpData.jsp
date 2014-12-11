@@ -8,8 +8,6 @@
 <script type="text/javascript" language="javascript"
 	src="MEpWPData/MEpWPData.nocache.js"></script>
 	
-
-    
 <title>SmartCity</title>
 </head>
 <body>
