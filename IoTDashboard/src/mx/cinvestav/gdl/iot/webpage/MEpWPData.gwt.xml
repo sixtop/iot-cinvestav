@@ -10,6 +10,6 @@
 	<entry-point
 		class="mx.cinvestav.gdl.iot.webpage.client.EpWPData">
 	</entry-point>
-	
-	
+	 <inherits name="com.googlecode.gwt.charts.Charts"/> 
+	 <inherits name='com.google.gwt.visualization.Visualization'/>
 </module>
