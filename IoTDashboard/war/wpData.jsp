@@ -21,7 +21,8 @@
 		</div>
 		<div class="panel-body">
     			<div id="formContainer"></div>
-    			<p align="center" id="chart">
+    			<div align="center" id="chart"></div>
+    			
 		</div>
 	</div>
 		<jsp:include page="footer.jsp" />

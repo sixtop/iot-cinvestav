@@ -6,16 +6,24 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link type="text/css" rel="stylesheet" href="css/IoTDashboard.css">
 <script type="text/javascript" language="javascript"
-	src="MEpWPData/MEpWPData.nocache.js"></script>
+	src="MEpWPDatas/MEpWPDatas.nocache.js"></script>
 	
-
-    
+	
 <title>SmartCity</title>
 </head>
 <body>
+	<jsp:include page="header.jsp" />
 	
-<p align="center" id="chart">
-	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Statistics</h3>
+		</div>
+		<div class="panel-body">
+    			<div id="formContainer"></div>
+    			<p align="center" id="chart">
+    			
+		</div>
+	</div>
+		<jsp:include page="footer.jsp" />
 </body>
 </html>
-
