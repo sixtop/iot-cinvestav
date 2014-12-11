@@ -28,5 +28,5 @@ public interface EntityStoreService extends RemoteService
 	
 	public void deleteEntity(IoTEntityDTO entityDTO, Integer id) throws DatabaseException;
 	
-	public List<MeasureDTO> getData(Integer idsensor, Date startDate, Date endDate) throws DatabaseException;
+	public List<MeasureDTO> getSensorData(Integer idsensor, Date startDate, Date endDate) throws DatabaseException;
 }

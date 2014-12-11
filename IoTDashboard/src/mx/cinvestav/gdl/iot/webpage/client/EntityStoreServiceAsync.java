@@ -28,5 +28,5 @@ public interface EntityStoreServiceAsync
 	public <T extends IoTEntityDTO> void deleteEntity(T entityDTO, Integer id,
 			AsyncCallback<Void> callback);
 	
-	public void getData(Integer idsensor, Date startDate, Date endDate, AsyncCallback<List<MeasureDTO>> callback);
+	public void getSensorData(Integer idsensor, Date startDate, Date endDate, AsyncCallback<List<MeasureDTO>> callback);
 }

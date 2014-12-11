@@ -290,13 +290,12 @@ public class DAO
 		try
 		{
 			em = getEntityManager();
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ssss");//not thread-safe
-			TypedQuery<Measure> createQuery = em.createQuery("SELECT m FROM Measure "
-					+ "WHERE m.idsensor = ?1 and m.measure_date > ?2 and m.measure_date < ?3",
+			TypedQuery<Measure> createQuery = em.createQuery("SELECT m FROM Measure m"
+					+ " WHERE m.idsensor = ?1 and m.measure_date >= ?2 "/*and m.measure_date <= ?3"*/,
 					Measure.class);
 			createQuery.setParameter(1, idsensor);
-			createQuery.setParameter(2, format.format(startDate));
-			createQuery.setParameter(3, format.format(endDate));
+			createQuery.setParameter(2, startDate);
+//			createQuery.setParameter(3, endDate);
 			return createQuery.getResultList();
 		}
 		catch (Exception e)
