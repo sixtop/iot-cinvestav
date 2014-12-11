@@ -29,5 +29,8 @@
 		<class-a>mx.cinvestav.gdl.iot.webpage.dao.SmartThingProperty</class-a>
 		<class-b>mx.cinvestav.gdl.iot.webpage.dto.SmartThingPropertyDTO</class-b>
 	</mapping>
-
+	<mapping>
+		<class-a>mx.cinvestav.gdl.iot.webpage.dao.Measure</class-a>
+		<class-b>mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO</class-b>
+	</mapping>
 </mappings>

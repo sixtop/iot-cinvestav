@@ -1,10 +1,12 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import mx.cinvestav.gdl.iot.webpage.dto.IoTEntityDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -25,4 +27,6 @@ public interface EntityStoreService extends RemoteService
 			throws DatabaseException;
 	
 	public void deleteEntity(IoTEntityDTO entityDTO, Integer id) throws DatabaseException;
+	
+	public List<MeasureDTO> getData(Integer idsensor, Date startDate, Date endDate) throws DatabaseException;
 }

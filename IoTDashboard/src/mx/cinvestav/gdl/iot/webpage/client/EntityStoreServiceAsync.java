@@ -1,10 +1,12 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import mx.cinvestav.gdl.iot.webpage.dto.IoTEntityDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -25,4 +27,6 @@ public interface EntityStoreServiceAsync
 
 	public <T extends IoTEntityDTO> void deleteEntity(T entityDTO, Integer id,
 			AsyncCallback<Void> callback);
+	
+	public void getData(Integer idsensor, Date startDate, Date endDate, AsyncCallback<List<MeasureDTO>> callback);
 }
