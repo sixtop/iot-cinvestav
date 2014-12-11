@@ -6,7 +6,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link type="text/css" rel="stylesheet" href="css/IoTDashboard.css">
 <script type="text/javascript" language="javascript"
-	src="MEpWPData/MEpWPData.nocache.js"></script>
+	src="MEpWPDatas/MEpWPDatas.nocache.js"></script>
+	
 	
 <title>SmartCity</title>
 </head>
@@ -19,11 +20,10 @@
 		</div>
 		<div class="panel-body">
     			<div id="formContainer"></div>
-    			<div align="center" id="chart"></div>
+    			<p align="center" id="chart">
     			
 		</div>
 	</div>
 		<jsp:include page="footer.jsp" />
 </body>
 </html>
-

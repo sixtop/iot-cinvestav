@@ -130,14 +130,12 @@ public class EpSmartThing implements EntryPoint {
 		formPanel.add(tableFields);
 		formPanel.add(propertyPanel);
 		
-		btSaveSmartThing.addStyleName("btSave");
-		btCancelSmartThing.addStyleName("btSave");
-
 		buttonsPanel.add(btSaveSmartThing);
 		buttonsPanel.add(btCancelSmartThing);
-
 		formPanel.add(buttonsPanel);
-	
+		formPanel.setCellHorizontalAlignment(buttonsPanel,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+
 
 		RootPanel.get("formContainer").add(formPanel);
 
@@ -232,9 +230,20 @@ public class EpSmartThing implements EntryPoint {
 				for (int i = 0; i < listNameProperty.getItemCount(); i++) 
 				{
 					
-					IoTPropertyDTO prop = new SmartThingPropertyDTO();
-					prop.setParentId(c.getId());
-					prop.setId(Integer.parseInt(listIdProperty.getItemText(i)));
+					IoTPropertyDTO prop = new ControllerPropertyDTO();
+					if(idSmartThing != null)
+					{
+						prop.setParentId(c.getId());
+					}
+					String idProp = listIdProperty.getItemText(i);
+					if(!"".equals(idProp))
+					{
+						prop.setId(Integer.parseInt(idProp));
+					}
+					else
+					{
+						prop.setId(null);
+					}
 					prop.setName(listNameProperty.getItemText(i));
 					prop.setValue(listValueProperty.getItemText(i));
 					prop.setActive(Boolean.valueOf(listActiveProperty.getValue(i)));
@@ -539,17 +548,23 @@ public class EpSmartThing implements EntryPoint {
 		tableProperty.setText(row, 2, symbolv);
 		tableProperty.setWidget(row, 3, symbola);
 
+		listIdProperty.addItem("");
 		listNameProperty.addItem(symboln);
 		listValueProperty.addItem(symbolv);
 		listActiveProperty.addItem(symbola.getValue() + "");
 		property.add(symboln);
 		
 		final Button saveEditProperty = new Button("Save");
-		saveEditProperty.setEnabled(false);
 		final Button removeProperty = new Button("Remove");
 		final Button editProperty = new Button("Edit");
 		final Button cancelEditProperty = new Button("Cancel");
-		cancelEditProperty.setEnabled(false);
+		
+		
+		saveEditProperty.setVisible(false);
+		removeProperty.setVisible(true);
+		editProperty.setVisible(true);
+		cancelEditProperty.setVisible(false);
+		
 	   
 		removeProperty.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -566,8 +581,11 @@ public class EpSmartThing implements EntryPoint {
 
 		editProperty.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				saveEditProperty.setEnabled(true);
-				cancelEditProperty.setEnabled(true);
+				saveEditProperty.setVisible(true);
+				removeProperty.setVisible(false);
+				editProperty.setVisible(false);
+				cancelEditProperty.setVisible(true);
+				
 				
 				int editRow=property.indexOf(symboln);
 				name.setText(listNameProperty.getItemText(editRow));
@@ -589,9 +607,11 @@ public class EpSmartThing implements EntryPoint {
 		
 		saveEditProperty.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				saveEditProperty.setVisible(false);
+				removeProperty.setVisible(true);
+				editProperty.setVisible(true);
+				cancelEditProperty.setVisible(false);
 				
-				saveEditProperty.setEnabled(false);
-				cancelEditProperty.setEnabled(false);
 				
 				int editRow=property.indexOf(symboln);
 				
@@ -631,6 +651,7 @@ public class EpSmartThing implements EntryPoint {
 				value.setText("");
 				active.setValue(false);
 				
+				
 			}
 		});
 		
@@ -645,3 +666,5 @@ public class EpSmartThing implements EntryPoint {
 	}
 	
 }
+
+

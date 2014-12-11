@@ -171,10 +171,9 @@ public class EpController implements EntryPoint {
 				
 				if(idController != null)
 				{
-					Window.alert("idcontroller not null: '" + idController + "'");
 					c.setId(Integer.parseInt(idController));
-					Window.alert("idController parsed!");
 				}
+				
 				c.setName(tbName.getText());
 				c.setDescription(tbDescription.getText());
 				c.setLocation(tbLocation.getText());
@@ -307,11 +306,15 @@ public class EpController implements EntryPoint {
 												property.add(id);
 												
 												final Button saveEditProperty = new Button("Save");
-												saveEditProperty.setEnabled(false);
 												final Button removeProperty = new Button("Remove");
 												final Button editProperty = new Button("Edit");
 												final Button cancelEditProperty = new Button("Cancel");
-												cancelEditProperty.setEnabled(false);
+												
+												saveEditProperty.setVisible(false);
+												removeProperty.setVisible(true);
+												editProperty.setVisible(true);
+												cancelEditProperty.setVisible(false);
+												
 											   
 												removeProperty.addClickHandler(new ClickHandler() {
 													public void onClick(ClickEvent event) {
@@ -342,8 +345,12 @@ public class EpController implements EntryPoint {
 
 												editProperty.addClickHandler(new ClickHandler() {
 													public void onClick(ClickEvent event) {
-														saveEditProperty.setEnabled(true);
-														cancelEditProperty.setEnabled(true);
+														saveEditProperty.setVisible(true);
+														removeProperty.setVisible(false);
+														editProperty.setVisible(false);
+														cancelEditProperty.setVisible(true);
+														
+														
 														
 														int editRow=property.indexOf(id);
 														name.setText(listNameProperty.getItemText(editRow));
@@ -365,9 +372,11 @@ public class EpController implements EntryPoint {
 												
 												saveEditProperty.addClickHandler(new ClickHandler() {
 													public void onClick(ClickEvent event) {
+														saveEditProperty.setVisible(false);
+														removeProperty.setVisible(true);
+														editProperty.setVisible(true);
+														cancelEditProperty.setVisible(false);
 														
-														saveEditProperty.setEnabled(false);
-														cancelEditProperty.setEnabled(false);
 														
 														int editRow=property.indexOf(id);
 														
@@ -398,6 +407,11 @@ public class EpController implements EntryPoint {
 												
 												cancelEditProperty.addClickHandler(new ClickHandler() {
 													public void onClick(ClickEvent event) {
+														saveEditProperty.setVisible(false);
+														removeProperty.setVisible(true);
+														editProperty.setVisible(true);
+														cancelEditProperty.setVisible(false);
+														
 														int editRow=property.indexOf(id);
 														tableProperty.setText(editRow + 1, 1, name.getText());
 														tableProperty.setText(editRow + 1, 2, value.getText());
@@ -406,6 +420,8 @@ public class EpController implements EntryPoint {
 														name.setText("");
 														value.setText("");
 														active.setValue(false);
+														
+														
 														
 													}
 												});
@@ -522,11 +538,16 @@ public class EpController implements EntryPoint {
 		property.add(symboln);
 		
 		final Button saveEditProperty = new Button("Save");
-		saveEditProperty.setEnabled(false);
 		final Button removeProperty = new Button("Remove");
 		final Button editProperty = new Button("Edit");
 		final Button cancelEditProperty = new Button("Cancel");
-		cancelEditProperty.setEnabled(false);
+		
+		
+		saveEditProperty.setVisible(false);
+		removeProperty.setVisible(true);
+		editProperty.setVisible(true);
+		cancelEditProperty.setVisible(false);
+		
 	   
 		removeProperty.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -543,8 +564,11 @@ public class EpController implements EntryPoint {
 
 		editProperty.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				saveEditProperty.setEnabled(true);
-				cancelEditProperty.setEnabled(true);
+				saveEditProperty.setVisible(true);
+				removeProperty.setVisible(false);
+				editProperty.setVisible(false);
+				cancelEditProperty.setVisible(true);
+				
 				
 				int editRow=property.indexOf(symboln);
 				name.setText(listNameProperty.getItemText(editRow));
@@ -566,9 +590,11 @@ public class EpController implements EntryPoint {
 		
 		saveEditProperty.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				saveEditProperty.setVisible(false);
+				removeProperty.setVisible(true);
+				editProperty.setVisible(true);
+				cancelEditProperty.setVisible(false);
 				
-				saveEditProperty.setEnabled(false);
-				cancelEditProperty.setEnabled(false);
 				
 				int editRow=property.indexOf(symboln);
 				
@@ -607,6 +633,7 @@ public class EpController implements EntryPoint {
 				name.setText("");
 				value.setText("");
 				active.setValue(false);
+				
 				
 			}
 		});

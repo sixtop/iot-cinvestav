@@ -1,6 +1,5 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
-import java.sql.Date;
 import java.util.List;
 
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
@@ -17,39 +16,27 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
-import com.googlecode.gwt.charts.client.ChartType;
-import com.googlecode.gwt.charts.client.ChartWrapper;
 import com.googlecode.gwt.charts.client.ColumnType;
 import com.googlecode.gwt.charts.client.DataTable;
-import com.googlecode.gwt.charts.client.controls.Dashboard;
-import com.googlecode.gwt.charts.client.controls.filter.ChartRangeFilter;
-import com.googlecode.gwt.charts.client.controls.filter.ChartRangeFilterOptions;
-import com.googlecode.gwt.charts.client.controls.filter.ChartRangeFilterState;
-import com.googlecode.gwt.charts.client.controls.filter.ChartRangeFilterStateRange;
-import com.googlecode.gwt.charts.client.controls.filter.ChartRangeFilterUi;
+import com.googlecode.gwt.charts.client.corechart.LineChart;
 import com.googlecode.gwt.charts.client.corechart.LineChartOptions;
-import com.googlecode.gwt.charts.client.options.ChartArea;
-import com.googlecode.gwt.charts.client.options.Legend;
-import com.googlecode.gwt.charts.client.options.LegendPosition;
+import com.googlecode.gwt.charts.client.options.HAxis;
+import com.googlecode.gwt.charts.client.options.VAxis;
+import com.googlecode.gwt.charts.client.table.Table;
+import com.googlecode.gwt.charts.client.table.TableOptions;
 
+public class EpWPDatas implements EntryPoint {
+	private LineChart lineChart;
 
-public class EpWPData implements EntryPoint {
-	private DockLayoutPanel dp;
-	private Dashboard dashboard;
-	private ChartWrapper<LineChartOptions> lineChart;
-	private ChartRangeFilter numberRangeFilter;
-	private FlexTable table=new FlexTable();
-	 
-	 
 	private VerticalPanel formPanel = new VerticalPanel();
 
 	private FlexTable tableData = new FlexTable();
@@ -210,115 +197,83 @@ public class EpWPData implements EntryPoint {
 		});
 
 		btGenerate.addClickHandler(new ClickHandler() {
-			
 			public void onClick(ClickEvent event) {
-				
+
 				// Window.alert("GENERA Sensor"+lbIdSensor.getItemText(lbSensor.getSelectedIndex()));
 				Window.alert("GENERA Sensor");
 
-				ChartLoader chartLoader = new ChartLoader(ChartPackage.CONTROLS);
+				
+				ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
 				chartLoader.loadApi(new Runnable() {
-					
-					
 					@Override
 					public void run() {
+						DecoratorPanel chartPanel =new DecoratorPanel();
+						chartPanel.add(getLineChart());
+					
+						RootPanel.get("chart").add(chartPanel);
 						
-						table.setWidget(0,1,getDashboardWidget());
-						table.setWidget(1,1,getLineChart());
-						table.setWidget(3,1,getNumberRangeFilter());
-						
-						draw();
+						drawLineChart();
+
 					}
+
 				});
-				
-				table.setWidth("100%");
-				table.setHeight("90%");
-				RootPanel.get("chart").add(table);
 				
 			}
 		});
 
 	}
 
-
-	private Dashboard getDashboardWidget() {
-		if (dashboard == null) {
-			dashboard = new Dashboard();
-		}
-		return dashboard;
-	}
-
-	private ChartWrapper<LineChartOptions> getLineChart() {
+	private Widget getLineChart() {
 		if (lineChart == null) {
-			lineChart = new ChartWrapper<LineChartOptions>();
-			lineChart.setChartType(ChartType.LINE);
+			lineChart = new LineChart();
 		}
 		return lineChart;
 	}
+	
 
-	private ChartRangeFilter getNumberRangeFilter() {
-		if (numberRangeFilter == null) {
-			numberRangeFilter = new ChartRangeFilter();
-		}
-		return numberRangeFilter;
-	}
+	private void drawLineChart() {
+		String[] countries = new String[] { "Austria", "Bulgaria", "Denmark",
+				"Greece" };
+		int[] years = new int[] { 2003, 2004, 2005, 2006, 2007, 2008 };
+		int[][] values = new int[][] {
+				{ 1336060, 1538156, 1576579, 1600652, 1968113, 1901067 },
+				{ 400361, 366849, 440514, 434552, 393032, 517206 },
+				{ 1001582, 1119450, 993360, 1004163, 979198, 916965 },
+				{ 997974, 941795, 930593, 897127, 1080887, 1056036 } };
 
-	private void draw() {
-		// Set control options
-		ChartRangeFilterOptions chartRangeFilterOptions = ChartRangeFilterOptions.create();
-		chartRangeFilterOptions.setFilterColumnIndex(0); // Filter by the date axis
-		
-		LineChartOptions controlChartOptions = LineChartOptions.create();
-		controlChartOptions.setHeight(100);
-		
-		ChartArea chartArea = ChartArea.create();
-		chartArea.setWidth("90%");
-		chartArea.setHeight("90%");
-		controlChartOptions.setChartArea(chartArea);
-		
-		ChartRangeFilterUi chartRangeFilterUi = ChartRangeFilterUi.create();
-		chartRangeFilterUi.setChartType(ChartType.LINE);
-		chartRangeFilterUi.setChartOptions(controlChartOptions);
-		chartRangeFilterUi.setMinRangeSize(2 * 24 * 60 * 60 * 1000); // 2 days in milliseconds
-		chartRangeFilterOptions.setUi(chartRangeFilterUi);
-		ChartRangeFilterStateRange stateRange = ChartRangeFilterStateRange.create();
-		stateRange.setStart(new Date(2012, 2, 9));
-		stateRange.setEnd(new Date(2012, 3, 20));
-		//stateRange.setEnd(DateUtils.create(2012, 3, 20));
-		ChartRangeFilterState controlState = ChartRangeFilterState.create();
-		controlState.setRange(stateRange);
-		numberRangeFilter.setState(controlState);
-		numberRangeFilter.setOptions(chartRangeFilterOptions);
-
-		// Set chart options
-		LineChartOptions lineChartOptions = LineChartOptions.create();
-		lineChartOptions.setLineWidth(3);
-		lineChartOptions.setLegend(Legend.create(LegendPosition.NONE));
-		lineChartOptions.setChartArea(chartArea);
-		lineChart.setOptions(lineChartOptions);
-
-		// Generate random data
+		// Prepare the data
 		DataTable dataTable = DataTable.create();
-		dataTable.addColumn(ColumnType.DATE, "Date");
-		dataTable.addColumn(ColumnType.NUMBER, "Stock value");
-		dataTable.addRows(121);
-
-		double open, close = 300;
-		double low, high;
-		for (int day = 1; day < 121; ++day) {
-			double change = (Math.sin(day / 2.5 + Math.PI) + Math.sin(day / 3) - Math.cos(day * 0.7)) * 150;
-			change = change >= 0 ? change + 10 : change - 10;
-			open = close;
-			close = Math.max(50, open + change);
-			low = Math.min(open, close) - (Math.cos(day * 1.7) + 1) * 15;
-			low = Math.max(0, low);
-			high = Math.max(open, close) + (Math.cos(day * 1.3) + 1) * 15;
-			dataTable.setValue(day, 0, new Date(2012, 1, day));
-			dataTable.setValue(day, 1, Math.round(high));
+		
+		dataTable.addColumn(ColumnType.STRING, "Year");
+		for (int i = 0; i < countries.length; i++) {
+			dataTable.addColumn(ColumnType.NUMBER, countries[i]);
 		}
+		
+		dataTable.addRows(years.length);
+		for (int i = 0; i < years.length; i++) {
+			dataTable.setValue(i, 0, String.valueOf(years[i]));
+		}
+		
+		
+		for (int col = 0; col < values.length; col++) {
+			for (int row = 0; row < values[col].length; row++) {
+				dataTable.setValue(row, col + 1, values[col][row]);
+			}
+		}
+
+		// Set options
+		LineChartOptions options = LineChartOptions.create();
+		options.setWidth(800);
+		options.setHeight(500);
+		options.setBackgroundColor("white");
+		options.setFontName("Tahoma");
+		options.setTitle("Sensor Information");
+		options.setHAxis(HAxis.create("Date"));
+		options.setVAxis(VAxis.create("Value"));
 
 		// Draw the chart
-		dashboard.bind(numberRangeFilter, lineChart);
-		dashboard.draw(dataTable);
+		lineChart.draw(dataTable, options);
 	}
+	
+	
 }
