@@ -1,11 +1,16 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
-import mx.cinvestav.gdl.iot.webpage.dto.ControllerPropertyDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.core.client.EntryPoint;
@@ -22,15 +27,15 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.google.gwt.view.client.ListDataProvider;
+import com.sun.java.swing.plaf.windows.resources.windows;
 
 public class EpWPController implements EntryPoint {
 	private int index;
@@ -238,7 +243,22 @@ public class EpWPController implements EntryPoint {
 	            }
 	          });
 	    
-	   
+		    entityService.getSensorData(0,  new Date(), new Date(), new AsyncCallback<List<MeasureDTO>>()
+			{
+
+				@Override
+				public void onFailure(Throwable caught)
+				{
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onSuccess(List<MeasureDTO> result)
+				{
+					Window.alert("sensor data:" + result.size());					
+				}
+			});
 	}
 	
 }

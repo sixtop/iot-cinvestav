@@ -2,7 +2,9 @@ package mx.cinvestav.gdl.iot.webpage.server;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,8 +14,10 @@ import mx.cinvestav.gdl.iot.webpage.client.EntityStoreService;
 import mx.cinvestav.gdl.iot.webpage.dao.DAO;
 import mx.cinvestav.gdl.iot.webpage.dao.IoTEntity;
 import mx.cinvestav.gdl.iot.webpage.dao.IoTProperty;
+import mx.cinvestav.gdl.iot.webpage.dao.Measure;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTEntityDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
@@ -134,6 +138,32 @@ public class EntityStoreImpl extends RemoteServiceServlet implements EntityStore
 		catch (DatabaseException e)
 		{
 			String message = "Exception in deleteEntity: " + e.getMessage();
+			logger.log(Level.SEVERE, message, e);
+			throw e;
+		}
+	}
+	
+	public List<MeasureDTO> getSensorData(Integer idsensor, Date startDate, Date endDate) throws DatabaseException
+	{
+		try
+		{
+			Calendar c = Calendar.getInstance();
+			c.setTimeInMillis(0);
+			c.set(2012, 01, 01);
+			List<Measure> sensorData = DAO.getSensorData(idsensor, c.getTime(), endDate);
+			
+			//map back to DTO
+			List<MeasureDTO> measureDTOList = new ArrayList<>();
+			for (Measure data : sensorData)
+			{
+				MeasureDTO dto = mapper.map(data, MeasureDTO.class);
+				measureDTOList.add(dto);
+			}
+			return measureDTOList;
+		}
+		catch (DatabaseException e)
+		{
+			String message = "Exception in getData: " + e.getMessage();
 			logger.log(Level.SEVERE, message, e);
 			throw e;
 		}

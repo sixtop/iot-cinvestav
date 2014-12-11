@@ -1,7 +1,10 @@
 package mx.cinvestav.gdl.iot.webpage.dao;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,8 +128,10 @@ public class DAO
 			em = getEntityManager();
 			tx = em.getTransaction();
 			tx.begin();
-			if(entity.getId() == null) em.persist(entity);
-			else em.merge(entity);
+			if (entity.getId() == null)
+				em.persist(entity);
+			else
+				em.merge(entity);
 			if (properties != null)
 			{
 				for (IoTProperty p : properties)
@@ -272,5 +277,38 @@ public class DAO
 		if (Sensor.class.equals(propertyClass)) return "idsensor";
 		if (SmartThing.class.equals(propertyClass)) return "idthing";
 		return null;
+	}
+
+	public static List<Measure> getSensorData(Integer idsensor, Date startDate, Date endDate)
+			throws DatabaseException
+	{
+		EntityManager em = null;
+		if (idsensor == null)
+		{
+			throw new IllegalArgumentException("delete: must provide IoTEntity id.");
+		}
+		try
+		{
+			em = getEntityManager();
+			TypedQuery<Measure> createQuery = em.createQuery("SELECT m FROM Measure m"
+					+ " WHERE m.idsensor = ?1 and m.measure_date >= ?2 "/*and m.measure_date <= ?3"*/,
+					Measure.class);
+			createQuery.setParameter(1, idsensor);
+			createQuery.setParameter(2, startDate);
+//			createQuery.setParameter(3, endDate);
+			return createQuery.getResultList();
+		}
+		catch (Exception e)
+		{
+			throw new DatabaseException("Database exception while inserting entity:"
+					+ e.getMessage(), e);
+		}
+		finally
+		{
+			if (em != null)
+			{
+				em.close();
+			}
+		}
 	}
 }

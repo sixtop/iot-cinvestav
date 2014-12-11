@@ -15,10 +15,10 @@ import com.google.gson.GsonBuilder;
 
 public class CloudClient
 {
-//	private static final String url = "http://localhost:8888/_ah/api/iotService/v1/updatedataresponse";
+	private static final String url = "http://localhost:8888/_ah/api/iotService/v1/updatedataresponse";
 	//	private static final String url = "https://weighty-utility-768.appspot.com/_ah/api/iotService/v1/updatedataresponse";
 
-	private static final String url = "http://localhost:8888/_ah/api/iotService/v1/createController";
+//	private static final String url = "http://localhost:8888/_ah/api/iotService/v1/createController";
 	private static GsonBuilder builder = new GsonBuilder();
 	private static Gson gson = builder.create();
 
@@ -64,6 +64,7 @@ public class CloudClient
 
 	public static void main(String[] args) throws IOException
 	{
+		int controllerId = 8;
 
 		//creamos un object UpdataDataRequest
 		UpdateDataRequest request = new UpdateDataRequest();
@@ -74,7 +75,7 @@ public class CloudClient
 			SensorData[] sensorData = new SensorData[1];
 			for (int j = 0; j < sensorData.length; j++)
 			{
-				Data measures[] = new Data[500];
+				Data measures[] = new Data[20];
 				for (int k = 0; k < measures.length; k++)
 				{
 					measures[k] = new Data();
@@ -93,7 +94,7 @@ public class CloudClient
 			smartThings[i].setSmartThingId(i);
 		}
 		request.setSmartThingData(smartThings);
-		request.setControllerId(0);
+		request.setControllerId(controllerId);
 
 		//enviamos
 		UpdateDataResponse response = updateData(request);
