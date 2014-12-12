@@ -28,12 +28,14 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
 public class EpWPSensor implements EntryPoint {
+	private DialogBox dbWait = new DialogBox();
 	private int index;
 	
 	private VerticalPanel formPanel = new VerticalPanel();
@@ -54,7 +56,7 @@ public class EpWPSensor implements EntryPoint {
 	private VerticalPanel dialogPanel=new VerticalPanel();
 	@Override
 	public void onModuleLoad() {
-		
+		showDialogWait();
 		entityService.getEntity(new SensorDTO(), null, new AsyncCallback<List<SensorDTO>>()
 				{
 
@@ -67,6 +69,7 @@ public class EpWPSensor implements EntryPoint {
 					@Override
 					public void onSuccess(List<SensorDTO> result)
 					{
+						dbWait.hide();
 						SENSORS=result;
 					
 			  		    dataProvider.addDataDisplay(tableSensorDTO);
@@ -305,4 +308,27 @@ public class EpWPSensor implements EntryPoint {
 	   
 	}
 	
+public void showDialogWait(){
+		
+		dbWait.setAnimationEnabled(true);
+		dbWait.setGlassEnabled(true);
+		dbWait.setModal(true);
+		dbWait.center();
+
+	    VerticalPanel dialogContents = new VerticalPanel();
+	    
+	    dialogContents.setSpacing(4);
+	    
+	    Image image = new Image();
+	    
+	    image.setUrl(GWT.getHostPageBaseURL()+"images/loading2.gif");
+	    
+	    
+	    dialogContents.add(image);
+	    dialogContents.setCellHorizontalAlignment(image, HasHorizontalAlignment.ALIGN_CENTER);
+	    
+	    dbWait.setWidget(dialogContents);
+	    dbWait.show();
+		
+	}
 }

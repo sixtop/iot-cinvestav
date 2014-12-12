@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -38,6 +39,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.sun.java.swing.plaf.windows.resources.windows;
 
 public class EpWPController implements EntryPoint {
+	private DialogBox dbWait = new DialogBox();
 	private int index;
 
 	private VerticalPanel formPanel = new VerticalPanel();
@@ -61,6 +63,7 @@ public class EpWPController implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		
+		showDialogWait();
 		entityService.getEntity(new ControllerDTO(), null, new AsyncCallback<List<ControllerDTO>>()
 				{
 
@@ -73,6 +76,7 @@ public class EpWPController implements EntryPoint {
 					@Override
 					public void onSuccess(List<ControllerDTO> result)
 					{
+						dbWait.hide();
 						CONTROLLERS=result;
 					
 			  		    dataProvider.addDataDisplay(tableControllerDTO);
@@ -261,4 +265,27 @@ public class EpWPController implements EntryPoint {
 			});
 	}
 	
+public void showDialogWait(){
+		
+		dbWait.setAnimationEnabled(true);
+		dbWait.setGlassEnabled(true);
+		dbWait.setModal(true);
+		dbWait.center();
+
+	    VerticalPanel dialogContents = new VerticalPanel();
+	    
+	    dialogContents.setSpacing(4);
+	    
+	    Image image = new Image();
+	    
+	    image.setUrl(GWT.getHostPageBaseURL()+"images/loading2.gif");
+	    
+	    
+	    dialogContents.add(image);
+	    dialogContents.setCellHorizontalAlignment(image, HasHorizontalAlignment.ALIGN_CENTER);
+	    
+	    dbWait.setWidget(dialogContents);
+	    dbWait.show();
+		
+	}
 }

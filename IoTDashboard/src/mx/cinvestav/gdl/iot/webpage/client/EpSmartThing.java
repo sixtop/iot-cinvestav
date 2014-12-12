@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -33,6 +34,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 
 public class EpSmartThing implements EntryPoint {
+	private DialogBox dbWait = new DialogBox();
+	
 	private String idSmartThing;
 	private Button saveProperty = new Button("Save");
 	private Button cancelProperty = new Button("Cancel");
@@ -184,7 +187,7 @@ public class EpSmartThing implements EntryPoint {
 		});
 
 		// Get controllers--------------------------------------------------
-		
+		showDialogWait();
 		entityService.getEntity(new ControllerDTO(), null, new AsyncCallback<List<ControllerDTO>>()
 				{
 
@@ -197,6 +200,7 @@ public class EpSmartThing implements EntryPoint {
 					@Override
 					public void onSuccess(List<ControllerDTO> result)
 					{
+						dbWait.hide();
 						CONTROLLERS=result;
 						for (ControllerDTO c : CONTROLLERS) {
 							lbController.addItem(c.getName());
@@ -250,10 +254,11 @@ public class EpSmartThing implements EntryPoint {
 					props.add(prop);
 				}
 
-
+				showDialogWait();
 				entityService.storeEntity(c, props, new AsyncCallback<Void>() {
 					@Override
 					public void onSuccess(Void result) {
+						dbWait.hide();
 						dialogBox.setAnimationEnabled(true);
 						dialogBox.setGlassEnabled(true);
 						dialogBox.center();
@@ -289,6 +294,7 @@ public class EpSmartThing implements EntryPoint {
 						
 			final int id = Integer.parseInt(idSmartThing);
 
+			showDialogWait();
 			entityService.getEntity(new SmartThingDTO(), id,new AsyncCallback<List<SmartThingDTO>>() {
 
 						@Override
@@ -320,7 +326,7 @@ public class EpSmartThing implements EntryPoint {
 
 										@Override
 										public void onSuccess(List<SmartThingPropertyDTO> resultP) {
-											
+											dbWait.hide();
 											for(int i=0;i<resultP.size();i++){
 												tableProperty.setText(i+1, 0, resultP.get(i).getId()+"");
 												tableProperty.setText(i+1, 1, resultP.get(i).getName());
@@ -348,7 +354,7 @@ public class EpSmartThing implements EntryPoint {
 												removeProperty.addClickHandler(new ClickHandler() {
 													public void onClick(ClickEvent event) {
 														int deleteP=Integer.parseInt(listIdProperty.getItemText(property.indexOf(id)));
-														
+														showDialogWait();
 														entityService.deleteProperty(new SmartThingPropertyDTO(), deleteP, new AsyncCallback<Void>()
 																{
 
@@ -362,7 +368,7 @@ public class EpSmartThing implements EntryPoint {
 																	@Override
 																	public void onSuccess(Void result)
 																	{
-																		Window.alert("Deletion ok");	
+																		dbWait.hide();	
 
 																	}
 																});
@@ -665,6 +671,29 @@ public class EpSmartThing implements EntryPoint {
 		tableProperty.setWidget(row, 4,buttonsPanel);
 	}
 	
+public void showDialogWait(){
+		
+		dbWait.setAnimationEnabled(true);
+		dbWait.setGlassEnabled(true);
+		dbWait.setModal(true);
+		dbWait.center();
+
+	    VerticalPanel dialogContents = new VerticalPanel();
+	    
+	    dialogContents.setSpacing(4);
+	    
+	    Image image = new Image();
+	    
+	    image.setUrl(GWT.getHostPageBaseURL()+"images/loading2.gif");
+	    
+	    
+	    dialogContents.add(image);
+	    dialogContents.setCellHorizontalAlignment(image, HasHorizontalAlignment.ALIGN_CENTER);
+	    
+	    dbWait.setWidget(dialogContents);
+	    dbWait.show();
+		
+	}
 }
 
 

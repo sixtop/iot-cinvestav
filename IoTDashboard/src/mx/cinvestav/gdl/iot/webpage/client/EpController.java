@@ -4,13 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
-
-
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
-import mx.cinvestav.gdl.iot.webpage.dto.SensorPropertyDTO;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -21,12 +17,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
-import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -34,9 +29,12 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class EpController implements EntryPoint {
+	private DialogBox dbWait = new DialogBox();
+	
 	private String idController;
 	private Button saveProperty = new Button("Save");
 	private Button cancelProperty = new Button("Cancel");
+	
 	
 	private DialogBox dialogBox = new DialogBox();
 	private Button btClose = new Button("Close");
@@ -78,6 +76,8 @@ public class EpController implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
+	
+		
 		tableFields.setText(0, 0, "Id: ");
 		tableFields.setWidget(0, 1, tbId);
 
@@ -201,9 +201,13 @@ public class EpController implements EntryPoint {
 					props.add(prop);
 				}
 
+				
+				showDialogWait();
 				entityService.storeEntity(c, props, new AsyncCallback<Void>() {
 					@Override
 					public void onSuccess(Void result) {
+						dbWait.hide();
+						
 						dialogBox.setAnimationEnabled(true);
 						dialogBox.setGlassEnabled(true);
 						dialogBox.center();
@@ -232,6 +236,7 @@ public class EpController implements EntryPoint {
 				});
 
 			}
+
 		});
 
 		btCancelController.addClickHandler(new ClickHandler() {
@@ -261,9 +266,9 @@ public class EpController implements EntryPoint {
 		if (idController != null) {
 						
 			final int id = Integer.parseInt(idController);
-
+			showDialogWait();
 			entityService.getEntity(new ControllerDTO(), id,new AsyncCallback<List<ControllerDTO>>() {
-
+						
 						@Override
 						public void onFailure(Throwable caught) {
 							Window.alert(caught.getMessage());
@@ -271,7 +276,6 @@ public class EpController implements EntryPoint {
 
 						@Override
 						public void onSuccess(List<ControllerDTO> result) {
-							
 							ControllerDTO c = result.get(0);
 							tbId.setText(c.getId() + "");
 							tbName.setText(c.getName());
@@ -287,7 +291,7 @@ public class EpController implements EntryPoint {
 
 										@Override
 										public void onSuccess(List<ControllerPropertyDTO> resultP) {
-											
+											dbWait.hide();
 											for(int i=0;i<resultP.size();i++){
 												tableProperty.setText(i+1, 0, resultP.get(i).getId()+"");
 												tableProperty.setText(i+1, 1, resultP.get(i).getName());
@@ -319,7 +323,7 @@ public class EpController implements EntryPoint {
 												removeProperty.addClickHandler(new ClickHandler() {
 													public void onClick(ClickEvent event) {
 														int deleteP=Integer.parseInt(listIdProperty.getItemText(property.indexOf(id)));
-														
+														showDialogWait();
 														entityService.deleteProperty(new ControllerPropertyDTO(), deleteP, new AsyncCallback<Void>()
 																{
 
@@ -333,6 +337,8 @@ public class EpController implements EntryPoint {
 																	@Override
 																	public void onSuccess(Void result)
 																	{
+																		dbWait.hide();
+																		
 																		Window.alert("Deletion ok");	
 
 																	}
@@ -647,6 +653,33 @@ public class EpController implements EntryPoint {
 		
 		tableProperty.setWidget(row, 4,buttonsPanel);
 	}
+	
+	
+	
+	public void showDialogWait(){
+		
+		dbWait.setAnimationEnabled(true);
+		dbWait.setGlassEnabled(true);
+		dbWait.setModal(true);
+		dbWait.center();
+
+	    VerticalPanel dialogContents = new VerticalPanel();
+	    
+	    dialogContents.setSpacing(4);
+	    
+	    Image image = new Image();
+	    
+	    image.setUrl(GWT.getHostPageBaseURL()+"images/loading2.gif");
+	    
+	    
+	    dialogContents.add(image);
+	    dialogContents.setCellHorizontalAlignment(image, HasHorizontalAlignment.ALIGN_CENTER);
+	    
+	    dbWait.setWidget(dialogContents);
+	    dbWait.show();
+		
+	}
+	
 	
 }
 

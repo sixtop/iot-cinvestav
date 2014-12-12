@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -85,6 +86,7 @@ public class EpSensor implements EntryPoint {
 	private List<SmartThingDTO> SMARTTHINGS;
 		
 	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
+	private DialogBox dbWait = new DialogBox();
 		
 	@Override
 	public void onModuleLoad() {
@@ -265,10 +267,11 @@ public class EpSensor implements EntryPoint {
 					props.add(prop);
 				}
 
-
+				showDialogWait();
 				entityService.storeEntity(c, props, new AsyncCallback<Void>() {
 					@Override
 					public void onSuccess(Void result) {
+						dbWait.hide();
 						dialogBox.setAnimationEnabled(true);
 						dialogBox.setGlassEnabled(true);
 						dialogBox.center();
@@ -327,6 +330,7 @@ public class EpSensor implements EntryPoint {
 						
 			final int id = Integer.parseInt(idSensor);
 
+			showDialogWait();
 			entityService.getEntity(new SensorDTO(), id,new AsyncCallback<List<SensorDTO>>() {
 
 						@Override
@@ -358,7 +362,7 @@ public class EpSensor implements EntryPoint {
 
 										@Override
 										public void onSuccess(List<SensorPropertyDTO> resultP) {
-											
+											dbWait.hide();
 											for(int i=0;i<resultP.size();i++){
 												tableProperty.setText(i+1, 0, resultP.get(i).getId()+"");
 												tableProperty.setText(i+1, 1, resultP.get(i).getName());
@@ -386,7 +390,7 @@ public class EpSensor implements EntryPoint {
 												removeProperty.addClickHandler(new ClickHandler() {
 													public void onClick(ClickEvent event) {
 														int deleteP=Integer.parseInt(listIdProperty.getItemText(property.indexOf(id)));
-														
+														showDialogWait();
 														entityService.deleteProperty(new SensorPropertyDTO(), deleteP, new AsyncCallback<Void>()
 																{
 
@@ -400,7 +404,7 @@ public class EpSensor implements EntryPoint {
 																	@Override
 																	public void onSuccess(Void result)
 																	{
-																		Window.alert("Deletion ok");	
+																		dbWait.hide();	
 
 																	}
 																});
@@ -703,6 +707,29 @@ public class EpSensor implements EntryPoint {
 		tableProperty.setWidget(row, 4,buttonsPanel);
 	}
 	
+	public void showDialogWait(){
+		
+		dbWait.setAnimationEnabled(true);
+		dbWait.setGlassEnabled(true);
+		dbWait.setModal(true);
+		dbWait.center();
+
+	    VerticalPanel dialogContents = new VerticalPanel();
+	    
+	    dialogContents.setSpacing(4);
+	    
+	    Image image = new Image();
+	    
+	    image.setUrl(GWT.getHostPageBaseURL()+"images/loading2.gif");
+	    
+	    
+	    dialogContents.add(image);
+	    dialogContents.setCellHorizontalAlignment(image, HasHorizontalAlignment.ALIGN_CENTER);
+	    
+	    dbWait.setWidget(dialogContents);
+	    dbWait.show();
+		
+	}
 }
 
 

@@ -3,6 +3,7 @@ package mx.cinvestav.gdl.iot.webpage.dao;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -290,12 +291,19 @@ public class DAO
 		try
 		{
 			em = getEntityManager();
+			Calendar c = Calendar.getInstance();
+			c.setTime(endDate);
+			c.set(Calendar.HOUR_OF_DAY, 23);
+			c.set(Calendar.MINUTE, 59);
+			c.set(Calendar.SECOND, 59);
+			c.set(Calendar.MILLISECOND, 999);
+
 			TypedQuery<Measure> createQuery = em.createQuery("SELECT m FROM Measure m"
-					+ " WHERE m.idsensor = ?1 and m.measure_date >= ?2 "/*and m.measure_date <= ?3"*/,
+					+ " WHERE m.idsensor = ?1 and m.measure_date >= ?2 and m.measure_date <= ?3 order by m.measure_date",
 					Measure.class);
 			createQuery.setParameter(1, idsensor);
 			createQuery.setParameter(2, startDate);
-//			createQuery.setParameter(3, endDate);
+			createQuery.setParameter(3, endDate);
 			return createQuery.getResultList();
 		}
 		catch (Exception e)

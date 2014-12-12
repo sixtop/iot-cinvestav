@@ -16,8 +16,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -35,6 +37,8 @@ import com.googlecode.gwt.charts.client.table.Table;
 import com.googlecode.gwt.charts.client.table.TableOptions;
 
 public class EpWPDatas implements EntryPoint {
+	private DialogBox dbWait = new DialogBox();
+	
 	private LineChart lineChart;
 
 	private VerticalPanel formPanel = new VerticalPanel();
@@ -64,6 +68,7 @@ public class EpWPDatas implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 
+		showDialogWait();
 		entityService.getEntity(new ControllerDTO(), null,
 				new AsyncCallback<List<ControllerDTO>>() {
 
@@ -74,6 +79,7 @@ public class EpWPDatas implements EntryPoint {
 
 					@Override
 					public void onSuccess(List<ControllerDTO> result) {
+						dbWait.hide();
 						CONTROLLERS = result;
 						lbController.addItem("Select...");
 						lbIdController.addItem("-");
@@ -118,7 +124,7 @@ public class EpWPDatas implements EntryPoint {
 		 * dbTo.setFormat(new DateBox.DefaultFormat(dateFormat));
 		 */
 		lbController.addChangeHandler(new ChangeHandler() {
-			@Override
+			
 			public void onChange(ChangeEvent event) {
 
 				final int idController = Integer.parseInt(lbIdController
@@ -275,5 +281,28 @@ public class EpWPDatas implements EntryPoint {
 		lineChart.draw(dataTable, options);
 	}
 	
+public void showDialogWait(){
+		
+		dbWait.setAnimationEnabled(true);
+		dbWait.setGlassEnabled(true);
+		dbWait.setModal(true);
+		dbWait.center();
+
+	    VerticalPanel dialogContents = new VerticalPanel();
+	    
+	    dialogContents.setSpacing(4);
+	    
+	    Image image = new Image();
+	    
+	    image.setUrl(GWT.getHostPageBaseURL()+"images/loading2.gif");
+	    
+	    
+	    dialogContents.add(image);
+	    dialogContents.setCellHorizontalAlignment(image, HasHorizontalAlignment.ALIGN_CENTER);
+	    
+	    dbWait.setWidget(dialogContents);
+	    dbWait.show();
+		
+	}
 	
 }
