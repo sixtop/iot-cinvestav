@@ -8,7 +8,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -65,11 +67,13 @@ public class CloudClient
 	public static void main(String[] args) throws IOException
 	{
 		int controllerId = 8;
-
+		Random r = new Random();
 		//creamos un object UpdataDataRequest
 		UpdateDataRequest request = new UpdateDataRequest();
 
 		SmartThingData[] smartThings = new SmartThingData[1];
+		Date date = new Date();
+		Calendar c = Calendar.getInstance();
 		for (int i = 0; i < smartThings.length; i++)
 		{
 			SensorData[] sensorData = new SensorData[1];
@@ -79,11 +83,12 @@ public class CloudClient
 				for (int k = 0; k < measures.length; k++)
 				{
 					measures[k] = new Data();
-					measures[k].setData("data" + i + j + k);
-					Date date = new Date();
+					int random = r.nextInt(100);
+					measures[k].setData(String.valueOf(random));
 					DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ssss");
-
-					measures[k].setTime(format.format(date));
+					c.setTime(date);
+					c.add(Calendar.MINUTE, k);
+					measures[k].setTime(format.format(c.getTime()));
 				}
 				sensorData[j] = new SensorData();
 				sensorData[j].setMeasures(measures);

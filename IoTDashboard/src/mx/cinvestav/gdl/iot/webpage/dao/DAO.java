@@ -299,7 +299,7 @@ public class DAO
 			c.set(Calendar.MILLISECOND, 999);
 
 			TypedQuery<Measure> createQuery = em.createQuery("SELECT m FROM Measure m"
-					+ " WHERE m.idsensor = ?1 and m.measure_date >= ?2 and m.measure_date <= ?3",
+					+ " WHERE m.idsensor = ?1 and m.measure_date >= ?2 and m.measure_date <= ?3 order by m.measure_date",
 					Measure.class);
 			createQuery.setParameter(1, idsensor);
 			createQuery.setParameter(2, startDate);
