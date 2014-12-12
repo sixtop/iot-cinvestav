@@ -17,10 +17,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-<<<<<<< HEAD
 import com.google.gwt.user.client.ui.DialogBox;
-=======
->>>>>>> branch 'master' of https://github.com/sixtop/iot-cinvestav.git
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Image;
@@ -49,10 +46,7 @@ import com.googlecode.gwt.charts.client.options.LegendPosition;
 
 
 public class EpWPData implements EntryPoint {
-<<<<<<< HEAD
 	private DialogBox dbWait = new DialogBox();
-=======
->>>>>>> branch 'master' of https://github.com/sixtop/iot-cinvestav.git
 	private Dashboard dashboard;
 	private ChartWrapper<LineChartOptions> lineChart;
 	private ChartRangeFilter numberRangeFilter;
@@ -85,11 +79,8 @@ public class EpWPData implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-<<<<<<< HEAD
 		showDialogWait();
-=======
 		
->>>>>>> branch 'master' of https://github.com/sixtop/iot-cinvestav.git
 		entityService.getEntity(new ControllerDTO(), null,
 				new AsyncCallback<List<ControllerDTO>>() {
 
@@ -230,16 +221,10 @@ public class EpWPData implements EntryPoint {
 			
 			public void onClick(ClickEvent event) {
 				
-<<<<<<< HEAD
-=======
 				// Window.alert("GENERA Sensor"+);
->>>>>>> branch 'master' of https://github.com/sixtop/iot-cinvestav.git
 				Window.alert("GENERA Sensor");
 				String sid = lbIdSensor.getItemText(lbSensor.getSelectedIndex());
-<<<<<<< HEAD
 				showDialogWait();
-=======
->>>>>>> branch 'master' of https://github.com/sixtop/iot-cinvestav.git
 				entityService.getSensorData(Integer.parseInt(sid), dbFrom.getValue(), dbTo.getValue(), new AsyncCallback<List<MeasureDTO>>()
 				{
 
@@ -253,10 +238,7 @@ public class EpWPData implements EntryPoint {
 					@Override
 					public void onSuccess(final List<MeasureDTO> result)
 					{
-<<<<<<< HEAD
 						dbWait.hide();
-=======
->>>>>>> branch 'master' of https://github.com/sixtop/iot-cinvestav.git
 						ChartLoader chartLoader = new ChartLoader(ChartPackage.CONTROLS);
 						chartLoader.loadApi(new Runnable() {
 							
