@@ -17,7 +17,10 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+<<<<<<< HEAD
 import com.google.gwt.user.client.ui.DialogBox;
+=======
+>>>>>>> branch 'master' of https://github.com/sixtop/iot-cinvestav.git
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Image;
@@ -46,7 +49,10 @@ import com.googlecode.gwt.charts.client.options.LegendPosition;
 
 
 public class EpWPData implements EntryPoint {
+<<<<<<< HEAD
 	private DialogBox dbWait = new DialogBox();
+=======
+>>>>>>> branch 'master' of https://github.com/sixtop/iot-cinvestav.git
 	private Dashboard dashboard;
 	private ChartWrapper<LineChartOptions> lineChart;
 	private ChartRangeFilter numberRangeFilter;
@@ -79,7 +85,11 @@ public class EpWPData implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
+<<<<<<< HEAD
 		showDialogWait();
+=======
+		
+>>>>>>> branch 'master' of https://github.com/sixtop/iot-cinvestav.git
 		entityService.getEntity(new ControllerDTO(), null,
 				new AsyncCallback<List<ControllerDTO>>() {
 
@@ -220,9 +230,16 @@ public class EpWPData implements EntryPoint {
 			
 			public void onClick(ClickEvent event) {
 				
+<<<<<<< HEAD
+=======
+				// Window.alert("GENERA Sensor"+);
+>>>>>>> branch 'master' of https://github.com/sixtop/iot-cinvestav.git
 				Window.alert("GENERA Sensor");
 				String sid = lbIdSensor.getItemText(lbSensor.getSelectedIndex());
+<<<<<<< HEAD
 				showDialogWait();
+=======
+>>>>>>> branch 'master' of https://github.com/sixtop/iot-cinvestav.git
 				entityService.getSensorData(Integer.parseInt(sid), dbFrom.getValue(), dbTo.getValue(), new AsyncCallback<List<MeasureDTO>>()
 				{
 
@@ -236,7 +253,10 @@ public class EpWPData implements EntryPoint {
 					@Override
 					public void onSuccess(final List<MeasureDTO> result)
 					{
+<<<<<<< HEAD
 						dbWait.hide();
+=======
+>>>>>>> branch 'master' of https://github.com/sixtop/iot-cinvestav.git
 						ChartLoader chartLoader = new ChartLoader(ChartPackage.CONTROLS);
 						chartLoader.loadApi(new Runnable() {
 							
@@ -333,6 +353,20 @@ public class EpWPData implements EntryPoint {
 			dataTable.setValue(rows, 0, result.get(rows).getMeasure_date());
 			dataTable.setValue(rows, 1, Double.parseDouble(result.get(rows).getMeasure()));
 		}
+
+//		double open, close = 300;
+//		double low, high;
+//		for (int day = 1; day < 121; ++day) {
+//			double change = (Math.sin(day / 2.5 + Math.PI) + Math.sin(day / 3) - Math.cos(day * 0.7)) * 150;
+//			change = change >= 0 ? change + 10 : change - 10;
+//			open = close;
+//			close = Math.max(50, open + change);
+//			low = Math.min(open, close) - (Math.cos(day * 1.7) + 1) * 15;
+//			low = Math.max(0, low);
+//			high = Math.max(open, close) + (Math.cos(day * 1.3) + 1) * 15;
+//			dataTable.setValue(day, 0, new Date(2012, 1, day));
+//			dataTable.setValue(day, 1, Math.round(high));
+//		}
 
 //		double open, close = 300;
 //		double low, high;
