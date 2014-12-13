@@ -8,5 +8,6 @@
 	<add-linker name="xsiframe" />
 
 	<entry-point class="mx.cinvestav.gdl.iot.webpage.client.EpIndex"/>
+	 <inherits name="com.googlecode.gwt.charts.Charts"/>
 	
 </module>

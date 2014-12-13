@@ -321,7 +321,6 @@ public class EpWPData implements EntryPoint {
 		chart.setCurveType(CurveType.NONE);
 		lineChart.setOptions(chart);
 
-		// Generate random data
 		DataTable dataTable = DataTable.create();
 		dataTable.addColumn(ColumnType.DATE, "Date");
 		dataTable.addColumn(ColumnType.NUMBER, "Measure");
@@ -336,33 +335,6 @@ public class EpWPData implements EntryPoint {
 			dataTable.setValue(rows, 1, Double.parseDouble(result.get(rows).getMeasure()));
 		}
 
-//		double open, close = 300;
-//		double low, high;
-//		for (int day = 1; day < 121; ++day) {
-//			double change = (Math.sin(day / 2.5 + Math.PI) + Math.sin(day / 3) - Math.cos(day * 0.7)) * 150;
-//			change = change >= 0 ? change + 10 : change - 10;
-//			open = close;
-//			close = Math.max(50, open + change);
-//			low = Math.min(open, close) - (Math.cos(day * 1.7) + 1) * 15;
-//			low = Math.max(0, low);
-//			high = Math.max(open, close) + (Math.cos(day * 1.3) + 1) * 15;
-//			dataTable.setValue(day, 0, new Date(2012, 1, day));
-//			dataTable.setValue(day, 1, Math.round(high));
-//		}
-
-//		double open, close = 300;
-//		double low, high;
-//		for (int day = 1; day < 121; ++day) {
-//			double change = (Math.sin(day / 2.5 + Math.PI) + Math.sin(day / 3) - Math.cos(day * 0.7)) * 150;
-//			change = change >= 0 ? change + 10 : change - 10;
-//			open = close;
-//			close = Math.max(50, open + change);
-//			low = Math.min(open, close) - (Math.cos(day * 1.7) + 1) * 15;
-//			low = Math.max(0, low);
-//			high = Math.max(open, close) + (Math.cos(day * 1.3) + 1) * 15;
-//			dataTable.setValue(day, 0, new Date(2012, 1, day));
-//			dataTable.setValue(day, 1, Math.round(high));
-//		}
 
 		// Draw the chart
 		dashboard.bind(numberRangeFilter, lineChart);

@@ -28,11 +28,12 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class EpSensor implements EntryPoint {
+public class EpSensor implements EntryPoint
+{
 	private String idSensor;
 	private Button saveProperty = new Button("Save");
 	private Button cancelProperty = new Button("Cancel");
-	
+
 	private DialogBox dialogBox = new DialogBox();
 	private Button btDialogClose = new Button("Close");
 	private Button btDialogError = new Button("Close");
@@ -45,7 +46,7 @@ public class EpSensor implements EntryPoint {
 	private ListBox listNameProperty = new ListBox(true);
 	private ListBox listValueProperty = new ListBox(true);
 	private ListBox listActiveProperty = new ListBox(true);
-		
+
 	private TextBox name = new TextBox();
 	private TextBox value = new TextBox();
 	private CheckBox active = new CheckBox();
@@ -75,12 +76,13 @@ public class EpSensor implements EntryPoint {
 	private Button btAddProperty = new Button("Add");
 	private ArrayList<String> property = new ArrayList<String>();
 	private List<SmartThingDTO> SMARTTHINGS;
-		
+
 	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 	private DialogBox dbWait = new DialogBox();
-		
+
 	@Override
-	public void onModuleLoad() {
+	public void onModuleLoad()
+	{
 		tableFields.setText(0, 0, "Id: ");
 		tableFields.setWidget(0, 1, tbId);
 		tableFields.setText(1, 0, "Name: ");
@@ -103,24 +105,19 @@ public class EpSensor implements EntryPoint {
 		tableFields.setWidget(10, 1, lbSmartThing);
 
 		tbId.setEnabled(false);
-		
+
 		tableProperty.setText(0, 0, "ID");
 		tableProperty.setText(0, 1, "Name");
 		tableProperty.setText(0, 2, "Value");
 		tableProperty.setText(0, 3, "Active");
 		tableProperty.setText(0, 4, "    ");
-	
-		tableProperty.getCellFormatter().addStyleName(0, 0,
-				"headerTableProperty");
-		tableProperty.getCellFormatter().addStyleName(0, 1,
-				"headerTableProperty");
-		tableProperty.getCellFormatter().addStyleName(0, 2,
-				"headerTableProperty");
-		tableProperty.getCellFormatter().addStyleName(0, 3,
-				"headerTableProperty");
-		tableProperty.getCellFormatter().addStyleName(0, 4,
-				"headerTableProperty");
-		
+
+		tableProperty.getCellFormatter().addStyleName(0, 0, "headerTableProperty");
+		tableProperty.getCellFormatter().addStyleName(0, 1, "headerTableProperty");
+		tableProperty.getCellFormatter().addStyleName(0, 2, "headerTableProperty");
+		tableProperty.getCellFormatter().addStyleName(0, 3, "headerTableProperty");
+		tableProperty.getCellFormatter().addStyleName(0, 4, "headerTableProperty");
+
 		tableProperty.addStyleName("tableProperty");
 		tableProperty.setCellPadding(3);
 
@@ -132,52 +129,49 @@ public class EpSensor implements EntryPoint {
 		propertyPanel.add(tableProperty);
 
 		listIdProperty.setVisible(false);
- 		listNameProperty.setVisible(false);
- 		listValueProperty.setVisible(false);
- 		listActiveProperty.setVisible(false);
+		listNameProperty.setVisible(false);
+		listValueProperty.setVisible(false);
+		listActiveProperty.setVisible(false);
 		formPanel.add(listIdProperty);
- 		formPanel.add(listNameProperty);
- 		formPanel.add(listValueProperty);
- 		formPanel.add(listActiveProperty);
- 		
+		formPanel.add(listNameProperty);
+		formPanel.add(listValueProperty);
+		formPanel.add(listActiveProperty);
+
 		formPanel.add(tableFields);
 		formPanel.add(propertyPanel);
-		
+
 		buttonsPanel.add(btSaveSensor);
 		buttonsPanel.add(btCancelSensor);
 		formPanel.add(buttonsPanel);
-		formPanel.setCellHorizontalAlignment(buttonsPanel,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-
+		formPanel.setCellHorizontalAlignment(buttonsPanel, HasHorizontalAlignment.ALIGN_RIGHT);
 
 		formPanel.add(buttonsPanel);
-		
 
 		//Get SmartThings----------------------------------
 		entityService.getEntity(new SmartThingDTO(), null, new AsyncCallback<List<SmartThingDTO>>()
-						{
+		{
 
-							@Override
-							public void onFailure(Throwable caught)
-							{
-								dbWait.hide();
-								// TODO:
-								Window.alert(caught.getMessage());
-							}
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				dbWait.hide();
+				// TODO:
+				Window.alert(caught.getMessage());
+			}
 
-							@Override
-							public void onSuccess(List<SmartThingDTO> result)
-							{
-								SMARTTHINGS=result;
-							
-					  		    for (SmartThingDTO c : SMARTTHINGS) {
-					  		      lbSmartThing.addItem((c.getId()+""),c.getName());
-					  		    }
-								
-							}
-						});				
-				
-				
+			@Override
+			public void onSuccess(List<SmartThingDTO> result)
+			{
+				SMARTTHINGS = result;
+
+				for (SmartThingDTO c : SMARTTHINGS)
+				{
+					lbSmartThing.addItem(c.getName(),(c.getId() + ""));
+				}
+
+			}
+		});
+
 		RootPanel.get("formContainer").add(formPanel);
 
 		btDialogClose.addClickHandler(new ClickHandler()
@@ -238,7 +232,7 @@ public class EpSensor implements EntryPoint {
 			public void onClick(ClickEvent event)
 			{
 				btAddProperty.setEnabled(true);
-				tableProperty.removeRow(tableProperty.getRowCount()-1);
+				tableProperty.removeRow(tableProperty.getRowCount() - 1);
 			}
 		});
 
@@ -249,8 +243,7 @@ public class EpSensor implements EntryPoint {
 			updateSensorAction();
 		}
 	}
-	
-	
+
 	private void updateSensorAction()
 	{
 		int id = Integer.parseInt(idSensor);
@@ -273,191 +266,192 @@ public class EpSensor implements EntryPoint {
 		});
 	}
 
-	
 	private void fillSensorData(List<SensorDTO> result)
 	{
 		SensorDTO c = result.get(0);
 		tbId.setText(c.getId() + "");
 		tbName.setText(c.getName());
 		tbDescription.setText(c.getDescription());
-		tbLatitude.setText(c.getLatitude()+"");
-		tbLongitude.setText(c.getLongitude()+"");
-		tbAltitude.setText(c.getAltitude()+"");
+		tbLatitude.setText(c.getLatitude() + "");
+		tbLongitude.setText(c.getLongitude() + "");
+		tbAltitude.setText(c.getAltitude() + "");
 		tbType.setText(c.getSensor_type());
 		tbUnit.setText(c.getUnit());
 		cbActive.setValue(c.isActive());
-		
-		for(int i=0;i<lbSmartThing.getItemCount();i++){
-			if(lbSmartThing.getValue(i).equals((c.getIdthing()+""))){
+
+		for (int i = 0; i < lbSmartThing.getItemCount(); i++)
+		{
+			if (lbSmartThing.getValue(i).equals((c.getIdthing() + "")))
+			{
 				lbSmartThing.setSelectedIndex(i);
 				break;
 			}
 		}
-		
-		entityService.getProperties(new SensorPropertyDTO(), c.getId(),
-				new AsyncCallback<List<SensorPropertyDTO>>()
+
+		entityService.getProperties(new SensorPropertyDTO(), c.getId(), new AsyncCallback<List<SensorPropertyDTO>>()
+		{
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				dbWait.hide();
+				//TODO:
+				Window.alert(caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(List<SensorPropertyDTO> resultP)
+			{
+				dbWait.hide();
+				for (int i = 0; i < resultP.size(); i++)
 				{
-					@Override
-					public void onFailure(Throwable caught)
-					{
-						dbWait.hide();
-						//TODO:
-						Window.alert(caught.getMessage());
-					}
+					tableProperty.setText(i + 1, 0, resultP.get(i).getId() + "");
+					tableProperty.setText(i + 1, 1, resultP.get(i).getName());
+					tableProperty.setText(i + 1, 2, resultP.get(i).getValue());
+					CheckBox cb = new CheckBox();
+					cb.setValue(resultP.get(i).isActive());
+					cb.setEnabled(false);
+					tableProperty.setWidget(i + 1, 3, cb);
 
-					@Override
-					public void onSuccess(List<SensorPropertyDTO> resultP)
+					listIdProperty.addItem(resultP.get(i).getId() + "");
+					listNameProperty.addItem(resultP.get(i).getName());
+					listValueProperty.addItem(resultP.get(i).getValue());
+					listActiveProperty.addItem(resultP.get(i).isActive() + "");
+
+					final String id = resultP.get(i).getId() + "";
+					property.add(id);
+
+					final Button saveEditProperty = new Button("Save");
+					final Button removeProperty = new Button("Remove");
+					final Button editProperty = new Button("Edit");
+					final Button cancelEditProperty = new Button("Cancel");
+
+					saveEditProperty.setVisible(false);
+					removeProperty.setVisible(true);
+					editProperty.setVisible(true);
+					cancelEditProperty.setVisible(false);
+
+					removeProperty.addClickHandler(new ClickHandler()
 					{
-						dbWait.hide();
-						for (int i = 0; i < resultP.size(); i++)
+						public void onClick(ClickEvent event)
 						{
-							tableProperty.setText(i + 1, 0, resultP.get(i).getId() + "");
-							tableProperty.setText(i + 1, 1, resultP.get(i).getName());
-							tableProperty.setText(i + 1, 2, resultP.get(i).getValue());
-							CheckBox cb = new CheckBox();
-							cb.setValue(resultP.get(i).isActive());
-							cb.setEnabled(false);
-							tableProperty.setWidget(i + 1, 3, cb);
+							removePropertyAction(id);
+						}
+					});
 
-							listIdProperty.addItem(resultP.get(i).getId() + "");
-							listNameProperty.addItem(resultP.get(i).getName());
-							listValueProperty.addItem(resultP.get(i).getValue());
-							listActiveProperty.addItem(resultP.get(i).isActive() + "");
+					editProperty.addClickHandler(new ClickHandler()
+					{
+						public void onClick(ClickEvent event)
+						{
+							saveEditProperty.setVisible(true);
+							removeProperty.setVisible(false);
+							editProperty.setVisible(false);
+							cancelEditProperty.setVisible(true);
 
-							final String id = resultP.get(i).getId() + "";
-							property.add(id);
+							int editRow = property.indexOf(id);
+							name.setText(listNameProperty.getItemText(editRow));
+							value.setText(listValueProperty.getItemText(editRow));
 
-							final Button saveEditProperty = new Button("Save");
-							final Button removeProperty = new Button("Remove");
-							final Button editProperty = new Button("Edit");
-							final Button cancelEditProperty = new Button("Cancel");
+							if (Boolean.parseBoolean(listActiveProperty.getItemText(editRow)))
+							{
+								active.setValue(true);
+							}
+							else
+							{
+								active.setValue(false);
+							}
 
+							tableProperty.setWidget(editRow + 1, 1, name);
+							tableProperty.setWidget(editRow + 1, 2, value);
+							tableProperty.setWidget(editRow + 1, 3, active);
+						}
+
+					});
+
+					saveEditProperty.addClickHandler(new ClickHandler()
+					{
+						public void onClick(ClickEvent event)
+						{
 							saveEditProperty.setVisible(false);
 							removeProperty.setVisible(true);
 							editProperty.setVisible(true);
 							cancelEditProperty.setVisible(false);
 
-							removeProperty.addClickHandler(new ClickHandler()
+							int editRow = property.indexOf(id);
+
+							final String symboln = name.getText();
+							final String symbolv = value.getText();
+							CheckBox symbola = new CheckBox();
+
+							if (active.getValue() == true)
 							{
-								public void onClick(ClickEvent event)
-								{
-									removePropertyAction(id);
-								}
-							});
-
-							editProperty.addClickHandler(new ClickHandler()
+								symbola.setValue(true);
+							}
+							else
 							{
-								public void onClick(ClickEvent event)
-								{
-									saveEditProperty.setVisible(true);
-									removeProperty.setVisible(false);
-									editProperty.setVisible(false);
-									cancelEditProperty.setVisible(true);
+								symbola.setValue(false);
+							}
 
-									int editRow = property.indexOf(id);
-									name.setText(listNameProperty.getItemText(editRow));
-									value.setText(listValueProperty.getItemText(editRow));
+							symbola.setEnabled(false);
 
-									if (Boolean.parseBoolean(listActiveProperty.getItemText(editRow)))
-									{
-										active.setValue(true);
-									}
-									else
-									{
-										active.setValue(false);
-									}
-
-									tableProperty.setWidget(editRow + 1, 1, name);
-									tableProperty.setWidget(editRow + 1, 2, value);
-									tableProperty.setWidget(editRow + 1, 3, active);
-								}
-
-							});
-
-							saveEditProperty.addClickHandler(new ClickHandler()
+							if (symboln.length() > 45 || symboln.length() == 0)
 							{
-								public void onClick(ClickEvent event)
-								{
-									saveEditProperty.setVisible(false);
-									removeProperty.setVisible(true);
-									editProperty.setVisible(true);
-									cancelEditProperty.setVisible(false);
+								showInformationDialog("Error",
+										"The name must not have empty and have less than 45 characters", btDialogError);
+								return;
+							}
 
-									int editRow = property.indexOf(id);
-
-									final String symboln = name.getText();
-									final String symbolv = value.getText();
-									CheckBox symbola = new CheckBox();
-
-									if (active.getValue() == true)
-									{
-										symbola.setValue(true);
-									}
-									else
-									{
-										symbola.setValue(false);
-									}
-
-									symbola.setEnabled(false);
-
-									if (symboln.length() > 45 || symboln.length()==0)
-									{
-										showInformationDialog("Error", "The name must not have empty and have less than 45 characters", btDialogError);
-										return;
-									}
-
-									if (symbolv.length() > 45)
-									{
-										showInformationDialog("Error", "The value have less than 45 characters", btDialogError);
-										return;
-									}
-									
-									tableProperty.setText(editRow + 1, 1, symboln);
-									tableProperty.setText(editRow + 1, 2, symbolv);
-									tableProperty.setWidget(editRow + 1, 3, symbola);
-
-									listNameProperty.setItemText(editRow, symboln);
-									listValueProperty.setItemText(editRow, symbolv);
-									listActiveProperty.setItemText(editRow, symbola.getValue() + "");
-
-									name.setText("");
-									value.setText("");
-									active.setValue(false);
-
-								}
-							});
-
-							cancelEditProperty.addClickHandler(new ClickHandler()
+							if (symbolv.length() > 45)
 							{
-								public void onClick(ClickEvent event)
-								{
-									saveEditProperty.setVisible(false);
-									removeProperty.setVisible(true);
-									editProperty.setVisible(true);
-									cancelEditProperty.setVisible(false);
+								showInformationDialog("Error", "The value have less than 45 characters", btDialogError);
+								return;
+							}
 
-									int editRow = property.indexOf(id);
-									tableProperty.setText(editRow + 1, 1, name.getText());
-									tableProperty.setText(editRow + 1, 2, value.getText());
-									tableProperty.setWidget(editRow + 1, 3, active);
+							tableProperty.setText(editRow + 1, 1, symboln);
+							tableProperty.setText(editRow + 1, 2, symbolv);
+							tableProperty.setWidget(editRow + 1, 3, symbola);
 
-									name.setText("");
-									value.setText("");
-									active.setValue(false);
+							listNameProperty.setItemText(editRow, symboln);
+							listValueProperty.setItemText(editRow, symbolv);
+							listActiveProperty.setItemText(editRow, symbola.getValue() + "");
 
-								}
-							});
+							name.setText("");
+							value.setText("");
+							active.setValue(false);
 
-							HorizontalPanel buttonsPanel = new HorizontalPanel();
-							buttonsPanel.add(editProperty);
-							buttonsPanel.add(saveEditProperty);
-							buttonsPanel.add(cancelEditProperty);
-							buttonsPanel.add(removeProperty);
-
-							tableProperty.setWidget(i + 1, 4, buttonsPanel);
 						}
-					}
-				});
+					});
+
+					cancelEditProperty.addClickHandler(new ClickHandler()
+					{
+						public void onClick(ClickEvent event)
+						{
+							saveEditProperty.setVisible(false);
+							removeProperty.setVisible(true);
+							editProperty.setVisible(true);
+							cancelEditProperty.setVisible(false);
+
+							int editRow = property.indexOf(id);
+							tableProperty.setText(editRow + 1, 1, name.getText());
+							tableProperty.setText(editRow + 1, 2, value.getText());
+							tableProperty.setWidget(editRow + 1, 3, active);
+
+							name.setText("");
+							value.setText("");
+							active.setValue(false);
+
+						}
+					});
+
+					HorizontalPanel buttonsPanel = new HorizontalPanel();
+					buttonsPanel.add(editProperty);
+					buttonsPanel.add(saveEditProperty);
+					buttonsPanel.add(cancelEditProperty);
+					buttonsPanel.add(removeProperty);
+
+					tableProperty.setWidget(i + 1, 4, buttonsPanel);
+				}
+			}
+		});
 	}
 
 	private void removePropertyAction(String id)
@@ -499,7 +493,7 @@ public class EpSensor implements EntryPoint {
 		c.setUnit(tbUnit.getText());
 		c.setSensor_type(tbType.getText());
 		c.setIdthing(Integer.parseInt(lbSmartThing.getValue(lbSmartThing.getSelectedIndex())));
-		
+
 		Collection<IoTPropertyDTO> props = new ArrayList<>();
 		for (int i = 0; i < listNameProperty.getItemCount(); i++)
 		{
@@ -532,7 +526,7 @@ public class EpSensor implements EntryPoint {
 				dbWait.hide();
 				showInformationDialog("Information", "Sensor succesfully stored", btDialogClose);
 			}
-			
+
 			@Override
 			public void onFailure(Throwable caught)
 			{
@@ -542,7 +536,7 @@ public class EpSensor implements EntryPoint {
 			}
 		});
 	}
-	
+
 	private void showInformationDialog(String title, String message, Button btDialogClose)
 	{
 		dialogBox.center();
@@ -590,9 +584,10 @@ public class EpSensor implements EntryPoint {
 
 		symbola.setEnabled(false);
 
-		if (symboln.length() > 45 || symboln.length()==0)
+		if (symboln.length() > 45 || symboln.length() == 0)
 		{
-			showInformationDialog("Error", "The name must not have empty and have less than 45 characters", btDialogError);
+			showInformationDialog("Error", "The name must not have empty and have less than 45 characters",
+					btDialogError);
 			return;
 		}
 
@@ -700,9 +695,10 @@ public class EpSensor implements EntryPoint {
 
 				symbola.setEnabled(false);
 
-				if (symboln.length() > 45 || symboln.length()==0)
+				if (symboln.length() > 45 || symboln.length() == 0)
 				{
-					showInformationDialog("Error", "The name must not have empty and have less than 45 characters", btDialogError);
+					showInformationDialog("Error", "The name must not have empty and have less than 45 characters",
+							btDialogError);
 					return;
 				}
 
@@ -778,7 +774,3 @@ public class EpSensor implements EntryPoint {
 	}
 
 }
-
-
-
-

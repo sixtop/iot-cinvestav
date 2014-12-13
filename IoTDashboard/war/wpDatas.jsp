@@ -8,7 +8,6 @@
 <script type="text/javascript" language="javascript"
 	src="MEpWPDatas/MEpWPDatas.nocache.js"></script>
 	
-	
 <title>SmartCity</title>
 </head>
 <body>
@@ -20,10 +19,11 @@
 		</div>
 		<div class="panel-body">
     			<div id="formContainer"></div>
-    			<p align="center" id="chart">
+    			<div align="center" id="chart"></div>
     			
 		</div>
 	</div>
 		<jsp:include page="footer.jsp" />
 </body>
 </html>
+

@@ -28,7 +28,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class EpSmartThing implements EntryPoint {
+public class EpSmartThing implements EntryPoint
+{
 	private DialogBox dbWait = new DialogBox();
 
 	private String idSmartThing;
@@ -71,11 +72,11 @@ public class EpSmartThing implements EntryPoint {
 	private Button btAddProperty = new Button("Add");
 	private ArrayList<String> property = new ArrayList<String>();
 	private List<ControllerDTO> CONTROLLERS;
-	private static final EntityStoreServiceAsync entityService = GWT
-			.create(EntityStoreService.class);
+	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 
 	@Override
-	public void onModuleLoad() {
+	public void onModuleLoad()
+	{
 		tableFields.setText(0, 0, "Id: ");
 		tableFields.setWidget(0, 1, tbId);
 		tableFields.setText(1, 0, "Name: ");
@@ -84,27 +85,20 @@ public class EpSmartThing implements EntryPoint {
 		tableFields.setWidget(2, 1, tbDescription);
 		tableFields.setText(3, 0, "Controller: ");
 		tableFields.setWidget(3, 1, lbController);
-		
+
 		tbId.setEnabled(false);
-		
-		
+
 		tableProperty.setText(0, 0, "ID");
 		tableProperty.setText(0, 1, "Name");
 		tableProperty.setText(0, 2, "Value");
 		tableProperty.setText(0, 3, "Active");
 		tableProperty.setText(0, 4, "    ");
 
-	
-		tableProperty.getCellFormatter().addStyleName(0, 0,
-				"headerTableProperty");
-		tableProperty.getCellFormatter().addStyleName(0, 1,
-				"headerTableProperty");
-		tableProperty.getCellFormatter().addStyleName(0, 2,
-				"headerTableProperty");
-		tableProperty.getCellFormatter().addStyleName(0, 3,
-				"headerTableProperty");
-		tableProperty.getCellFormatter().addStyleName(0, 4,
-				"headerTableProperty");
+		tableProperty.getCellFormatter().addStyleName(0, 0, "headerTableProperty");
+		tableProperty.getCellFormatter().addStyleName(0, 1, "headerTableProperty");
+		tableProperty.getCellFormatter().addStyleName(0, 2, "headerTableProperty");
+		tableProperty.getCellFormatter().addStyleName(0, 3, "headerTableProperty");
+		tableProperty.getCellFormatter().addStyleName(0, 4, "headerTableProperty");
 
 		tableProperty.addStyleName("tableProperty");
 		tableProperty.setCellPadding(3);
@@ -131,78 +125,94 @@ public class EpSmartThing implements EntryPoint {
 		buttonsPanel.add(btSaveSmartThing);
 		buttonsPanel.add(btCancelSmartThing);
 		formPanel.add(buttonsPanel);
-		formPanel.setCellHorizontalAlignment(buttonsPanel,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		formPanel.setCellHorizontalAlignment(buttonsPanel, HasHorizontalAlignment.ALIGN_RIGHT);
 
 		RootPanel.get("formContainer").add(formPanel);
 
 		showDialogWait();
-		entityService.getEntity(new ControllerDTO(), null,
-				new AsyncCallback<List<ControllerDTO>>() {
+		entityService.getEntity(new ControllerDTO(), null, new AsyncCallback<List<ControllerDTO>>()
+		{
 
-					@Override
-					public void onFailure(Throwable caught) {
-						dbWait.hide();
-						// TODO:
-						Window.alert(caught.getMessage());
-					}
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				dbWait.hide();
+				// TODO:
+				Window.alert(caught.getMessage());
+			}
 
-					@Override
-					public void onSuccess(List<ControllerDTO> result) {
-						dbWait.hide();
-						CONTROLLERS = result;
-						for (ControllerDTO c : CONTROLLERS) {
-							lbController.addItem((c.getId()+""),c.getName());
-						}
+			@Override
+			public void onSuccess(List<ControllerDTO> result)
+			{
+				dbWait.hide();
+				CONTROLLERS = result;
+				for (ControllerDTO c : CONTROLLERS)
+				{
+					lbController.addItem(c.getName(),(c.getId() + ""));
+				}
 
-					}
-				});
+			}
+		});
 
 		RootPanel.get("formContainer").add(formPanel);
 
-		btDialogClose.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		btDialogClose.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent event)
+			{
 				dialogBox.hide();
 				Window.Location.replace("wpSmartThings.jsp");
 			}
 		});
 
-		btDialogError.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		btDialogError.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent event)
+			{
 				dialogBox.hide();
 			}
 		});
 
-		btAddProperty.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		btAddProperty.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent event)
+			{
 				btAddProperty.setEnabled(false);
 				addPropertyRow();
 			}
 		});
 
-		btSaveSmartThing.addClickHandler(new ClickHandler() {
+		btSaveSmartThing.addClickHandler(new ClickHandler()
+		{
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(ClickEvent event)
+			{
 				saveSmartThingAction();
 			}
 		});
 
-		btCancelSmartThing.addClickHandler(new ClickHandler() {
+		btCancelSmartThing.addClickHandler(new ClickHandler()
+		{
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(ClickEvent event)
+			{
 				Window.Location.replace("wpCONTROLLERS.jsp");
 			}
 		});
 
-		saveProperty.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		saveProperty.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent event)
+			{
 				btAddProperty.setEnabled(true);
 				savePropertyAction();
 			}
 		});
 
-		cancelProperty.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		cancelProperty.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent event)
+			{
 				btAddProperty.setEnabled(true);
 				tableProperty.removeRow(tableProperty.getRowCount() - 1);
 			}
@@ -210,62 +220,70 @@ public class EpSmartThing implements EntryPoint {
 
 		// We need to retrieve the id SmartThing to update
 		idSmartThing = Window.Location.getParameter("idSmartThing");
-		if (idSmartThing != null) {
+		if (idSmartThing != null)
+		{
 			updateSmartThingAction();
 		}
 	}
 
-	private void updateSmartThingAction() {
+	private void updateSmartThingAction()
+	{
 		int id = Integer.parseInt(idSmartThing);
 		showDialogWait();
-		entityService.getEntity(new SmartThingDTO(), id,
-				new AsyncCallback<List<SmartThingDTO>>() {
-					@Override
-					public void onFailure(Throwable caught) {
-						dbWait.hide();
-						// TODO:
-						Window.alert(caught.getMessage());
-					}
+		entityService.getEntity(new SmartThingDTO(), id, new AsyncCallback<List<SmartThingDTO>>()
+		{
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				dbWait.hide();
+				// TODO:
+				Window.alert(caught.getMessage());
+			}
 
-					@Override
-					public void onSuccess(List<SmartThingDTO> result) {
-						fillSmartThingData(result);
-					}
-				});
+			@Override
+			public void onSuccess(List<SmartThingDTO> result)
+			{
+				fillSmartThingData(result);
+			}
+		});
 	}
 
-	private void fillSmartThingData(List<SmartThingDTO> result) {
+	private void fillSmartThingData(List<SmartThingDTO> result)
+	{
 		SmartThingDTO c = result.get(0);
 		tbId.setText(c.getId() + "");
 		tbName.setText(c.getName());
 		tbDescription.setText(c.getDescription());
 
-		for (int i = 0; i < lbController.getItemCount(); i++) {
-			if (lbController.getValue(i).equals((c.getIdcontroller() + ""))) {
+		for (int i = 0; i < lbController.getItemCount(); i++)
+		{
+			if (lbController.getValue(i).equals((c.getIdcontroller() + "")))
+			{
 				lbController.setSelectedIndex(i);
 				break;
 			}
 		}
 
 		entityService.getProperties(new SmartThingPropertyDTO(), c.getId(),
-				new AsyncCallback<List<SmartThingPropertyDTO>>() {
+				new AsyncCallback<List<SmartThingPropertyDTO>>()
+				{
 					@Override
-					public void onFailure(Throwable caught) {
+					public void onFailure(Throwable caught)
+					{
 						dbWait.hide();
 						// TODO:
 						Window.alert(caught.getMessage());
 					}
 
 					@Override
-					public void onSuccess(List<SmartThingPropertyDTO> resultP) {
+					public void onSuccess(List<SmartThingPropertyDTO> resultP)
+					{
 						dbWait.hide();
-						for (int i = 0; i < resultP.size(); i++) {
-							tableProperty.setText(i + 1, 0, resultP.get(i)
-									.getId() + "");
-							tableProperty.setText(i + 1, 1, resultP.get(i)
-									.getName());
-							tableProperty.setText(i + 1, 2, resultP.get(i)
-									.getValue());
+						for (int i = 0; i < resultP.size(); i++)
+						{
+							tableProperty.setText(i + 1, 0, resultP.get(i).getId() + "");
+							tableProperty.setText(i + 1, 1, resultP.get(i).getName());
+							tableProperty.setText(i + 1, 2, resultP.get(i).getValue());
 							CheckBox cb = new CheckBox();
 							cb.setValue(resultP.get(i).isActive());
 							cb.setEnabled(false);
@@ -273,10 +291,8 @@ public class EpSmartThing implements EntryPoint {
 
 							listIdProperty.addItem(resultP.get(i).getId() + "");
 							listNameProperty.addItem(resultP.get(i).getName());
-							listValueProperty
-									.addItem(resultP.get(i).getValue());
-							listActiveProperty.addItem(resultP.get(i)
-									.isActive() + "");
+							listValueProperty.addItem(resultP.get(i).getValue());
+							listActiveProperty.addItem(resultP.get(i).isActive() + "");
 
 							final String id = resultP.get(i).getId() + "";
 							property.add(id);
@@ -284,134 +300,125 @@ public class EpSmartThing implements EntryPoint {
 							final Button saveEditProperty = new Button("Save");
 							final Button removeProperty = new Button("Remove");
 							final Button editProperty = new Button("Edit");
-							final Button cancelEditProperty = new Button(
-									"Cancel");
+							final Button cancelEditProperty = new Button("Cancel");
 
 							saveEditProperty.setVisible(false);
 							removeProperty.setVisible(true);
 							editProperty.setVisible(true);
 							cancelEditProperty.setVisible(false);
 
-							removeProperty.addClickHandler(new ClickHandler() {
-								public void onClick(ClickEvent event) {
+							removeProperty.addClickHandler(new ClickHandler()
+							{
+								public void onClick(ClickEvent event)
+								{
 									removePropertyAction(id);
 								}
 							});
 
-							editProperty.addClickHandler(new ClickHandler() {
-								public void onClick(ClickEvent event) {
+							editProperty.addClickHandler(new ClickHandler()
+							{
+								public void onClick(ClickEvent event)
+								{
 									saveEditProperty.setVisible(true);
 									removeProperty.setVisible(false);
 									editProperty.setVisible(false);
 									cancelEditProperty.setVisible(true);
 
 									int editRow = property.indexOf(id);
-									name.setText(listNameProperty
-											.getItemText(editRow));
-									value.setText(listValueProperty
-											.getItemText(editRow));
+									name.setText(listNameProperty.getItemText(editRow));
+									value.setText(listValueProperty.getItemText(editRow));
 
-									if (Boolean.parseBoolean(listActiveProperty
-											.getItemText(editRow))) {
+									if (Boolean.parseBoolean(listActiveProperty.getItemText(editRow)))
+									{
 										active.setValue(true);
-									} else {
+									}
+									else
+									{
 										active.setValue(false);
 									}
 
-									tableProperty.setWidget(editRow + 1, 1,
-											name);
-									tableProperty.setWidget(editRow + 1, 2,
-											value);
-									tableProperty.setWidget(editRow + 1, 3,
-											active);
+									tableProperty.setWidget(editRow + 1, 1, name);
+									tableProperty.setWidget(editRow + 1, 2, value);
+									tableProperty.setWidget(editRow + 1, 3, active);
 								}
 
 							});
 
-							saveEditProperty
-									.addClickHandler(new ClickHandler() {
-										public void onClick(ClickEvent event) {
-											saveEditProperty.setVisible(false);
-											removeProperty.setVisible(true);
-											editProperty.setVisible(true);
-											cancelEditProperty
-													.setVisible(false);
+							saveEditProperty.addClickHandler(new ClickHandler()
+							{
+								public void onClick(ClickEvent event)
+								{
+									saveEditProperty.setVisible(false);
+									removeProperty.setVisible(true);
+									editProperty.setVisible(true);
+									cancelEditProperty.setVisible(false);
 
-											int editRow = property.indexOf(id);
+									int editRow = property.indexOf(id);
 
-											final String symboln = name
-													.getText();
-											final String symbolv = value
-													.getText();
-											CheckBox symbola = new CheckBox();
+									final String symboln = name.getText();
+									final String symbolv = value.getText();
+									CheckBox symbola = new CheckBox();
 
-											if (active.getValue() == true)
-											{
-												symbola.setValue(true);
-											}
-											else
-											{
-												symbola.setValue(false);
-											}
+									if (active.getValue() == true)
+									{
+										symbola.setValue(true);
+									}
+									else
+									{
+										symbola.setValue(false);
+									}
 
-											symbola.setEnabled(false);
+									symbola.setEnabled(false);
 
-											if (symboln.length() > 45 || symboln.length()==0)
-											{
-												showInformationDialog("Error", "The name must not have empty and have less than 45 characters", btDialogError);
-												return;
-											}
+									if (symboln.length() > 45 || symboln.length() == 0)
+									{
+										showInformationDialog("Error",
+												"The name must not have empty and have less than 45 characters",
+												btDialogError);
+										return;
+									}
 
-											if (symbolv.length() > 45)
-											{
-												showInformationDialog("Error", "The value have less than 45 characters", btDialogError);
-												return;
-											}
-											tableProperty.setText(editRow + 1,
-													1, symboln);
-											tableProperty.setText(editRow + 1,
-													2, symbolv);
-											tableProperty.setWidget(
-													editRow + 1, 3, symbola);
+									if (symbolv.length() > 45)
+									{
+										showInformationDialog("Error", "The value have less than 45 characters",
+												btDialogError);
+										return;
+									}
+									tableProperty.setText(editRow + 1, 1, symboln);
+									tableProperty.setText(editRow + 1, 2, symbolv);
+									tableProperty.setWidget(editRow + 1, 3, symbola);
 
-											listNameProperty.setItemText(
-													editRow, symboln);
-											listValueProperty.setItemText(
-													editRow, symbolv);
-											listActiveProperty.setItemText(
-													editRow, symbola.getValue()
-															+ "");
+									listNameProperty.setItemText(editRow, symboln);
+									listValueProperty.setItemText(editRow, symbolv);
+									listActiveProperty.setItemText(editRow, symbola.getValue() + "");
 
-											name.setText("");
-											value.setText("");
-											active.setValue(false);
+									name.setText("");
+									value.setText("");
+									active.setValue(false);
 
-										}
-									});
+								}
+							});
 
-							cancelEditProperty
-									.addClickHandler(new ClickHandler() {
-										public void onClick(ClickEvent event) {
-											saveEditProperty.setVisible(false);
-											removeProperty.setVisible(true);
-											editProperty.setVisible(true);
-											cancelEditProperty
-													.setVisible(false);
+							cancelEditProperty.addClickHandler(new ClickHandler()
+							{
+								public void onClick(ClickEvent event)
+								{
+									saveEditProperty.setVisible(false);
+									removeProperty.setVisible(true);
+									editProperty.setVisible(true);
+									cancelEditProperty.setVisible(false);
 
-											int editRow = property.indexOf(id);
-											tableProperty.setText(editRow + 1,
-													1, name.getText());
-											tableProperty.setText(editRow + 1,
-													2, value.getText());
-											tableProperty.setWidget(
-													editRow + 1, 3, active);
+									int editRow = property.indexOf(id);
+									tableProperty.setText(editRow + 1, 1, name.getText());
+									tableProperty.setText(editRow + 1, 2, value.getText());
+									tableProperty.setWidget(editRow + 1, 3, active);
 
-											name.setText("");
-											value.setText("");
-											active.setValue(false);
+									name.setText("");
+									value.setText("");
+									active.setValue(false);
 
-										}
-									});
+								}
+							});
 
 							HorizontalPanel buttonsPanel = new HorizontalPanel();
 							buttonsPanel.add(editProperty);
@@ -425,47 +432,56 @@ public class EpSmartThing implements EntryPoint {
 				});
 	}
 
-	private void removePropertyAction(String id) {
-		int deleteP = Integer.parseInt(listIdProperty.getItemText(property
-				.indexOf(id)));
+	private void removePropertyAction(String id)
+	{
+		int deleteP = Integer.parseInt(listIdProperty.getItemText(property.indexOf(id)));
 		showDialogWait();
-		entityService.deleteProperty(new SmartThingPropertyDTO(), deleteP,
-				new AsyncCallback<Void>() {
+		entityService.deleteProperty(new SmartThingPropertyDTO(), deleteP, new AsyncCallback<Void>()
+		{
 
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO
-						dbWait.hide();
-						Window.alert(caught.getMessage());
-					}
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				// TODO
+				dbWait.hide();
+				Window.alert(caught.getMessage());
+			}
 
-					@Override
-					public void onSuccess(Void result) {
-						dbWait.hide();
-						Window.Location.reload();
-					}
-				});
+			@Override
+			public void onSuccess(Void result)
+			{
+				dbWait.hide();
+				Window.Location.reload();
+			}
+		});
 	}
 
-	private void saveSmartThingAction() {
+	private void saveSmartThingAction()
+	{
 		SmartThingDTO c = new SmartThingDTO();
-		if (idSmartThing != null) {
+		if (idSmartThing != null)
+		{
 			c.setId(Integer.parseInt(idSmartThing));
 		}
 		c.setName(tbName.getText());
 		c.setDescription(tbDescription.getText());
 		c.setIdcontroller(Integer.parseInt(lbController.getValue(lbController.getSelectedIndex())));
-		
+
 		Collection<IoTPropertyDTO> props = new ArrayList<>();
-		for (int i = 0; i < listNameProperty.getItemCount(); i++) {
+		for (int i = 0; i < listNameProperty.getItemCount(); i++)
+		{
 			IoTPropertyDTO prop = new SmartThingPropertyDTO();
-			if (idSmartThing != null) {
+			if (idSmartThing != null)
+			{
 				prop.setParentId(c.getId());
 			}
 			String idProp = listIdProperty.getItemText(i);
-			if (!"".equals(idProp)) {
+			if (!"".equals(idProp))
+			{
 				prop.setId(Integer.parseInt(idProp));
-			} else {
+			}
+			else
+			{
 				prop.setId(null);
 			}
 			prop.setName(listNameProperty.getItemText(i));
@@ -475,16 +491,18 @@ public class EpSmartThing implements EntryPoint {
 		}
 
 		showDialogWait();
-		entityService.storeEntity(c, props, new AsyncCallback<Void>() {
+		entityService.storeEntity(c, props, new AsyncCallback<Void>()
+		{
 			@Override
-			public void onSuccess(Void result) {
+			public void onSuccess(Void result)
+			{
 				dbWait.hide();
-				showInformationDialog("Information",
-						"SmartThing succesfully stored", btDialogClose);
+				showInformationDialog("Information", "SmartThing succesfully stored", btDialogClose);
 			}
 
 			@Override
-			public void onFailure(Throwable caught) {
+			public void onFailure(Throwable caught)
+			{
 				// TODO
 				dbWait.hide();
 				Window.alert(caught.getMessage());
@@ -492,24 +510,23 @@ public class EpSmartThing implements EntryPoint {
 		});
 	}
 
-	private void showInformationDialog(String title, String message,
-			Button btDialogClose) {
+	private void showInformationDialog(String title, String message, Button btDialogClose)
+	{
 		dialogBox.center();
 		dialogBox.setAnimationEnabled(true);
 		dialogBox.setGlassEnabled(true);
 		dialogBox.setText(title);
 		lbDialogBox.setText(message);
 		dialogPanel.add(lbDialogBox);
-		dialogPanel.setCellHorizontalAlignment(lbDialogBox,
-				HasHorizontalAlignment.ALIGN_CENTER);
+		dialogPanel.setCellHorizontalAlignment(lbDialogBox, HasHorizontalAlignment.ALIGN_CENTER);
 		dialogPanel.add(btDialogClose);
-		dialogPanel.setCellHorizontalAlignment(btDialogClose,
-				HasHorizontalAlignment.ALIGN_CENTER);
+		dialogPanel.setCellHorizontalAlignment(btDialogClose, HasHorizontalAlignment.ALIGN_CENTER);
 		dialogBox.add(dialogPanel);
 		dialogBox.show();
 	}
 
-	private void addPropertyRow() {
+	private void addPropertyRow()
+	{
 		int row = tableProperty.getRowCount();
 		tableProperty.setText(row, 0, " ");
 		tableProperty.setWidget(row, 1, name);
@@ -521,7 +538,8 @@ public class EpSmartThing implements EntryPoint {
 		tableProperty.setWidget(row, 4, buttonPanel);
 	}
 
-	private void savePropertyAction() {
+	private void savePropertyAction()
+	{
 		tableProperty.removeRow(tableProperty.getRowCount() - 1);
 
 		final String symboln = name.getText();
@@ -539,9 +557,10 @@ public class EpSmartThing implements EntryPoint {
 
 		symbola.setEnabled(false);
 
-		if (symboln.length() > 45 || symboln.length()==0)
+		if (symboln.length() > 45 || symboln.length() == 0)
 		{
-			showInformationDialog("Error", "The name must not have empty and have less than 45 characters", btDialogError);
+			showInformationDialog("Error", "The name must not have empty and have less than 45 characters",
+					btDialogError);
 			return;
 		}
 
@@ -577,8 +596,10 @@ public class EpSmartThing implements EntryPoint {
 		editProperty.setVisible(true);
 		cancelEditProperty.setVisible(false);
 
-		removeProperty.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		removeProperty.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent event)
+			{
 				int removedIndex = property.indexOf(symboln);
 				property.remove(removedIndex);
 				tableProperty.removeRow(removedIndex + 1);
@@ -590,8 +611,10 @@ public class EpSmartThing implements EntryPoint {
 			}
 		});
 
-		editProperty.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		editProperty.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent event)
+			{
 				saveEditProperty.setVisible(true);
 				removeProperty.setVisible(false);
 				editProperty.setVisible(false);
@@ -602,10 +625,12 @@ public class EpSmartThing implements EntryPoint {
 				name.setText(listNameProperty.getItemText(editRow));
 				value.setText(listValueProperty.getItemText(editRow));
 
-				if (Boolean.parseBoolean(listActiveProperty
-						.getItemText(editRow))) {
+				if (Boolean.parseBoolean(listActiveProperty.getItemText(editRow)))
+				{
 					active.setValue(true);
-				} else {
+				}
+				else
+				{
 					active.setValue(false);
 				}
 
@@ -616,8 +641,10 @@ public class EpSmartThing implements EntryPoint {
 
 		});
 
-		saveEditProperty.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		saveEditProperty.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent event)
+			{
 				saveEditProperty.setVisible(false);
 				removeProperty.setVisible(true);
 				editProperty.setVisible(true);
@@ -641,9 +668,10 @@ public class EpSmartThing implements EntryPoint {
 
 				symbola.setEnabled(false);
 
-				if (symboln.length() > 45 || symboln.length()==0)
+				if (symboln.length() > 45 || symboln.length() == 0)
 				{
-					showInformationDialog("Error", "The name must not have empty and have less than 45 characters", btDialogError);
+					showInformationDialog("Error", "The name must not have empty and have less than 45 characters",
+							btDialogError);
 					return;
 				}
 
@@ -667,8 +695,10 @@ public class EpSmartThing implements EntryPoint {
 			}
 		});
 
-		cancelEditProperty.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		cancelEditProperty.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent event)
+			{
 				btAddProperty.setEnabled(true);
 				int editRow = property.indexOf(symboln);
 				tableProperty.setText(editRow + 1, 1, name.getText());
@@ -691,7 +721,8 @@ public class EpSmartThing implements EntryPoint {
 		tableProperty.setWidget(row, 4, buttonsPanel);
 	}
 
-	public void showDialogWait() {
+	public void showDialogWait()
+	{
 
 		dbWait.setAnimationEnabled(true);
 		dbWait.setGlassEnabled(true);
@@ -707,8 +738,7 @@ public class EpSmartThing implements EntryPoint {
 		image.setUrl(GWT.getHostPageBaseURL() + "images/loading2.gif");
 
 		dialogContents.add(image);
-		dialogContents.setCellHorizontalAlignment(image,
-				HasHorizontalAlignment.ALIGN_CENTER);
+		dialogContents.setCellHorizontalAlignment(image, HasHorizontalAlignment.ALIGN_CENTER);
 
 		dbWait.setWidget(dialogContents);
 		dbWait.show();

@@ -184,7 +184,7 @@ public class EpController implements EntryPoint
 			public void onClick(ClickEvent event)
 			{
 				btAddProperty.setEnabled(true);
-				tableProperty.removeRow(tableProperty.getRowCount()-1);
+				tableProperty.removeRow(tableProperty.getRowCount() - 1);
 			}
 		});
 
@@ -331,18 +331,21 @@ public class EpController implements EntryPoint
 
 									symbola.setEnabled(false);
 
-									if (symboln.length() > 45 || symboln.length()==0)
+									if (symboln.length() > 45 || symboln.length() == 0)
 									{
-										showInformationDialog("Error", "The name must not have empty and have less than 45 characters", btDialogError);
+										showInformationDialog("Error",
+												"The name must not have empty and have less than 45 characters",
+												btDialogError);
 										return;
 									}
 
 									if (symbolv.length() > 45)
 									{
-										showInformationDialog("Error", "The value have less than 45 characters", btDialogError);
+										showInformationDialog("Error", "The value have less than 45 characters",
+												btDialogError);
 										return;
 									}
-									
+
 									tableProperty.setText(editRow + 1, 1, symboln);
 									tableProperty.setText(editRow + 1, 2, symbolv);
 									tableProperty.setWidget(editRow + 1, 3, symbola);
@@ -457,7 +460,7 @@ public class EpController implements EntryPoint
 				dbWait.hide();
 				showInformationDialog("Information", "Controller succesfully stored", btDialogClose);
 			}
-			
+
 			@Override
 			public void onFailure(Throwable caught)
 			{
@@ -467,7 +470,7 @@ public class EpController implements EntryPoint
 			}
 		});
 	}
-	
+
 	private void showInformationDialog(String title, String message, Button btDialogClose)
 	{
 		dialogBox.setAnimationEnabled(true);
@@ -515,9 +518,10 @@ public class EpController implements EntryPoint
 
 		symbola.setEnabled(false);
 
-		if (symboln.length() > 45 || symboln.length()==0)
+		if (symboln.length() > 45 || symboln.length() == 0)
 		{
-			showInformationDialog("Error", "The name must not have empty and have less than 45 characters", btDialogError);
+			showInformationDialog("Error", "The name must not have empty and have less than 45 characters",
+					btDialogError);
 			return;
 		}
 
@@ -625,9 +629,10 @@ public class EpController implements EntryPoint
 
 				symbola.setEnabled(false);
 
-				if (symboln.length() > 45 || symboln.length()==0)
+				if (symboln.length() > 45 || symboln.length() == 0)
 				{
-					showInformationDialog("Error", "The name must not have empty and have less than 45 characters", btDialogError);
+					showInformationDialog("Error", "The name must not have empty and have less than 45 characters",
+							btDialogError);
 					return;
 				}
 

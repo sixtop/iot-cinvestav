@@ -12,11 +12,7 @@
 </head>
 <body>
 	<jsp:include page="header.jsp" />
-	<div id="container">
-	<h2>WELCOME</h2>
-	<div id="formContainer"></div>
-	</div>
+	<div align="center" id="chart"></div>
 	<jsp:include page="footer.jsp" />
 </body>
 </html>
-

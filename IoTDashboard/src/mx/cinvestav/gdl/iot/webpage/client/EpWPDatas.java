@@ -1,8 +1,10 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
 
@@ -23,7 +25,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
@@ -34,23 +35,20 @@ import com.googlecode.gwt.charts.client.corechart.LineChartOptions;
 import com.googlecode.gwt.charts.client.options.HAxis;
 import com.googlecode.gwt.charts.client.options.VAxis;
 
-public class EpWPDatas implements EntryPoint {
+public class EpWPDatas implements EntryPoint
+{
 	private DialogBox dbWait = new DialogBox();
-	
 	private LineChart lineChart;
 
 	private VerticalPanel formPanel = new VerticalPanel();
 
 	private FlexTable tableData = new FlexTable();
-
 	private ListBox lbController = new ListBox();
-	private ListBox lbIdController = new ListBox();
 
 	private ListBox lbSmartThing = new ListBox();
-	private ListBox lbIdSmartThing = new ListBox();
 
 	private ListBox lbSensor = new ListBox();
-	private ListBox lbIdSensor = new ListBox();
+	private ListBox lbTypeSensor = new ListBox();
 
 	private DateBox dbFrom = new DateBox();
 	private DateBox dbTo = new DateBox();
@@ -60,34 +58,37 @@ public class EpWPDatas implements EntryPoint {
 	private List<SmartThingDTO> SMARTTHINGS;
 	private List<SensorDTO> SENSORS;
 
-	private static final EntityStoreServiceAsync entityService = GWT
-			.create(EntityStoreService.class);
+	private int index;
+
+	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 
 	@Override
-	public void onModuleLoad() {
+	public void onModuleLoad()
+	{
 
 		showDialogWait();
-		entityService.getEntity(new ControllerDTO(), null,
-				new AsyncCallback<List<ControllerDTO>>() {
+		entityService.getEntity(new ControllerDTO(), null, new AsyncCallback<List<ControllerDTO>>()
+		{
 
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-					}
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				// TODO Auto-generated method stub
+			}
 
-					@Override
-					public void onSuccess(List<ControllerDTO> result) {
-						dbWait.hide();
-						CONTROLLERS = result;
-						lbController.addItem("Select...");
-						lbIdController.addItem("-");
+			@Override
+			public void onSuccess(List<ControllerDTO> result)
+			{
+				dbWait.hide();
+				CONTROLLERS = result;
+				lbController.addItem("Select...");
 
-						for (ControllerDTO c : CONTROLLERS) {
-							lbController.addItem(c.getName());
-							lbIdController.addItem(c.getId() + "");
-						}
-					}
-				});
+				for (ControllerDTO c : CONTROLLERS)
+				{
+					lbController.addItem(c.getName(), c.getId() + "");
+				}
+			}
+		});
 
 		tableData.setText(0, 0, "Controller: ");
 		tableData.setWidget(0, 1, lbController);
@@ -95,8 +96,8 @@ public class EpWPDatas implements EntryPoint {
 		tableData.setText(1, 0, "SmartThing: ");
 		tableData.setWidget(1, 1, lbSmartThing);
 
-		tableData.setText(2, 0, "Sensor: ");
-		tableData.setWidget(2, 1, lbSensor);
+		tableData.setText(2, 0, "Type sensor: ");
+		tableData.setWidget(2, 1, lbTypeSensor);
 
 		tableData.setText(3, 0, "From date: ");
 		tableData.setWidget(3, 1, dbFrom);
@@ -109,160 +110,199 @@ public class EpWPDatas implements EntryPoint {
 
 		formPanel.add(tableData);
 		formPanel.add(btGenerate);
-		formPanel.setCellHorizontalAlignment(btGenerate,
-				HasHorizontalAlignment.ALIGN_CENTER);
+		formPanel.setCellHorizontalAlignment(btGenerate, HasHorizontalAlignment.ALIGN_CENTER);
 		RootPanel.get("formContainer").add(formPanel);
 
 		dbFrom.getDatePicker().setYearArrowsVisible(true);
 		dbTo.getDatePicker().setYearArrowsVisible(true);
 
-		/*
-		 * DateTimeFormat dateFormat = DateTimeFormat.getFullDateFormat();
-		 * dbFrom.setFormat(new DateBox.DefaultFormat(dateFormat));
-		 * dbTo.setFormat(new DateBox.DefaultFormat(dateFormat));
-		 */
-		lbController.addChangeHandler(new ChangeHandler() {
-			
-			public void onChange(ChangeEvent event) {
+		lbController.addChangeHandler(new ChangeHandler()
+		{
 
-				final int idController = Integer.parseInt(lbIdController
-						.getValue(lbController.getSelectedIndex()));
+			public void onChange(ChangeEvent event)
+			{
 
-				Window.alert("Controller" + idController);
+				final int idController = Integer.parseInt(lbController.getValue(lbController.getSelectedIndex()));
 
-				entityService.getEntity(new SmartThingDTO(), null,
-						new AsyncCallback<List<SmartThingDTO>>() {
+				entityService.getEntity(new SmartThingDTO(), null, new AsyncCallback<List<SmartThingDTO>>()
+				{
 
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-							}
-
-							@Override
-							public void onSuccess(List<SmartThingDTO> result) {
-								SMARTTHINGS = result;
-								lbSmartThing.clear();
-								lbIdSmartThing.clear();
-
-								lbSmartThing.addItem("Select...");
-								lbIdSmartThing.addItem("-");
-
-								lbSmartThing.setEnabled(true);
-
-								for (SmartThingDTO c : SMARTTHINGS) {
-									if (c.getIdcontroller() == idController) {
-										lbSmartThing.addItem(c.getName());
-										lbIdSmartThing.addItem(c.getId() + "");
-									}
-								}
-
-							}
-						});
-
-			}
-		});
-
-		lbSmartThing.addChangeHandler(new ChangeHandler() {
-			@Override
-			public void onChange(ChangeEvent event) {
-
-				final int idSmartThing = Integer.parseInt(lbIdSmartThing
-						.getValue(lbSmartThing.getSelectedIndex()));
-
-				Window.alert("idSmart" + idSmartThing);
-
-				entityService.getEntity(new SensorDTO(), null,
-						new AsyncCallback<List<SensorDTO>>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-							}
-
-							@Override
-							public void onSuccess(List<SensorDTO> result) {
-								SENSORS = result;
-								lbSensor.clear();
-								lbIdSensor.clear();
-								lbSensor.addItem("Select...");
-								lbIdSensor.addItem("-");
-								lbSensor.setEnabled(true);
-
-								for (SensorDTO c : SENSORS) {
-									if (c.getIdthing() == idSmartThing) {
-										lbSensor.addItem(c.getName());
-										lbIdSensor.addItem(c.getId() + "");
-									}
-								}
-							}
-						});
-
-			}
-		});
-
-		btGenerate.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-
-				// Window.alert("GENERA Sensor"+lbIdSensor.getItemText(lbSensor.getSelectedIndex()));
-				Window.alert("GENERA Sensor");
-
-				
-				ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
-				chartLoader.loadApi(new Runnable() {
 					@Override
-					public void run() {
-						DecoratorPanel chartPanel =new DecoratorPanel();
-						chartPanel.add(getLineChart());
-					
-						RootPanel.get("chart").add(chartPanel);
-						
-						drawLineChart();
+					public void onFailure(Throwable caught)
+					{
+						// TODO Auto-generated method stub
+					}
+
+					@Override
+					public void onSuccess(List<SmartThingDTO> result)
+					{
+						SMARTTHINGS = result;
+						lbSmartThing.clear();
+
+						lbSmartThing.addItem("Select...");
+
+						lbSmartThing.setEnabled(true);
+
+						for (SmartThingDTO c : SMARTTHINGS)
+						{
+							if (c.getIdcontroller() == idController)
+							{
+								lbSmartThing.addItem(c.getName(), c.getId() + "");
+							}
+						}
+
+					}
+				});
+
+			}
+		});
+
+		lbSmartThing.addChangeHandler(new ChangeHandler()
+		{
+			@Override
+			public void onChange(ChangeEvent event)
+			{
+
+				final int idSmartThing = Integer.parseInt(lbSmartThing.getValue(lbSmartThing.getSelectedIndex()));
+				entityService.getEntity(new SensorDTO(), null, new AsyncCallback<List<SensorDTO>>()
+				{
+
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						// TODO Auto-generated method stub
+					}
+
+					@Override
+					public void onSuccess(List<SensorDTO> result)
+					{
+						SENSORS = result;
+						lbSensor.clear();
+
+						lbTypeSensor.clear();
+						lbTypeSensor.addItem("Select...");
+						lbSensor.setEnabled(true);
+
+						for (SensorDTO c : SENSORS)
+						{
+							if (c.getIdthing() == idSmartThing)
+							{
+								lbSensor.addItem(c.getSensor_type(), c.getId() + "");
+							}
+						}
+
+						ArrayList<String> typeSensor = new ArrayList<String>();
+
+						for (int i = 0; i < lbSensor.getItemCount(); i++)
+						{
+							if (!typeSensor.contains(lbSensor.getItemText(i)))
+							{
+								typeSensor.add(lbSensor.getItemText(i));
+								lbTypeSensor.addItem(lbSensor.getItemText(i));
+							}
+						}
+
+					}
+				});
+
+			}
+		});
+
+		btGenerate.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent event)
+			{
+
+				final String type = lbTypeSensor.getItemText(lbTypeSensor.getSelectedIndex());
+
+				index = 0;
+
+				for (int i = 0; i < SENSORS.size(); i++)
+				{
+					if (SENSORS.get(i).getSensor_type().equals(type))
+					{
+						Window.alert("Sensor enter");
+
+						final String name = SENSORS.get(i).getName();
+
+						entityService.getSensorData(SENSORS.get(i).getId(), dbFrom.getValue(), dbTo.getValue(),
+								new AsyncCallback<List<MeasureDTO>>()
+								{
+
+									@Override
+									public void onFailure(Throwable caught)
+									{
+										// TODO Auto-generated method stub
+
+									}
+
+									@Override
+									public void onSuccess(final List<MeasureDTO> result)
+									{
+										ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+										chartLoader.loadApi(new Runnable()
+										{
+											@Override
+											public void run()
+											{
+												DecoratorPanel chartPanel = new DecoratorPanel();
+												chartPanel.add(getLineChart());
+
+												RootPanel.get("chart").add(chartPanel);
+
+												drawLineChart(result, name);
+											}
+
+										});
+									}
+
+								});
 
 					}
 
-				});
-				
+				}
+
 			}
 		});
 
 	}
 
-	private Widget getLineChart() {
-		if (lineChart == null) {
+	private LineChart getLineChart()
+	{
+		if (lineChart == null)
+		{
 			lineChart = new LineChart();
 		}
 		return lineChart;
 	}
-	
 
-	private void drawLineChart() {
-		String[] countries = new String[] { "Austria", "Bulgaria", "Denmark",
-				"Greece" };
-		int[] years = new int[] { 2003, 2004, 2005, 2006, 2007, 2008 };
-		int[][] values = new int[][] {
-				{ 1336060, 1538156, 1576579, 1600652, 1968113, 1901067 },
-				{ 400361, 366849, 440514, 434552, 393032, 517206 },
-				{ 1001582, 1119450, 993360, 1004163, 979198, 916965 },
-				{ 997974, 941795, 930593, 897127, 1080887, 1056036 } };
+	private void drawLineChart(List<MeasureDTO> result, String name)
+	{
+
+
+		ArrayList<String> dates = new ArrayList<String>();
+
+		for (int rows = 0; rows < result.size(); rows++)
+		{
+			dates.add(result.get(rows).getMeasure_date().toString());
+		}
 
 		// Prepare the data
 		DataTable dataTable = DataTable.create();
-		
+
 		dataTable.addColumn(ColumnType.STRING, "Year");
-		for (int i = 0; i < countries.length; i++) {
-			dataTable.addColumn(ColumnType.NUMBER, countries[i]);
+		dataTable.addColumn(ColumnType.NUMBER, name);
+
+		dataTable.addRows(dates.size());
+
+		for (int i = 0; i < dates.size(); i++)
+		{
+			dataTable.setValue(i, 0, dates.get(i));
 		}
-		
-		dataTable.addRows(years.length);
-		for (int i = 0; i < years.length; i++) {
-			dataTable.setValue(i, 0, String.valueOf(years[i]));
-		}
-		
-		
-		for (int col = 0; col < values.length; col++) {
-			for (int row = 0; row < values[col].length; row++) {
-				dataTable.setValue(row, col + 1, values[col][row]);
-			}
+
+		for (int row = 0; row < result.size(); row++)
+		{
+			dataTable.setValue(row, 1, result.get(row).getMeasure());
 		}
 
 		// Set options
@@ -278,29 +318,29 @@ public class EpWPDatas implements EntryPoint {
 		// Draw the chart
 		lineChart.draw(dataTable, options);
 	}
-	
-public void showDialogWait(){
-		
+
+	public void showDialogWait()
+	{
+
 		dbWait.setAnimationEnabled(true);
 		dbWait.setGlassEnabled(true);
 		dbWait.setModal(true);
 		dbWait.center();
 
-	    VerticalPanel dialogContents = new VerticalPanel();
-	    
-	    dialogContents.setSpacing(4);
-	    
-	    Image image = new Image();
-	    
-	    image.setUrl(GWT.getHostPageBaseURL()+"images/loading2.gif");
-	    
-	    
-	    dialogContents.add(image);
-	    dialogContents.setCellHorizontalAlignment(image, HasHorizontalAlignment.ALIGN_CENTER);
-	    
-	    dbWait.setWidget(dialogContents);
-	    dbWait.show();
-		
+		VerticalPanel dialogContents = new VerticalPanel();
+
+		dialogContents.setSpacing(4);
+
+		Image image = new Image();
+
+		image.setUrl(GWT.getHostPageBaseURL() + "images/loading2.gif");
+
+		dialogContents.add(image);
+		dialogContents.setCellHorizontalAlignment(image, HasHorizontalAlignment.ALIGN_CENTER);
+
+		dbWait.setWidget(dialogContents);
+		dbWait.show();
+
 	}
-	
+
 }
