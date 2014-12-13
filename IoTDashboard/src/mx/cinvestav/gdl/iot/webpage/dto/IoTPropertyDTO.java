@@ -9,6 +9,6 @@ public interface IoTPropertyDTO extends Serializable
 	public void setId(Integer id);
 	public void setName(String name);
 	public void setValue(String value);
-	public void setActive(boolean active);
+	public void setActive(Boolean active);
 	
 }

@@ -309,7 +309,7 @@ public class EpSmartThing implements EntryPoint {
 							tbDescription.setText(c.getDescription());
 							
 							for(int i=0;i<CONTROLLERS.size();i++){
-								if(CONTROLLERS.get(i).getId() == c.getIdcontroller()){
+								if(CONTROLLERS.get(i).getId().intValue() == c.getIdcontroller().intValue()){
 									lbController.setSelectedIndex(i);
 									break;
 								}

@@ -21,7 +21,7 @@ public class Sensor implements IoTEntity
 	private Integer id;
 
 	@Column(name = "isactive")
-	private boolean active;
+	private Boolean active;
 
 	private String name;
 	private String description;
@@ -32,20 +32,14 @@ public class Sensor implements IoTEntity
 	private double longitude;
 	private double altitude;
 	@Transient
-	private Map<Integer, Measure> measures;
+	transient private Map<Integer, Measure> measures;
 	@Transient
-	private Map<Integer, SensorProperty> properties;
+	transient private Map<Integer, SensorProperty> properties;
 	private Integer idthing;
 
 	public Sensor()
 	{
 		super();
-	}
-
-	public Sensor(boolean active2, String sensor_type2, String unit2, double latitude2,
-			double longitude2, double altitude2)
-	{
-		this.active = active2;
 	}
 
 	public Integer getId()
@@ -58,12 +52,12 @@ public class Sensor implements IoTEntity
 		this.id = id;
 	}
 
-	public boolean isActive()
+	public Boolean isActive()
 	{
 		return active;
 	}
 
-	public void setActive(boolean active)
+	public void setActive(Boolean active)
 	{
 		this.active = active;
 	}

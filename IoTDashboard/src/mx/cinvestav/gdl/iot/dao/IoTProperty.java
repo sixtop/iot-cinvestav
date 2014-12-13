@@ -14,6 +14,6 @@ public interface IoTProperty extends Serializable
 
 	public void setValue(String value);
 
-	public void setActive(boolean active);
+	public void setActive(Boolean active);
 
 }

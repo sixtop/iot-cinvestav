@@ -17,3 +17,9 @@
 !/MLogin/MLogin.nocache.js
 /MEpData/*
 !/MEpData/MEpData.nocache.js
+/MEpWPData/*
+!/MEpWPData/MEpWPData.nocache.js
+/MEpDatas/*
+!/MEpDatas/MEpData.nocache.js
+/MEpWPDatas/*
+!/MEpWPDatas/MEpWPData.nocache.js

@@ -18,7 +18,7 @@ public class SensorProperty implements IoTProperty
 	private String name;
 	private String value;
 	@Column(name = "isactive")
-	private boolean active;
+	private Boolean active;
 	private Integer idsensor;
 
 	public Integer getId()
@@ -51,12 +51,12 @@ public class SensorProperty implements IoTProperty
 		this.value = value;
 	}
 
-	public boolean isActive()
+	public Boolean isActive()
 	{
 		return active;
 	}
 
-	public void setActive(boolean active)
+	public void setActive(Boolean active)
 	{
 		this.active = active;
 	}

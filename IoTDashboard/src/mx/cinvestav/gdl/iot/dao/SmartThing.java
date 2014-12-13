@@ -24,7 +24,7 @@ public class SmartThing implements IoTEntity
 	@Transient
 	private Map<Integer, Sensor> sensors;
 	@Transient
-	private Map<Integer, Measure> measures;
+	transient private Map<Integer, Measure> measures;
 	@Transient
 	private Map<Integer, SmartThingProperty> properties;
 

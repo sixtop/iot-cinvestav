@@ -6,7 +6,7 @@ public class SensorPropertyDTO implements IoTPropertyDTO
 	private Integer id;
 	private String name;
 	private String value;
-	private boolean active;
+	private Boolean active;
 	private Integer idsensor;
 
 	public Integer getId()
@@ -39,12 +39,12 @@ public class SensorPropertyDTO implements IoTPropertyDTO
 		this.value = value;
 	}
 
-	public boolean isActive()
+	public Boolean isActive()
 	{
 		return active;
 	}
 
-	public void setActive(boolean active)
+	public void setActive(Boolean active)
 	{
 		this.active = active;
 	}

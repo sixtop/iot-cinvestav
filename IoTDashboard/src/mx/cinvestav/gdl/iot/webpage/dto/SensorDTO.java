@@ -7,7 +7,7 @@ public class SensorDTO implements IoTEntityDTO
 	private static final long serialVersionUID = -1165471382042735357L;
 
 	private Integer id;
-	private boolean active;
+	private Boolean active;
 	private String name;
 	private String description;
 	private String sensor_type;
@@ -24,12 +24,6 @@ public class SensorDTO implements IoTEntityDTO
 		super();
 	}
 
-	public SensorDTO(boolean active2, String sensor_type2, String unit2, double latitude2,
-			double longitude2, double altitude2)
-	{
-		this.active = active2;
-	}
-
 	public Integer getId()
 	{
 		return id;
@@ -40,12 +34,12 @@ public class SensorDTO implements IoTEntityDTO
 		this.id = id;
 	}
 
-	public boolean isActive()
+	public Boolean isActive()
 	{
 		return active;
 	}
 
-	public void setActive(boolean active)
+	public void setActive(Boolean active)
 	{
 		this.active = active;
 	}
