@@ -1,7 +1,5 @@
 package mx.cinvestav.gdl.iot.webpage.dao;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;

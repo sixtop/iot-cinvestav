@@ -129,7 +129,8 @@ public class EpWPController implements EntryPoint {
 	            }
 	        });
 
-	        Column<ControllerDTO, ActionCell<ControllerDTO>> editColumn = (new IdentityColumn(editAction));
+	       IdentityColumn<ControllerDTO> identityColumn = new IdentityColumn<>(editAction);
+	        //Column<ControllerDTO, ActionCell<ControllerDTO>> editColumn = identityColumn;
 	        
 	        ActionCell<ControllerDTO> deleteAction = new ActionCell<ControllerDTO>("Delete", new ActionCell.Delegate<ControllerDTO>() {
 	            public void execute(ControllerDTO c){
@@ -165,7 +166,7 @@ public class EpWPController implements EntryPoint {
   			 tableControllerDTO.addColumn(nameColumn, "Name");
   			 tableControllerDTO.addColumn(descriptionColumn, "Description");
   			 tableControllerDTO.addColumn(locationColumn, "Location");
-  			 tableControllerDTO.addColumn(editColumn,"Edit");
+  			 tableControllerDTO.addColumn(identityColumn,"Edit");
   			 tableControllerDTO.addColumn(deleteColumn,"Delete");
   			
   		    ListHandler<ControllerDTO> sortHandler = new ListHandler<ControllerDTO>(dataProvider.getList());
@@ -246,23 +247,6 @@ public class EpWPController implements EntryPoint {
 	              dialogBox.hide();
 	            }
 	          });
-	    
-		    entityService.getSensorData(0,  new Date(), new Date(), new AsyncCallback<List<MeasureDTO>>()
-			{
-
-				@Override
-				public void onFailure(Throwable caught)
-				{
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void onSuccess(List<MeasureDTO> result)
-				{
-					Window.alert("sensor data:" + result.size());					
-				}
-			});
 	}
 	
 public void showDialogWait(){
