@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import mx.cinvestav.gdl.iot.dao.DAO;
+import mx.cinvestav.gdl.iot.dao.IoTEntity;
+import mx.cinvestav.gdl.iot.dao.IoTProperty;
+import mx.cinvestav.gdl.iot.dao.Measure;
 import mx.cinvestav.gdl.iot.webpage.client.DatabaseException;
 import mx.cinvestav.gdl.iot.webpage.client.EntityStoreService;
-import mx.cinvestav.gdl.iot.webpage.dao.DAO;
-import mx.cinvestav.gdl.iot.webpage.dao.IoTEntity;
-import mx.cinvestav.gdl.iot.webpage.dao.IoTProperty;
-import mx.cinvestav.gdl.iot.webpage.dao.Measure;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTEntityDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;

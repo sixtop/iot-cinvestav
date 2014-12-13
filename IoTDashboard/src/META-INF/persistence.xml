@@ -5,31 +5,15 @@
         http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
 	version="1.0">
 
-<!-- 	<persistence-unit name="SmartCitiesCloudDatastore"> -->
-<!-- 		<provider>org.datanucleus.api.jpa.PersistenceProviderImpl</provider> -->
-<!-- 		<class>mx.cinvestav.gdl.iot.dao.Controller</class> -->
-<!-- 		<class>mx.cinvestav.gdl.iot.dao.SmartThing</class> -->
-<!-- 		<class>mx.cinvestav.gdl.iot.dao.ControllerProperty</class> -->
-<!-- 		<class>mx.cinvestav.gdl.iot.dao.Sensor</class> -->
-<!-- 		<class>mx.cinvestav.gdl.iot.dao.Measure</class> -->
-<!-- 		<class>mx.cinvestav.gdl.iot.dao.SensorProperty</class> -->
-<!-- 		<class>mx.cinvestav.gdl.iot.dao.SmartThingProperty</class> -->
-<!-- 		<properties> -->
-<!-- 			<property name="datanucleus.NontransactionalRead" value="true" /> -->
-<!-- 			<property name="datanucleus.NontransactionalWrite" value="true" /> -->
-<!-- 			<property name="datanucleus.ConnectionURL" value="appengine" /> -->
-<!-- 		</properties> -->
-<!-- 	</persistence-unit> -->
-
 	<persistence-unit name="SmartCitiesCloudSQL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<class>mx.cinvestav.gdl.iot.webpage.dao.Controller</class>
-		<class>mx.cinvestav.gdl.iot.webpage.dao.SmartThing</class>
-		<class>mx.cinvestav.gdl.iot.webpage.dao.ControllerProperty</class>
-		<class>mx.cinvestav.gdl.iot.webpage.dao.Sensor</class>
-		<class>mx.cinvestav.gdl.iot.webpage.dao.Measure</class>
-		<class>mx.cinvestav.gdl.iot.webpage.dao.SensorProperty</class>
-		<class>mx.cinvestav.gdl.iot.webpage.dao.SmartThingProperty</class>
+		<class>mx.cinvestav.gdl.iot.dao.Controller</class>
+		<class>mx.cinvestav.gdl.iot.dao.SmartThing</class>
+		<class>mx.cinvestav.gdl.iot.dao.ControllerProperty</class>
+		<class>mx.cinvestav.gdl.iot.dao.Sensor</class>
+		<class>mx.cinvestav.gdl.iot.dao.Measure</class>
+		<class>mx.cinvestav.gdl.iot.dao.SensorProperty</class>
+		<class>mx.cinvestav.gdl.iot.dao.SmartThingProperty</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.user" value="root" />

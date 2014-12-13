@@ -12,9 +12,9 @@ import mx.cinvestav.gdl.iot.cloudclient.SensorData;
 import mx.cinvestav.gdl.iot.cloudclient.SmartThingData;
 import mx.cinvestav.gdl.iot.cloudclient.UpdateDataRequest;
 import mx.cinvestav.gdl.iot.cloudclient.UpdateDataResponse;
+import mx.cinvestav.gdl.iot.dao.DAO;
+import mx.cinvestav.gdl.iot.dao.Measure;
 import mx.cinvestav.gdl.iot.validation.UpdateRequestValidator;
-import mx.cinvestav.gdl.iot.webpage.dao.DAO;
-import mx.cinvestav.gdl.iot.webpage.dao.Measure;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;

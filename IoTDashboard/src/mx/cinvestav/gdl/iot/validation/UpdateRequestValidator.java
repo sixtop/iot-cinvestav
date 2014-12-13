@@ -8,10 +8,10 @@ import javax.persistence.EntityManager;
 import mx.cinvestav.gdl.iot.cloudclient.SensorData;
 import mx.cinvestav.gdl.iot.cloudclient.SmartThingData;
 import mx.cinvestav.gdl.iot.cloudclient.UpdateDataRequest;
-import mx.cinvestav.gdl.iot.webpage.dao.Controller;
-import mx.cinvestav.gdl.iot.webpage.dao.DAO;
-import mx.cinvestav.gdl.iot.webpage.dao.Sensor;
-import mx.cinvestav.gdl.iot.webpage.dao.SmartThing;
+import mx.cinvestav.gdl.iot.dao.Controller;
+import mx.cinvestav.gdl.iot.dao.DAO;
+import mx.cinvestav.gdl.iot.dao.Sensor;
+import mx.cinvestav.gdl.iot.dao.SmartThing;
 
 public class UpdateRequestValidator
 {

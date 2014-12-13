@@ -1,4 +1,4 @@
-package mx.cinvestav.gdl.iot.webpage.dao;
+package mx.cinvestav.gdl.iot.dao;
 
 import java.util.ArrayList;
 import java.util.Calendar;
