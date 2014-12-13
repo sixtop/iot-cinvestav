@@ -328,7 +328,21 @@ public class EpController implements EntryPoint
 									{
 										symbola.setValue(false);
 									}
+
 									symbola.setEnabled(false);
+
+									if (symboln.length() > 45 || symboln.length()==0)
+									{
+										showInformationDialog("Error", "The name must not have empty and have less than 45 characters", btDialogError);
+										return;
+									}
+
+									if (symbolv.length() > 45)
+									{
+										showInformationDialog("Error", "The value have less than 45 characters", btDialogError);
+										return;
+									}
+									
 									tableProperty.setText(editRow + 1, 1, symboln);
 									tableProperty.setText(editRow + 1, 2, symbolv);
 									tableProperty.setWidget(editRow + 1, 3, symbola);
@@ -457,6 +471,7 @@ public class EpController implements EntryPoint
 	private void showInformationDialog(String title, String message, Button btDialogClose)
 	{
 		dialogBox.setAnimationEnabled(true);
+		dialogBox.center();
 		dialogBox.setGlassEnabled(true);
 		dialogBox.setText(title);
 		lbDialogBox.setText(message);
@@ -500,47 +515,15 @@ public class EpController implements EntryPoint
 
 		symbola.setEnabled(false);
 
-		if (symboln.length() > 45)
+		if (symboln.length() > 45 || symboln.length()==0)
 		{
-			dialogBox.setAnimationEnabled(true);
-			dialogBox.setGlassEnabled(true);
-			dialogBox.center();
-
-			dialogBox.setText("Error");
-
-			lbDialogBox.setText("The name must have less than 45 characters");
-			dialogPanel.add(lbDialogBox);
-			dialogPanel.setCellHorizontalAlignment(lbDialogBox, HasHorizontalAlignment.ALIGN_CENTER);
-
-			dialogPanel.add(btDialogError);
-			dialogPanel.setCellHorizontalAlignment(btDialogError, HasHorizontalAlignment.ALIGN_CENTER);
-
-			dialogBox.add(dialogPanel);
-
-			dialogBox.show();
-
+			showInformationDialog("Error", "The name must not have empty and have less than 45 characters", btDialogError);
 			return;
 		}
 
 		if (symbolv.length() > 45)
 		{
-			dialogBox.setAnimationEnabled(true);
-			dialogBox.setGlassEnabled(true);
-			dialogBox.center();
-
-			dialogBox.setText("Error");
-
-			lbDialogBox.setText("The value must have less than 45 characters");
-			dialogPanel.add(lbDialogBox);
-			dialogPanel.setCellHorizontalAlignment(lbDialogBox, HasHorizontalAlignment.ALIGN_CENTER);
-
-			dialogPanel.add(btDialogError);
-			dialogPanel.setCellHorizontalAlignment(btDialogError, HasHorizontalAlignment.ALIGN_CENTER);
-
-			dialogBox.add(dialogPanel);
-
-			dialogBox.show();
-
+			showInformationDialog("Error", "The value have less than 45 characters", btDialogError);
 			return;
 		}
 
@@ -640,6 +623,20 @@ public class EpController implements EntryPoint
 					symbola.setValue(false);
 				}
 
+				symbola.setEnabled(false);
+
+				if (symboln.length() > 45 || symboln.length()==0)
+				{
+					showInformationDialog("Error", "The name must not have empty and have less than 45 characters", btDialogError);
+					return;
+				}
+
+				if (symbolv.length() > 45)
+				{
+					showInformationDialog("Error", "The value have less than 45 characters", btDialogError);
+					return;
+				}
+
 				tableProperty.setText(editRow + 1, 1, symboln);
 				tableProperty.setText(editRow + 1, 2, symbolv);
 				tableProperty.setWidget(editRow + 1, 3, symbola);
@@ -651,7 +648,6 @@ public class EpController implements EntryPoint
 				name.setText("");
 				value.setText("");
 				active.setValue(false);
-				symbola.setEnabled(false);
 
 			}
 		});
