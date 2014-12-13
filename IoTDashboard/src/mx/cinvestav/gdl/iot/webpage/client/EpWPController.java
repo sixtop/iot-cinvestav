@@ -1,16 +1,10 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
-import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.core.client.EntryPoint;
@@ -18,7 +12,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.IdentityColumn;
 import com.google.gwt.user.cellview.client.SimplePager;
@@ -34,9 +27,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.google.gwt.view.client.ListDataProvider;
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 public class EpWPController implements EntryPoint {
 	private DialogBox dbWait = new DialogBox();
@@ -129,7 +120,7 @@ public class EpWPController implements EntryPoint {
 	            }
 	        });
 
-	       IdentityColumn<ControllerDTO> identityColumn = new IdentityColumn<>(editAction);
+	       IdentityColumn<ControllerDTO> editColumn = new IdentityColumn<>(editAction);
 	        //Column<ControllerDTO, ActionCell<ControllerDTO>> editColumn = identityColumn;
 	        
 	        ActionCell<ControllerDTO> deleteAction = new ActionCell<ControllerDTO>("Delete", new ActionCell.Delegate<ControllerDTO>() {
@@ -160,13 +151,13 @@ public class EpWPController implements EntryPoint {
 	            }
 	        });
 
-	        Column<ControllerDTO, ActionCell<ControllerDTO>> deleteColumn = (new IdentityColumn(deleteAction));
+	        IdentityColumn<ControllerDTO> deleteColumn = new IdentityColumn<>(deleteAction);
 	
   		     tableControllerDTO.addColumn(idColumn, "ID");
   			 tableControllerDTO.addColumn(nameColumn, "Name");
   			 tableControllerDTO.addColumn(descriptionColumn, "Description");
   			 tableControllerDTO.addColumn(locationColumn, "Location");
-  			 tableControllerDTO.addColumn(identityColumn,"Edit");
+  			 tableControllerDTO.addColumn(editColumn,"Edit");
   			 tableControllerDTO.addColumn(deleteColumn,"Delete");
   			
   		    ListHandler<ControllerDTO> sortHandler = new ListHandler<ControllerDTO>(dataProvider.getList());

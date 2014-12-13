@@ -3,9 +3,7 @@ package mx.cinvestav.gdl.iot.webpage.client;
 import java.util.Comparator;
 import java.util.List;
 
-import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
-import mx.cinvestav.gdl.iot.webpage.dto.SensorPropertyDTO;
 
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.core.client.EntryPoint;
@@ -13,19 +11,15 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.IdentityColumn;
 import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -155,7 +149,7 @@ public class EpWPSensor implements EntryPoint {
 	            }
 	        });
 
-	        Column<SensorDTO, ActionCell<SensorDTO>> editColumn = (new IdentityColumn(editAction));
+	       IdentityColumn<SensorDTO> editColumn = new IdentityColumn<>(editAction);
 	        
 	        ActionCell<SensorDTO> deleteAction = new ActionCell<SensorDTO>("Delete", new ActionCell.Delegate<SensorDTO>() {
 	            public void execute(SensorDTO c){
@@ -185,7 +179,7 @@ public class EpWPSensor implements EntryPoint {
 	            }
 	        });
 
-	        Column<SensorDTO, ActionCell<SensorDTO>> deleteColumn = (new IdentityColumn(deleteAction));
+	        IdentityColumn<SensorDTO> deleteColumn = new IdentityColumn<>(deleteAction);
 	
   		     tableSensorDTO.addColumn(idColumn, "ID");
   			 tableSensorDTO.addColumn(nameColumn, "Name");

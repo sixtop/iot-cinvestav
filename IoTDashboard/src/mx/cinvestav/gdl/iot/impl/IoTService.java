@@ -39,7 +39,6 @@ public class IoTService
 				String validationResult = UpdateRequestValidator.validate(request);
 				if (validationResult == null || "".equals(validationResult))
 				{
-					//int c_id = request.getControllerId();
 					SmartThingData[] thing_data_array = request.getSmartThingData();
 					EntityManager em = null;
 					EntityTransaction tx = null;
@@ -56,7 +55,7 @@ public class IoTService
 								Data[] measures = sensor_data.getMeasures();
 								for (Data m : measures)
 								{
-									// create and persiste the new measure
+									// create and persist the new measure
 									Measure measureEntity = new Measure();
 									measureEntity.setMeasure(m.getData());
 									measureEntity.setMeasure_date(Timestamp.valueOf(m.getTime()));

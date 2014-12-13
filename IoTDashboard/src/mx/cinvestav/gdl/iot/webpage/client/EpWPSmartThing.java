@@ -3,9 +3,7 @@ package mx.cinvestav.gdl.iot.webpage.client;
 import java.util.Comparator;
 import java.util.List;
 
-import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
-import mx.cinvestav.gdl.iot.webpage.dto.SmartThingPropertyDTO;
 
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.core.client.EntryPoint;
@@ -13,19 +11,15 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.IdentityColumn;
 import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -115,7 +109,7 @@ public class EpWPSmartThing implements EntryPoint {
 	            }
 	        });
 
-	        Column<SmartThingDTO, ActionCell<SmartThingDTO>> editColumn = (new IdentityColumn(editAction));
+	       IdentityColumn<SmartThingDTO> editColumn = new IdentityColumn<>(editAction);
 	        
 	        ActionCell<SmartThingDTO> deleteAction = new ActionCell<SmartThingDTO>("Delete", new ActionCell.Delegate<SmartThingDTO>() {
 	            public void execute(SmartThingDTO c){
@@ -145,7 +139,7 @@ public class EpWPSmartThing implements EntryPoint {
 	            }
 	        });
 
-	        Column<SmartThingDTO, ActionCell<SmartThingDTO>> deleteColumn = (new IdentityColumn(deleteAction));
+	        IdentityColumn<SmartThingDTO> deleteColumn = new IdentityColumn<>(deleteAction);
 	
   		     tableSmartThingDTO.addColumn(idColumn, "ID");
   			 tableSmartThingDTO.addColumn(nameColumn, "Name");

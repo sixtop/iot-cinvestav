@@ -184,6 +184,7 @@ public class EpController implements EntryPoint
 			public void onClick(ClickEvent event)
 			{
 				btAddProperty.setEnabled(true);
+				tableProperty.removeRow(tableProperty.getRowCount()-1);
 			}
 		});
 
@@ -592,6 +593,7 @@ public class EpController implements EntryPoint
 				removeProperty.setVisible(false);
 				editProperty.setVisible(false);
 				cancelEditProperty.setVisible(true);
+				btAddProperty.setEnabled(false);
 
 				int editRow = property.indexOf(symboln);
 				name.setText(listNameProperty.getItemText(editRow));
@@ -621,6 +623,7 @@ public class EpController implements EntryPoint
 				removeProperty.setVisible(true);
 				editProperty.setVisible(true);
 				cancelEditProperty.setVisible(false);
+				btAddProperty.setEnabled(true);
 
 				int editRow = property.indexOf(symboln);
 
@@ -657,6 +660,7 @@ public class EpController implements EntryPoint
 		{
 			public void onClick(ClickEvent event)
 			{
+				btAddProperty.setEnabled(true);
 				int editRow = property.indexOf(symboln);
 				tableProperty.setText(editRow + 1, 1, name.getText());
 				tableProperty.setText(editRow + 1, 2, value.getText());

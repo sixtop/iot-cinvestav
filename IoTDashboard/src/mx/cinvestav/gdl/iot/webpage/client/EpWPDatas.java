@@ -33,8 +33,6 @@ import com.googlecode.gwt.charts.client.corechart.LineChart;
 import com.googlecode.gwt.charts.client.corechart.LineChartOptions;
 import com.googlecode.gwt.charts.client.options.HAxis;
 import com.googlecode.gwt.charts.client.options.VAxis;
-import com.googlecode.gwt.charts.client.table.Table;
-import com.googlecode.gwt.charts.client.table.TableOptions;
 
 public class EpWPDatas implements EntryPoint {
 	private DialogBox dbWait = new DialogBox();
