@@ -33,5 +33,6 @@
 		this feature enabled, there is a very small chance your app will see stale 
 		session data. For details, see http://code.google.com/appengine/docs/java/config/appconfig.html#Enabling_Sessions -->
 	<use-google-connector-j>true</use-google-connector-j>
+	<sessions-enabled>true</sessions-enabled>
 
 </appengine-web-app>

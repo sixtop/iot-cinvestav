@@ -71,8 +71,7 @@ public class DAO
 		return emf.createEntityManager();
 	}
 
-	public static <T extends IoTEntity> List<T> getEntity(Class<T> entityClass, Integer id)
-			throws DatabaseException
+	public static <T extends IoTEntity> List<T> getEntity(Class<T> entityClass, Integer id) throws DatabaseException
 	{
 		EntityManager em = null;
 		List<T> resultList = null;
@@ -95,8 +94,7 @@ public class DAO
 		}
 		catch (Exception e)
 		{
-			throw new DatabaseException("Database exception while inserting entity:"
-					+ e.getMessage(), e);
+			throw new DatabaseException("Database exception while inserting entity:" + e.getMessage(), e);
 		}
 		finally
 		{
@@ -113,8 +111,8 @@ public class DAO
 	 * @param properties
 	 * @throws DatabaseException
 	 */
-	public static <T extends IoTEntity> void insertEntity(T entity,
-			Collection<? extends IoTProperty> properties) throws DatabaseException
+	public static <T extends IoTEntity> void insertEntity(T entity, Collection<? extends IoTProperty> properties)
+			throws DatabaseException
 	{
 		if (entity == null)
 		{
@@ -147,8 +145,7 @@ public class DAO
 			{
 				tx.rollback();
 			}
-			throw new DatabaseException("Database exception while inserting entity:"
-					+ e.getMessage(), e);
+			throw new DatabaseException("Database exception while inserting entity:" + e.getMessage(), e);
 		}
 		finally
 		{
@@ -159,8 +156,8 @@ public class DAO
 		}
 	}
 
-	public static <T extends IoTProperty> List<T> getProperties(Class<T> propertyClass,
-			Integer parentId) throws DatabaseException
+	public static <T extends IoTProperty> List<T> getProperties(Class<T> propertyClass, Integer parentId)
+			throws DatabaseException
 	{
 		EntityManager em = null;
 		List<T> resultList = null;
@@ -183,8 +180,7 @@ public class DAO
 		}
 		catch (Exception e)
 		{
-			throw new DatabaseException("Database exception while inserting entity:"
-					+ e.getMessage(), e);
+			throw new DatabaseException("Database exception while inserting entity:" + e.getMessage(), e);
 		}
 		finally
 		{
@@ -219,8 +215,7 @@ public class DAO
 			{
 				tx.rollback();
 			}
-			throw new DatabaseException("Database exception while deleting property:"
-					+ e.getMessage(), e);
+			throw new DatabaseException("Database exception while deleting property:" + e.getMessage(), e);
 		}
 		finally
 		{
@@ -231,8 +226,7 @@ public class DAO
 		}
 	}
 
-	public static <T extends IoTEntity> void deleteEntity(Class<T> EntityClass, Integer id)
-			throws DatabaseException
+	public static <T extends IoTEntity> void deleteEntity(Class<T> EntityClass, Integer id) throws DatabaseException
 	{
 		EntityManager em = null;
 		EntityTransaction tx = null;
@@ -255,8 +249,7 @@ public class DAO
 			{
 				tx.rollback();
 			}
-			throw new DatabaseException("Database exception while inserting entity:"
-					+ e.getMessage(), e);
+			throw new DatabaseException("Database exception while inserting entity:" + e.getMessage(), e);
 		}
 		finally
 		{
@@ -278,8 +271,7 @@ public class DAO
 		return null;
 	}
 
-	public static List<Measure> getSensorData(Integer idsensor, Date startDate, Date endDate)
-			throws DatabaseException
+	public static List<Measure> getSensorData(Integer idsensor, Date startDate, Date endDate) throws DatabaseException
 	{
 		EntityManager em = null;
 		if (idsensor == null)
@@ -296,9 +288,11 @@ public class DAO
 			c.set(Calendar.SECOND, 59);
 			c.set(Calendar.MILLISECOND, 999);
 
-			TypedQuery<Measure> createQuery = em.createQuery("SELECT m FROM Measure m"
-					+ " WHERE m.idsensor = ?1 and m.measure_date >= ?2 and m.measure_date <= ?3 order by m.measure_date",
-					Measure.class);
+			TypedQuery<Measure> createQuery = em
+					.createQuery(
+							"SELECT m FROM Measure m"
+									+ " WHERE m.idsensor = ?1 and m.measure_date >= ?2 and m.measure_date <= ?3 order by m.measure_date",
+							Measure.class);
 			createQuery.setParameter(1, idsensor);
 			createQuery.setParameter(2, startDate);
 			createQuery.setParameter(3, endDate);
@@ -306,8 +300,73 @@ public class DAO
 		}
 		catch (Exception e)
 		{
-			throw new DatabaseException("Database exception while inserting entity:"
-					+ e.getMessage(), e);
+			throw new DatabaseException("Database exception while inserting entity:" + e.getMessage(), e);
+		}
+		finally
+		{
+			if (em != null)
+			{
+				em.close();
+			}
+		}
+	}
+
+	public static User getUser(String username) throws DatabaseException
+	{
+		EntityManager em = null;
+		if (username == null)
+		{
+			throw new IllegalArgumentException("getUser: must provide username.");
+		}
+		try
+		{
+			em = getEntityManager();
+			TypedQuery<User> createQuery = em
+					.createQuery("SELECT u FROM User u" + " WHERE u.username = ?1", User.class);
+			createQuery.setParameter(1, username);
+			List<User> resultList = createQuery.getResultList();
+			if (resultList.size() >= 1) return resultList.get(0);
+			return null;
+		}
+		catch (Exception e)
+		{
+			throw new DatabaseException("Database exception while inserting entity:" + e.getMessage(), e);
+		}
+		finally
+		{
+			if (em != null)
+			{
+				em.close();
+			}
+		}
+	}
+
+	public static void storeUser(User user) throws DatabaseException
+	{
+		if (user == null)
+		{
+			throw new IllegalArgumentException("User cannot be null.");
+		}
+		EntityManager em = null;
+		EntityTransaction tx = null;
+		try
+		{
+			em = getEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
+			if (user.getId() == null)
+				em.persist(user);
+			else
+				em.merge(user);
+			tx.commit();
+		}
+		catch (Exception e)
+		{
+			if (tx != null && tx.isActive())
+			{
+				tx.rollback();
+			}
+			throw new DatabaseException("Database exception while inserting entity:" + e.getMessage(), e);
 		}
 		finally
 		{

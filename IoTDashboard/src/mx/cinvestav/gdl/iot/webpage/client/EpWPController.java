@@ -7,7 +7,6 @@ import java.util.List;
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 
 import com.google.gwt.cell.client.ActionCell;
-import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -29,7 +28,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
-public class EpWPController implements EntryPoint {
+public class EpWPController extends IoTEntryPoint 
+{
 	private DialogBox dbWait = new DialogBox();
 	private int index;
 
@@ -52,8 +52,9 @@ public class EpWPController implements EntryPoint {
 	
 	
 	@Override
-	public void onModuleLoad() {
-		
+	public void continueModuleLoad() 
+	{
+		//super.onModuleLoad();
 		showDialogWait();
 		entityService.getEntity(new ControllerDTO(), null, new AsyncCallback<List<ControllerDTO>>()
 				{

@@ -1,28 +1,40 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	version="2.5"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-  <welcome-file-list>
-    <welcome-file>login.jsp</welcome-file>
-  </welcome-file-list>
+	<welcome-file-list>
+		<welcome-file>login.jsp</welcome-file>
+	</welcome-file-list>
 
-  <servlet>
-    <servlet-name>storeService</servlet-name>
-    <servlet-class>mx.cinvestav.gdl.iot.webpage.server.EntityStoreImpl</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>storeService</servlet-name>
-    <url-pattern>*.store</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-    <servlet-name>SystemServiceServlet</servlet-name>
-    <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
-    <init-param>
-      <param-name>services</param-name>
-      <param-value>mx.cinvestav.gdl.iot.impl.IoTService</param-value>
-    </init-param>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SystemServiceServlet</servlet-name>
-    <url-pattern>/_ah/spi/*</url-pattern>
-  </servlet-mapping>
+	<servlet>
+		<servlet-name>storeService</servlet-name>
+		<servlet-class>mx.cinvestav.gdl.iot.webpage.server.EntityStoreImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>storeService</servlet-name>
+		<url-pattern>*.store</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>loginService</servlet-name>
+		<servlet-class>mx.cinvestav.gdl.iot.webpage.server.LoginServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>loginService</servlet-name>
+		<url-pattern>*.login</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SystemServiceServlet</servlet-name>
+		<servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
+		<init-param>
+			<param-name>services</param-name>
+			<param-value>mx.cinvestav.gdl.iot.impl.IoTService</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SystemServiceServlet</servlet-name>
+		<url-pattern>/_ah/spi/*</url-pattern>
+	</servlet-mapping>
 </web-app>

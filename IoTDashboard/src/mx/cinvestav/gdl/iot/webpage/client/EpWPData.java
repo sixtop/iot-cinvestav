@@ -45,7 +45,7 @@ import com.googlecode.gwt.charts.client.options.Legend;
 import com.googlecode.gwt.charts.client.options.LegendPosition;
 
 
-public class EpWPData implements EntryPoint {
+public class EpWPData extends IoTEntryPoint {
 	private DialogBox dbWait = new DialogBox();
 	private Dashboard dashboard;
 	private ChartWrapper<LineChartOptions> lineChart;
@@ -78,7 +78,7 @@ public class EpWPData implements EntryPoint {
 			.create(EntityStoreService.class);
 
 	@Override
-	public void onModuleLoad() {
+	public void continueModuleLoad() {
 		showDialogWait();
 		
 		entityService.getEntity(new ControllerDTO(), null,

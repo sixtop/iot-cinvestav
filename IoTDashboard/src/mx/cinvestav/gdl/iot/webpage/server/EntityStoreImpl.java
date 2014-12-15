@@ -2,7 +2,6 @@ package mx.cinvestav.gdl.iot.webpage.server;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -147,10 +146,7 @@ public class EntityStoreImpl extends RemoteServiceServlet implements EntityStore
 	{
 		try
 		{
-			Calendar c = Calendar.getInstance();
-			c.setTimeInMillis(0);
-			c.set(2012, 01, 01);
-			List<Measure> sensorData = DAO.getSensorData(idsensor, c.getTime(), endDate);
+			List<Measure> sensorData = DAO.getSensorData(idsensor, startDate, endDate);
 			
 			//map back to DTO
 			List<MeasureDTO> measureDTOList = new ArrayList<>();

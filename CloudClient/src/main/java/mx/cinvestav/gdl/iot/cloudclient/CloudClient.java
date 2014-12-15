@@ -66,7 +66,7 @@ public class CloudClient
 
 	public static void main(String[] args) throws IOException
 	{
-		int controllerId = 8;
+		int controllerId = 81;
 		Random r = new Random();
 		//creamos un object UpdataDataRequest
 		UpdateDataRequest request = new UpdateDataRequest();
@@ -87,12 +87,12 @@ public class CloudClient
 					measures[k].setData(String.valueOf(random));
 					DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ssss");
 					c.setTime(date);
-					c.add(Calendar.MINUTE, k);
+					c.add(Calendar.DAY_OF_MONTH, k);
 					measures[k].setTime(format.format(c.getTime()));
 				}
 				sensorData[j] = new SensorData();
 				sensorData[j].setMeasures(measures);
-				sensorData[j].setSensorId(j);
+				sensorData[j].setSensorId(1);
 			}
 			smartThings[i] = new SmartThingData();
 			smartThings[i].setSensorData(sensorData);
