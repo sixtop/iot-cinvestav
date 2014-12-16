@@ -35,7 +35,7 @@ import com.googlecode.gwt.charts.client.corechart.LineChartOptions;
 import com.googlecode.gwt.charts.client.options.HAxis;
 import com.googlecode.gwt.charts.client.options.VAxis;
 
-public class EpWPDatas implements EntryPoint
+public class EpWPDatas extends IoTEntryPoint
 {
 	private DialogBox dbWait = new DialogBox();
 	
