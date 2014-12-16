@@ -354,10 +354,17 @@ public class DAO
 			em = getEntityManager();
 			tx = em.getTransaction();
 			tx.begin();
+			
 			if (user.getId() == null)
+			{
 				em.persist(user);
+			}
 			else
+			{				
+				User stored = em.find(User.class, user.getId());
+				if("".equals(user.getHash())) user.setHash(stored.getHash());
 				em.merge(user);
+			}
 			tx.commit();
 		}
 		catch (Exception e)
@@ -367,6 +374,42 @@ public class DAO
 				tx.rollback();
 			}
 			throw new DatabaseException("Database exception while inserting entity:" + e.getMessage(), e);
+		}
+		finally
+		{
+			if (em != null)
+			{
+				em.close();
+			}
+		}
+	}
+
+	public static List<User> getUser(Integer id) throws DatabaseException
+	{
+		EntityManager em = null;
+		try
+		{
+			em = getEntityManager();
+			List<User> resultList = null;
+			
+			if (id == null)
+			{
+				CriteriaQuery<User> cq = em.getCriteriaBuilder().createQuery(User.class);
+				cq.select(cq.from(User.class));
+				resultList = em.createQuery(cq).getResultList();
+			}
+			else
+			{
+				resultList = new ArrayList<>(1);
+				User e = em.find(User.class, id);
+				resultList.add(e);
+			}
+			
+			return resultList;
+		}
+		catch (Exception e)
+		{
+			throw new DatabaseException("Database exception while retrieving user:" + e.getMessage(), e);
 		}
 		finally
 		{
