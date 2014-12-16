@@ -41,6 +41,7 @@ public class EpUser  extends IoTEntryPoint
 	private Button btCancelUser = new Button("Cancel");
 	private HorizontalPanel buttonsPanel = new HorizontalPanel();
 
+	private Button btNewPassword = new Button("New Password");
 	private FlexTable tableFields = new FlexTable();
 	private TextBox tbId = new TextBox();
 	private TextBox tbName = new TextBox();
@@ -61,8 +62,10 @@ public class EpUser  extends IoTEntryPoint
 		tableFields.setWidget(2, 1, tbUserName);
 		tableFields.setText(3, 0, "Email: ");
 		tableFields.setWidget(3, 1, tbEmail);
-		tableFields.setText(4, 0, "Password: ");
+		tableFields.setWidget(4, 0, btNewPassword);
 		tableFields.setWidget(4, 1, tbPassword);
+		
+		 tbPassword.setEnabled(false);
 
 		tbId.setEnabled(false);
 		formPanel.add(tableFields);
@@ -88,6 +91,14 @@ public class EpUser  extends IoTEntryPoint
 			public void onClick(ClickEvent event)
 			{
 				dialogBox.hide();
+			}
+		});
+		
+		btNewPassword.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent event)
+			{
+				 tbPassword.setEnabled(true);
 			}
 		});
 
@@ -147,7 +158,7 @@ public class EpUser  extends IoTEntryPoint
 		tbName.setText(c.getName());
 		tbUserName.setText(c.getUsername());
 		tbEmail.setText(c.getEmail());
-		tbPassword.setText(c.getHash());
+		tbPassword.setEnabled(false);
 	
 	}
 
