@@ -1,5 +1,7 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
+import java.util.List;
+
 import mx.cinvestav.gdl.iot.webpage.dto.UserDTO;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -12,5 +14,7 @@ public interface LoginServiceAsync
 
 	public void logout(AsyncCallback<Void> callback);
 	
-	public void insertUser(UserDTO user, AsyncCallback<Void> callback) throws DatabaseException;
+	public void insertUser(UserDTO user, AsyncCallback<Void> callback);
+	
+	public void getUser(Integer id,  AsyncCallback<List<UserDTO>> callback);
 }

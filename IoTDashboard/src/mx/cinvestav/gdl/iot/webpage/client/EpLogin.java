@@ -37,6 +37,12 @@ public class EpLogin implements EntryPoint
 	@Override
 	public void onModuleLoad()
 	{
+		String logout = Window.Location.getParameter("Logout");
+		if (logout != null)
+		{
+			logout();
+		}
+		
 		tableLogin.setText(0, 0, "User");
 		tableLogin.setWidget(0, 1, tbUserName);
 
@@ -89,19 +95,26 @@ public class EpLogin implements EntryPoint
 				});
 			}
 		});
-
-		String logout = Window.Location.getParameter("Logout");
-		if (logout != null)
-		{
-			logout();
-		}
-
 	}
 
 	private void logout()
 	{
 		dbWait.show();
+		loginService.logout(new AsyncCallback<Void>()
+		{
 
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				dbWait.hide();
+			}
+
+			@Override
+			public void onSuccess(Void result)
+			{
+				dbWait.hide();
+			}
+		});
 	}
 
 	public void showDialogWait()

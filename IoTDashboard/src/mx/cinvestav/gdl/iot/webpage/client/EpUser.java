@@ -49,7 +49,7 @@ public class EpUser  extends IoTEntryPoint
 	private TextBox tbEmail = new TextBox();
 	private PasswordTextBox tbPassword = new PasswordTextBox();
 
-	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
+	private static final LoginServiceAsync loginService = GWT.create(LoginService.class);
 
 	@Override
 	public void continueModuleLoad()
@@ -133,7 +133,7 @@ public class EpUser  extends IoTEntryPoint
 	{
 		int id = Integer.parseInt(idUser);
 		showDialogWait();
-	/*	entityService.getEntity(new UserDTO(), id, new AsyncCallback<List<UserDTO>>()
+		loginService.getUser(id, new AsyncCallback<List<UserDTO>>()
 		{
 			@Override
 			public void onFailure(Throwable caught)
@@ -146,9 +146,10 @@ public class EpUser  extends IoTEntryPoint
 			@Override
 			public void onSuccess(List<UserDTO> result)
 			{
+				dbWait.hide();
 				fillUserData(result);
 			}
-		});*/
+		});
 	}
 
 	private void fillUserData(List<UserDTO> result)
@@ -174,7 +175,7 @@ public class EpUser  extends IoTEntryPoint
 		c.setEmail(tbEmail.getText());
 		c.setHash(tbPassword.getText());
 		
-		/*entityService.storeEntity(c,new AsyncCallback<Void>()
+		loginService.insertUser(c, new AsyncCallback<Void>()
 		{
 			@Override
 			public void onSuccess(Void result)
@@ -190,7 +191,7 @@ public class EpUser  extends IoTEntryPoint
 				dbWait.hide();
 				Window.alert(caught.getMessage());
 			}
-		});*/
+		});
 	}
 
 	private void showInformationDialog(String title, String message, Button btDialogClose)
@@ -231,5 +232,4 @@ public class EpUser  extends IoTEntryPoint
 		dbWait.show();
 
 	}
-
 }

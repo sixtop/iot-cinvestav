@@ -1,5 +1,7 @@
 package mx.cinvestav.gdl.iot.webpage.server;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -91,9 +93,36 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 		User user = mapper.map(userDTO, User.class);
 		try
 		{
-			String hash = BCrypt.hashpw(user.getHash(), BCrypt.gensalt());
-			user.setHash(hash);
+			if(!"".equals(userDTO.getHash()))
+			{
+				String hash = BCrypt.hashpw(user.getHash(), BCrypt.gensalt());				
+				user.setHash(hash);
+			}
+			else user.setHash("");
 			DAO.storeUser(user);
+		}
+		catch (DatabaseException e)
+		{
+			String message = "Exception in deleteEntity: " + e.getMessage();
+			logger.log(Level.SEVERE, message, e);
+			throw e;
+		}
+	}
+
+	@Override
+	public List<UserDTO> getUser(Integer id) throws DatabaseException
+	{
+		try
+		{
+			List<User> users = DAO.getUser(id);
+			List<UserDTO> res = new ArrayList<UserDTO>();
+			for(User u : users)
+			{
+				UserDTO dto = mapper.map(u, UserDTO.class);
+				dto.setHash("");
+				res.add(dto);
+			}
+			return res;
 		}
 		catch (DatabaseException e)
 		{

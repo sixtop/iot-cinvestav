@@ -6,16 +6,15 @@ import java.util.List;
 import mx.cinvestav.gdl.iot.webpage.dto.UserDTO;
 
 import com.google.gwt.cell.client.ActionCell;
-import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.IdentityColumn;
 import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -41,7 +40,7 @@ public class EpWPUser extends IoTEntryPoint
 	private ListDataProvider<UserDTO> dataProvider = new ListDataProvider<UserDTO>();
 	private List<UserDTO> list;
 
-	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
+	private static final LoginServiceAsync loginService = GWT.create(LoginService.class);
 	private List<UserDTO> USERS;
 	
 	private DialogBox dialogBox = new DialogBox();
@@ -56,12 +55,13 @@ public class EpWPUser extends IoTEntryPoint
 	{
 		//super.onModuleLoad();
 		showDialogWait();
-	/*	entityService.getEntity(new UserDTO(), null, new AsyncCallback<List<UserDTO>>()
+		loginService.getUser(null, new AsyncCallback<List<UserDTO>>()
 				{
 
 					@Override
 					public void onFailure(Throwable caught)
 					{
+						dbWait.hide();
 						// TODO Auto-generated method stub
 					}
 
@@ -80,7 +80,7 @@ public class EpWPUser extends IoTEntryPoint
 
 						
 					}
-				});	*/			
+				});		
 		
 		
 	   TextColumn<UserDTO> idColumn = new TextColumn<UserDTO>() {

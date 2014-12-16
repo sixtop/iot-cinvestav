@@ -4,7 +4,7 @@
 </div>
 <div id="body">
 	<p align="center">
-		<a href="index.jsp">Users</a>
+		<a href="index.jsp">Home</a>
   		<a href="wpUsers.jsp">Users</a>
         <a href="wpControllers.jsp">Controllers</a>
         <a href="wpSmartThings.jsp">Smart Things</a>
