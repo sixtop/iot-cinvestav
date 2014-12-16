@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorPropertyDTO;
-import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
-import com.google.gwt.core.client.EntryPoint;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class EpSensor implements EntryPoint
+public class EpSensor extends IoTEntryPoint
 {
 	private String idSensor;
 	private Button saveProperty = new Button("Save");
@@ -81,7 +81,7 @@ public class EpSensor implements EntryPoint
 	private DialogBox dbWait = new DialogBox();
 
 	@Override
-	public void onModuleLoad()
+	public void continueModuleLoad()
 	{
 		tableFields.setText(0, 0, "Id: ");
 		tableFields.setWidget(0, 1, tbId);

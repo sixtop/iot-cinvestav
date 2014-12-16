@@ -10,19 +10,21 @@
 
 <title>SmartCity</title>
 </head>
-<body>
-	<jsp:include page="header.jsp" />
-	
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">Controllers</h3>
-		</div>
-		<div class="panel-body">
-			<div id="formContainer"></div>
-		</div>
-	</div>
+<body >
+	<div id="root" style="display:none">
+		<jsp:include page="header.jsp" />
 
-	<jsp:include page="footer.jsp" />
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Controllers</h3>
+			</div>
+			<div class="panel-body">
+				<div id="formContainer"></div>
+			</div>
+		</div>
+
+		<jsp:include page="footer.jsp" />
+	</div>
 </body>
 </html>
 

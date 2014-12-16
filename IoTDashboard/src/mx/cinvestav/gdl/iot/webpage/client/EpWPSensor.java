@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
-public class EpWPSensor implements EntryPoint {
+public class EpWPSensor extends IoTEntryPoint {
 	private DialogBox dbWait = new DialogBox();
 	private int index;
 	
@@ -49,7 +49,7 @@ public class EpWPSensor implements EntryPoint {
 	private Button btNo = new Button("No");
 	private VerticalPanel dialogPanel=new VerticalPanel();
 	@Override
-	public void onModuleLoad() {
+	public void continueModuleLoad() {
 		showDialogWait();
 		entityService.getEntity(new SensorDTO(), null, new AsyncCallback<List<SensorDTO>>()
 				{

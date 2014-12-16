@@ -28,7 +28,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
-public class EpWPSmartThing implements EntryPoint {
+public class EpWPSmartThing extends IoTEntryPoint
+{
 	private DialogBox dbWait = new DialogBox();
 	private int index;
 	
@@ -49,7 +50,7 @@ public class EpWPSmartThing implements EntryPoint {
 	private Button btNo = new Button("No");
 	private VerticalPanel dialogPanel=new VerticalPanel();
 	@Override
-	public void onModuleLoad() {
+	public void continueModuleLoad() {
 		showDialogWait();
 		entityService.getEntity(new SmartThingDTO(), null, new AsyncCallback<List<SmartThingDTO>>()
 				{

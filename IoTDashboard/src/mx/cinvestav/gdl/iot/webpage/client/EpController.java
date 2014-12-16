@@ -8,7 +8,6 @@ import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
 
-import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -28,7 +27,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class EpController implements EntryPoint
+public class EpController extends IoTEntryPoint
 {
 	private DialogBox dbWait = new DialogBox();
 
@@ -75,7 +74,7 @@ public class EpController implements EntryPoint
 	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 
 	@Override
-	public void onModuleLoad()
+	public void continueModuleLoad()
 	{
 		tableFields.setText(0, 0, "Id: ");
 		tableFields.setWidget(0, 1, tbId);

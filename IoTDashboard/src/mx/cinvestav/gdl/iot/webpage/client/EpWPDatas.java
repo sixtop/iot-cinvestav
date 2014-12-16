@@ -64,7 +64,7 @@ public class EpWPDatas extends IoTEntryPoint
 	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 
 	@Override
-	public void onModuleLoad()
+	public void continueModuleLoad()
 	{
 
 		showDialogWait();
