@@ -13,7 +13,6 @@ import mx.cinvestav.gdl.iot.dao.User;
 import mx.cinvestav.gdl.iot.util.BCrypt;
 import mx.cinvestav.gdl.iot.webpage.client.DatabaseException;
 import mx.cinvestav.gdl.iot.webpage.client.LoginService;
-import mx.cinvestav.gdl.iot.webpage.dto.IoTEntityDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.UserDTO;
 
 import org.dozer.DozerBeanMapper;
