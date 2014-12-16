@@ -107,6 +107,8 @@ public class EpWPUser extends IoTEntryPoint
 		      }
 		    };
 		    
+		nameColumn.setSortable(true);
+
 	    TextColumn<UserDTO> emailColumn = new TextColumn<UserDTO>() {
 		      @Override
 		      public String getValue(UserDTO c) {
