@@ -10,6 +10,6 @@
         <a href="wpSmartThings.jsp">Smart Things</a>
         <a href="wpSensors.jsp">Sensors</a>
         <a href="wpCharts.jsp">Statistics</a>
-        <a href="login.jsp?Logout=true">Statistics</a>
+        <a href="login.jsp?Logout=true">Logout</a>
 	</p>
 </div>
