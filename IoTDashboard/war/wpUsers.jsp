@@ -6,19 +6,25 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link type="text/css" rel="stylesheet" href="css/IoTDashboard.css">
 <script type="text/javascript" language="javascript"
-	src="MLogin/MLogin.nocache.js"></script>
+	src="MEpWPUser/MEpWPUser.nocache.js"></script>
 
 <title>SmartCity</title>
 </head>
-<body>
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">SmartCity</h3>
+<body >
+	<div id="root" style="display:none">
+		<jsp:include page="header.jsp" />
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Users</h3>
+			</div>
+			<div class="panel-body">
+				<div id="formContainer"></div>
+			</div>
 		</div>
-		<div class="panel-body">
-			<p align="center" id="formContainer">		
-		</div>
-			
+
+		<jsp:include page="footer.jsp" />
 	</div>
 </body>
 </html>
+

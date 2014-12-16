@@ -12,6 +12,7 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -24,7 +25,7 @@ public class EpLogin implements EntryPoint
 	private VerticalPanel formContainer = new VerticalPanel();
 	private FlexTable tableLogin = new FlexTable();
 	private TextBox tbUserName = new TextBox();
-	private TextBox tbPassword = new PasswordTextBox();
+	private PasswordTextBox tbPassword = new PasswordTextBox();
 	private Button btLogin = new Button("Login");
 	private static final LoginServiceAsync loginService = GWT.create(LoginService.class);
 	
@@ -40,10 +41,14 @@ public class EpLogin implements EntryPoint
 		tableLogin.setText(1, 0, "Password");
 		tableLogin.setWidget(1, 1, tbPassword);
 
-		formContainer.add(tableLogin);
-		formContainer.add(btLogin);
-
-		formContainer.setCellHorizontalAlignment(btLogin, HasHorizontalAlignment.ALIGN_CENTER);
+		VerticalPanel verticalPanel=new VerticalPanel();
+		verticalPanel.add(tableLogin);
+		verticalPanel.add(btLogin);
+		verticalPanel.setCellHorizontalAlignment(btLogin, HasHorizontalAlignment.ALIGN_CENTER);
+		
+		DecoratorPanel panelLogin=new DecoratorPanel();
+		panelLogin.add(verticalPanel);
+		formContainer.add(panelLogin);
 
 		RootPanel.get("formContainer").add(formContainer);
 
