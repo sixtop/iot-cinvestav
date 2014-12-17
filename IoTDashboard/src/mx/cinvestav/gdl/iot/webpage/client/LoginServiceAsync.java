@@ -17,4 +17,6 @@ public interface LoginServiceAsync
 	public void insertUser(UserDTO user, AsyncCallback<Void> callback);
 	
 	public void getUser(Integer id,  AsyncCallback<List<UserDTO>> callback);
+	
+	public void deleteUser(Integer id,  AsyncCallback<Void> callback);
 }

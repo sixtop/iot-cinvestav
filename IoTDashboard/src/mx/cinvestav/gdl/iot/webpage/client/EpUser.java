@@ -207,7 +207,7 @@ public class EpUser  extends IoTEntryPoint
 		});
 	}
 
-	private void showInformationDialog(String title, String message, Button btDialogClose)
+	private void showInformationDialog(String title, String message, Button btClose)
 	{
 		dialogBox.setAnimationEnabled(true);
 		dialogBox.center();
@@ -216,8 +216,8 @@ public class EpUser  extends IoTEntryPoint
 		lbDialogBox.setText(message);
 		dialogPanel.add(lbDialogBox);
 		dialogPanel.setCellHorizontalAlignment(lbDialogBox, HasHorizontalAlignment.ALIGN_CENTER);
-		dialogPanel.add(btDialogClose);
-		dialogPanel.setCellHorizontalAlignment(btDialogClose, HasHorizontalAlignment.ALIGN_CENTER);
+		dialogPanel.add(btClose);
+		dialogPanel.setCellHorizontalAlignment(btClose, HasHorizontalAlignment.ALIGN_CENTER);
 		dialogBox.add(dialogPanel);
 		dialogBox.show();
 	}

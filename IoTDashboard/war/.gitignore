@@ -23,3 +23,9 @@
 !/MEpDatas/MEpData.nocache.js
 /MEpWPDatas/*
 !/MEpWPDatas/MEpWPData.nocache.js
+/MEpUser/*
+!/MEpUser/MEpUser.nocache.js
+/MEpWPUser/*
+!/MEpWPUser/MEpWPUser.nocache.js
+/MEpWPCharts/*
+!/MEpWPCharts/MEpWPCharts.nocache.js

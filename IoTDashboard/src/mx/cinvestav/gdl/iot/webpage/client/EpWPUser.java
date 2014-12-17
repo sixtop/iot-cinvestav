@@ -30,6 +30,7 @@ import com.google.gwt.view.client.ListDataProvider;
 public class EpWPUser extends IoTEntryPoint
 {
 	private DialogBox dbWait = new DialogBox();
+	private int index;
 
 	private VerticalPanel formPanel = new VerticalPanel();
 	
@@ -127,6 +128,7 @@ public class EpWPUser extends IoTEntryPoint
 	        
 	        ActionCell<UserDTO> deleteAction = new ActionCell<UserDTO>("Delete", new ActionCell.Delegate<UserDTO>() {
 	            public void execute(UserDTO c){
+	            	index=c.getId();
 	            	
 	            	dialogBox.setAnimationEnabled(true);
 					dialogBox.setGlassEnabled(true);
@@ -217,9 +219,9 @@ public class EpWPUser extends IoTEntryPoint
 	              }
 	            });
 		    	
-		    	/*btYes.addClickHandler(new ClickHandler() {
+		    	btYes.addClickHandler(new ClickHandler() {
 		              public void onClick(ClickEvent event) {
-		            	  entityService.deleteEntity(new UserDTO(), index, new AsyncCallback<Void>()
+		            	  loginService.deleteUser(index, new AsyncCallback<Void>()
 						{
 
 							@Override
@@ -235,12 +237,12 @@ public class EpWPUser extends IoTEntryPoint
 														
 							}
 						});
-		            	
+//		            	Window.alert("SE ELIMINA "+index);
 		            	dialogBox.hide();
 		            	Window.Location.reload();
 		            	
 		              }
-		            });*/
+		            });
 		    
 		    btNo.addClickHandler(new ClickHandler() {
 	            public void onClick(ClickEvent event) {

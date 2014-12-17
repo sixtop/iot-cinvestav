@@ -131,4 +131,19 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 			throw e;
 		}
 	}
+	
+	@Override
+	public void deleteUser(Integer id) throws DatabaseException
+	{
+		try
+		{
+			DAO.deleteUser(id);
+		}
+		catch (DatabaseException e)
+		{
+			String message = "Exception in deleteEntity: " + e.getMessage();
+			logger.log(Level.SEVERE, message, e);
+			throw e;
+		}
+	}
 }

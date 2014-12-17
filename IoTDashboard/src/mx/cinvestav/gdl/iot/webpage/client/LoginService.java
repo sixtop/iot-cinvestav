@@ -19,4 +19,6 @@ public interface LoginService extends RemoteService
 	public void insertUser(UserDTO user) throws DatabaseException;
 	
 	public List<UserDTO> getUser(Integer id) throws DatabaseException;
+	
+	public void deleteUser(Integer id) throws DatabaseException;
 }

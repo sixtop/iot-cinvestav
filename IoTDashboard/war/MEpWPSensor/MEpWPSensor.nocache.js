@@ -1,271 +1,463 @@
-/*
- * Copyright 2014 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-
-/**
- * This startup script is used when we run superdevmode from an app server.
- *
- * The main goal is to avoid installing bookmarklets for host:port/module
- * to load and recompile the application.
- */
-(function($wnd, $doc){
-  // Don't support browsers without session storage: IE6/7
-  var badBrowser = 'Unable to load Super Dev Mode of "MEpWPSensor" because\n';
-  if (!('sessionStorage' in $wnd)) {
-    $wnd.alert(badBrowser +  'this browser does not support "sessionStorage".');
-    return;
+function MEpWPSensor(){
+  var $intern_14 = '', $intern_11 = ' top: -1000px;', $intern_37 = '" for "gwt:onLoadErrorFn"', $intern_35 = '" for "gwt:onPropertyErrorFn"', $intern_20 = '");', $intern_38 = '#', $intern_65 = '.cache.js', $intern_40 = '/', $intern_46 = '//', $intern_59 = '8DA32158FAFF1C44583B228AF1702A73', $intern_60 = '8F86595442DF3F5A6FC3D155076D619D', $intern_61 = '970555F1C4B3CB40F60FCF6F30FECBF9', $intern_64 = ':', $intern_29 = '::', $intern_77 = ':moduleBase', $intern_13 = '<!doctype html>', $intern_15 = '<html><head><\/head><body><\/body><\/html>', $intern_32 = '=', $intern_39 = '?', $intern_62 = 'BF1A01F19CBE544966692806EAE5BE4B', $intern_34 = 'Bad handler "', $intern_63 = 'CBF6AFC8AFABA05EC260BD052BAC7583', $intern_12 = 'CSS1Compat', $intern_18 = 'Chrome', $intern_17 = 'DOMContentLoaded', $intern_6 = 'DUMMY', $intern_76 = 'Ignoring non-whitelisted Dev Mode URL: ', $intern_4 = 'MEpWPSensor', $intern_58 = 'MEpWPSensor.devmode.js', $intern_44 = 'MEpWPSensor.nocache.js', $intern_28 = 'MEpWPSensor::', $intern_75 = '__gwtDevModeHook:MEpWPSensor', $intern_45 = 'base', $intern_43 = 'baseUrl', $intern_1 = 'begin', $intern_7 = 'body', $intern_0 = 'bootstrap', $intern_42 = 'clear.cache.gif', $intern_31 = 'content', $intern_72 = 'end', $intern_19 = 'eval("', $intern_74 = 'file:', $intern_54 = 'gecko', $intern_55 = 'gecko1_8', $intern_2 = 'gwt.codesvr.MEpWPSensor=', $intern_3 = 'gwt.codesvr=', $intern_71 = 'gwt/clean/clean.css', $intern_36 = 'gwt:onLoadErrorFn', $intern_33 = 'gwt:onPropertyErrorFn', $intern_30 = 'gwt:property', $intern_25 = 'head', $intern_69 = 'href', $intern_73 = 'http:', $intern_51 = 'ie10', $intern_53 = 'ie8', $intern_52 = 'ie9', $intern_8 = 'iframe', $intern_41 = 'img', $intern_22 = 'javascript', $intern_9 = 'javascript:""', $intern_66 = 'link', $intern_70 = 'loadExternalRefs', $intern_26 = 'meta', $intern_24 = 'moduleRequested', $intern_23 = 'moduleStartup', $intern_50 = 'msie', $intern_27 = 'name', $intern_10 = 'position:absolute; width:0; height:0; border:none; left: -1000px;', $intern_67 = 'rel', $intern_49 = 'safari', $intern_21 = 'script', $intern_57 = 'selectingPermutation', $intern_5 = 'startup', $intern_68 = 'stylesheet', $intern_16 = 'undefined', $intern_56 = 'unknown', $intern_47 = 'user.agent', $intern_48 = 'webkit';
+  var $wnd = window;
+  var $doc = document;
+  sendStats($intern_0, $intern_1);
+  function isHostedMode(){
+    var query = $wnd.location.search;
+    return query.indexOf($intern_2) != -1 || query.indexOf($intern_3) != -1;
   }
 
-  //We don't import properties.js so we have to update active modules here
-  $wnd.__gwt_activeModules = $wnd.__gwt_activeModules || {};
-  $wnd.__gwt_activeModules['MEpWPSensor'] = {
-    'moduleName' : 'MEpWPSensor',
-    'bindings' : function() {
-      return {};
-    }
-  };
-
-  // Reuse compute script base
-  /*
- * Copyright 2012 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-
-/**
- * A simplified version of computeScriptBase.js that's used only when running
- * in Super Dev Mode. (We don't want the default version because it allows the
- * web page to override it using a meta tag.)
- *
- * Prerequisite: we assume that the first script tag using a URL ending with
- * "/MEpWPSensor.nocache.js" is the one that loaded us. Normally this happens
- * because DevModeRedirectHook.js loaded this nocache.js script by prepending a
- * script tag with an absolute URL to head. (However, it's also okay for an html
- * file included in the GWT compiler's output to load the nocache.js file using
- * a relative URL.)
- */
-function computeScriptBase() {
-  // TODO(skybrian) This approach won't work for workers.
-
-  $wnd.__gwt_activeModules['MEpWPSensor'].superdevmode = true;
-
-  var expectedSuffix = '/MEpWPSensor.nocache.js';
-
-  var scriptTags = $doc.getElementsByTagName('script');
-  for (var i = 0;; i++) {
-    var tag = scriptTags[i];
-    if (!tag) {
-      break;
-    }
-    var candidate = tag.src;
-    var lastMatch = candidate.lastIndexOf(expectedSuffix);
-    if (lastMatch == candidate.length - expectedSuffix.length) {
-      // Assumes that either the URL is absolute, or it's relative
-      // and the html file is hosted by this code server.
-      return candidate.substring(0, lastMatch + 1);
+  function sendStats(evtGroupString, typeString){
+    if ($wnd.__gwtStatsEvent) {
+      $wnd.__gwtStatsEvent({moduleName:$intern_4, sessionId:$wnd.__gwtStatsSessionId, subSystem:$intern_5, evtGroup:evtGroupString, millis:(new Date).getTime(), type:typeString});
     }
   }
 
-  $wnd.alert('Unable to load Super Dev Mode version of ' + MEpWPSensor + ".");
-}
-;
-
-  // document.head does not exist in IE8
-  var $head = $doc.head || $doc.getElementsByTagName('head')[0];
-
-  // Quick way to compute the user.agent, it works almost the same than
-  // UserAgentPropertyGenerator, but we cannot reuse it without depending
-  // on gwt-user.jar.
-  // This reduces compilation time since we only compile for one ua.
-  var ua = $wnd.navigator.userAgent.toLowerCase();
-  var docMode = $doc.documentMode || 0;
-  ua = /webkit/.test(ua)? 'safari' : /gecko/.test(ua) || docMode > 10 ? 'gecko1_8' :
-       /msie/.test(ua) && docMode > 7 ? 'ie' + docMode : '';
-  if (!ua && docMode) {
-    $wnd.alert(badBrowser +  'your browser is running "Compatibility View" for IE' + docMode + '.');
-    return;
+  MEpWPSensor.__sendStats = sendStats;
+  MEpWPSensor.__moduleName = $intern_4;
+  MEpWPSensor.__errFn = null;
+  MEpWPSensor.__moduleBase = $intern_6;
+  MEpWPSensor.__softPermutationId = 0;
+  MEpWPSensor.__computePropValue = null;
+  MEpWPSensor.__getPropMap = null;
+  MEpWPSensor.__gwtInstallCode = function(){
+  }
+  ;
+  MEpWPSensor.__gwtStartLoadingFragment = function(){
+    return null;
+  }
+  ;
+  var __gwt_isKnownPropertyValue = function(){
+    return false;
+  }
+  ;
+  var __gwt_getMetaProperty = function(){
+    return null;
+  }
+  ;
+  __propertyErrorFunction = null;
+  var activeModules = $wnd.__gwt_activeModules = $wnd.__gwt_activeModules || {};
+  activeModules[$intern_4] = {moduleName:$intern_4};
+  var frameDoc;
+  function getInstallLocationDoc(){
+    setupInstallLocation();
+    return frameDoc;
   }
 
-  // We use a different key for each module so that we can turn on dev mode
-  // independently for each.
-  var devModeHookKey = '__gwtDevModeHook:MEpWPSensor';
-  var devModeSessionKey = '__gwtDevModeSession:MEpWPSensor';
-
-  // Compute some codeserver urls so as the user does not need bookmarklets
-  var hostName = $wnd.location.hostname;
-  var serverUrl = 'http://' + hostName + ':9876';
-  var nocacheUrl = serverUrl + '/MEpWPSensor/MEpWPSensor.nocache.js';
-
-  // Save supder-devmode url in session
-  $wnd.sessionStorage[devModeHookKey] = nocacheUrl;
-  // Save user.agent in session
-  $wnd.sessionStorage[devModeSessionKey] = 'user.agent=' + ua + '&';
-
-  // Set bookmarklet params in window
-  $wnd.__gwt_bookmarklet_params = {'server_url': serverUrl};
-  // Save the original module base. (Returned by GWT.getModuleBaseURL.)
-  $wnd[devModeHookKey + ':moduleBase'] = computeScriptBase();
-
-  // Needed in the real nocache.js logic
-  $wnd.__gwt_activeModules['MEpWPSensor'].canRedirect = true;
-  $wnd.__gwt_activeModules['MEpWPSensor'].superdevmode = true;
-
-  // Insert the superdevmode nocache script in the first position of the head
-  var devModeScript = $doc.createElement('script');
-  devModeScript.src = nocacheUrl;
-
-  // Show a div in a corner for adding buttons to recompile the app.
-  // We reuse the same div in all modules of this page for stacking buttons
-  // and to make it available in jsni.
-  // The user can remove this: .gwt-DevModeRefresh {display:none}
-  $wnd.__gwt_compileElem = $wnd.__gwt_compileElem || $doc.createElement('div');
-  $wnd.__gwt_compileElem.className = 'gwt-DevModeRefresh';
-
-  // Create the compile button for this module
-  var compileButton = $doc.createElement('div');
-  $wnd.__gwt_compileElem.appendChild(compileButton);
-  // Number of modules present in the window
-  var moduleIdx = $wnd.__gwt_compileElem.childNodes.length;
-  // Each button has a class with its index number
-  var buttonClassName = 'gwt-DevModeCompile gwt-DevModeModule-' + moduleIdx;
-  compileButton.className = buttonClassName;
-  // The status message container
-  compileButton.innerHTML = '<div></div>';
-  // User knows who module to compile, hovering the button
-  compileButton.title = 'Compile module:\nMEpWPSensor';
-
-  // Use CSS so the app could change button style
-  var compileStyle = $doc.createElement('style');
-  compileStyle.language = 'text/css';
-  $head.appendChild(compileStyle);
-  var css =
-    ".gwt-DevModeRefresh{" +
-      "position:fixed;" +
-      "right:3px;" +
-      "bottom:3px;" +
-      "font-family:arial;" +
-      "font-size:1.8em;" +
-      "cursor:pointer;" +
-      "color:#B62323;" +
-      "text-shadow:grey 1px 1px 3px;" +
-      "z-index:2147483646;" +
-      "white-space:nowrap;" +
-    "}" +
-    ".gwt-DevModeCompile{" +
-      "position:relative;" +
-      "float:left;" +
-      "width:1em;" +
-    "}" +
-    ".gwt-DevModeCompile div{" +
-      "position:absolute;" +
-      "right:1em;" +
-      "bottom:-3px;" +
-      "font-size:0.3em;" +
-      "opacity:1;" +
-      "direction:rtl;" +
-    "}" +
-    ".gwt-DevModeCompile:before{" +
-      "content:'\u21bb';" +
-    "}" +
-    ".gwt-DevModeCompiling:before{" +
-      // IE8 fails when setting content here
-      "opacity:0.1;" +
-    "}" +
-    ".gwt-DevModeCompile div:before{" +
-      "content:'GWT';" +
-    "}" +
-    ".gwt-DevModeError div:before{" +
-      "content:'FAILED';" +
-    "}";
-  // Only insert common css the first time
-  css = (moduleIdx == 1 ? css : '') +
-    ".gwt-DevModeModule-" + moduleIdx + ".gwt-DevModeCompiling div:before{" +
-      "content:'COMPILING MEpWPSensor';" +
-      "font-size:24px;" +
-      "color:#d2d9ee;" +
-    "}";
-  if ('styleSheet' in compileStyle) {
-    // IE8
-    compileStyle.styleSheet.cssText = css;
-  } else {
-    compileStyle.appendChild($doc.createTextNode(css));
+  function getInstallLocation(){
+    setupInstallLocation();
+    return frameDoc.getElementsByTagName($intern_7)[0];
   }
 
-  // Set a different compile function name per module
-  var compileFunction = '__gwt_compile_' + moduleIdx;
-
-  compileButton.onclick = function() {
-    $wnd[compileFunction]();
-  };
-
-  // defer so as the body is ready
-  setTimeout(function(){
-    $head.insertBefore(devModeScript, $head.firstElementChild || $head.children[0]);
-    $doc.body.appendChild($wnd.__gwt_compileElem);
-  }, 1);
-
-  // Flag to avoid compiling in parallel.
-  var compiling = false;
-  // Compile function available in window so as it can be run from jsni.
-  // TODO(manolo): make Super Dev Mode script set this function in __gwt_activeModules
-  $wnd[compileFunction] = function() {
-    if (compiling) {
+  function setupInstallLocation(){
+    if (frameDoc) {
       return;
     }
-    compiling = true;
-
-    // Compute an unique name for each callback to avoid cache issues
-    // in IE, and to avoid the same function being called twice.
-    var callback = '__gwt_compile_callback_' + moduleIdx + '_' + new Date().getTime();
-    $wnd[callback] = function(r) {
-      if (r && r.status && r.status == 'ok') {
-        $wnd.location.reload();
-      }
-      compileButton.className = buttonClassName + ' gwt-DevModeError';
-      delete $wnd[callback];
-      compiling = false;
-    };
-
-    // Insert the jsonp script to compile the current module
-    // TODO(manolo): we don't have a way to detect when the server is unreachable,
-    // maybe a request returning status='idle'
-    var compileScript = $doc.createElement('script');
-    compileScript.src = serverUrl +
-      '/recompile/MEpWPSensor?user.agent=' + ua + '&_callback=' + callback;
-    $head.appendChild(compileScript);
-    compileButton.className = buttonClassName  + ' gwt-DevModeCompiling';
+    var scriptFrame = $doc.createElement($intern_8);
+    scriptFrame.src = $intern_9;
+    scriptFrame.id = $intern_4;
+    scriptFrame.style.cssText = $intern_10 + $intern_11;
+    scriptFrame.tabIndex = -1;
+    $doc.body.appendChild(scriptFrame);
+    frameDoc = scriptFrame.contentDocument;
+    if (!frameDoc) {
+      frameDoc = scriptFrame.contentWindow.document;
+    }
+    frameDoc.open();
+    var doctype = document.compatMode == $intern_12?$intern_13:$intern_14;
+    frameDoc.write(doctype + $intern_15);
+    frameDoc.close();
   }
 
-  // Run this block after the app has been loaded.
-  setTimeout(function(){
-    // Maintaining the hook key in session can cause problems
-    // if we try to run classic code server so we remove it
-    // after a while.
-    $wnd.sessionStorage.removeItem(devModeHookKey);
+  function installScript(filename){
+    function setupWaitForBodyLoad(callback){
+      function isBodyLoaded(){
+        if (typeof $doc.readyState == $intern_16) {
+          return typeof $doc.body != $intern_16 && $doc.body != null;
+        }
+        return /loaded|complete/.test($doc.readyState);
+      }
 
-    // Re-attach compile button because sometimes app clears the dom
-    $doc.body.appendChild($wnd.__gwt_compileElem);
-  }, 2000);
-})(window, document);
+      var bodyDone = isBodyLoaded();
+      if (bodyDone) {
+        callback();
+        return;
+      }
+      function onBodyDone(){
+        if (!bodyDone) {
+          bodyDone = true;
+          callback();
+          if ($doc.removeEventListener) {
+            $doc.removeEventListener($intern_17, onBodyDone, false);
+          }
+          if (onBodyDoneTimerId) {
+            clearInterval(onBodyDoneTimerId);
+          }
+        }
+      }
+
+      if ($doc.addEventListener) {
+        $doc.addEventListener($intern_17, onBodyDone, false);
+      }
+      var onBodyDoneTimerId = setInterval(function(){
+        if (isBodyLoaded()) {
+          onBodyDone();
+        }
+      }
+      , 50);
+    }
+
+    function installCode(code_0){
+      function removeScript(body_0, element){
+      }
+
+      var docbody = getInstallLocation();
+      var doc = getInstallLocationDoc();
+      var script;
+      if (navigator.userAgent.indexOf($intern_18) > -1 && window.JSON) {
+        var scriptFrag = doc.createDocumentFragment();
+        scriptFrag.appendChild(doc.createTextNode($intern_19));
+        for (var i = 0; i < code_0.length; i++) {
+          var c = window.JSON.stringify(code_0[i]);
+          scriptFrag.appendChild(doc.createTextNode(c.substring(1, c.length - 1)));
+        }
+        scriptFrag.appendChild(doc.createTextNode($intern_20));
+        script = doc.createElement($intern_21);
+        script.language = $intern_22;
+        script.appendChild(scriptFrag);
+        docbody.appendChild(script);
+        removeScript(docbody, script);
+      }
+       else {
+        for (var i = 0; i < code_0.length; i++) {
+          script = doc.createElement($intern_21);
+          script.language = $intern_22;
+          script.text = code_0[i];
+          docbody.appendChild(script);
+          removeScript(docbody, script);
+        }
+      }
+    }
+
+    MEpWPSensor.onScriptDownloaded = function(code_0){
+      setupWaitForBodyLoad(function(){
+        installCode(code_0);
+      }
+      );
+    }
+    ;
+    sendStats($intern_23, $intern_24);
+    var script = $doc.createElement($intern_21);
+    script.src = filename;
+    $doc.getElementsByTagName($intern_25)[0].appendChild(script);
+  }
+
+  MEpWPSensor.__startLoadingFragment = function(fragmentFile){
+    return computeUrlForResource(fragmentFile);
+  }
+  ;
+  MEpWPSensor.__installRunAsyncCode = function(code_0){
+    var docbody = getInstallLocation();
+    var script = getInstallLocationDoc().createElement($intern_21);
+    script.language = $intern_22;
+    script.text = code_0;
+    docbody.appendChild(script);
+  }
+  ;
+  function processMetas(){
+    var metaProps = {};
+    var propertyErrorFunc;
+    var onLoadErrorFunc;
+    var metas = $doc.getElementsByTagName($intern_26);
+    for (var i = 0, n = metas.length; i < n; ++i) {
+      var meta = metas[i], name_0 = meta.getAttribute($intern_27), content;
+      if (name_0) {
+        name_0 = name_0.replace($intern_28, $intern_14);
+        if (name_0.indexOf($intern_29) >= 0) {
+          continue;
+        }
+        if (name_0 == $intern_30) {
+          content = meta.getAttribute($intern_31);
+          if (content) {
+            var value_0, eq = content.indexOf($intern_32);
+            if (eq >= 0) {
+              name_0 = content.substring(0, eq);
+              value_0 = content.substring(eq + 1);
+            }
+             else {
+              name_0 = content;
+              value_0 = $intern_14;
+            }
+            metaProps[name_0] = value_0;
+          }
+        }
+         else if (name_0 == $intern_33) {
+          content = meta.getAttribute($intern_31);
+          if (content) {
+            try {
+              propertyErrorFunc = eval(content);
+            }
+             catch (e) {
+              alert($intern_34 + content + $intern_35);
+            }
+          }
+        }
+         else if (name_0 == $intern_36) {
+          content = meta.getAttribute($intern_31);
+          if (content) {
+            try {
+              onLoadErrorFunc = eval(content);
+            }
+             catch (e) {
+              alert($intern_34 + content + $intern_37);
+            }
+          }
+        }
+      }
+    }
+    __gwt_getMetaProperty = function(name_0){
+      var value_0 = metaProps[name_0];
+      return value_0 == null?null:value_0;
+    }
+    ;
+    __propertyErrorFunction = propertyErrorFunc;
+    MEpWPSensor.__errFn = onLoadErrorFunc;
+  }
+
+  function computeScriptBase(){
+    function getDirectoryOfFile(path){
+      var hashIndex = path.lastIndexOf($intern_38);
+      if (hashIndex == -1) {
+        hashIndex = path.length;
+      }
+      var queryIndex = path.indexOf($intern_39);
+      if (queryIndex == -1) {
+        queryIndex = path.length;
+      }
+      var slashIndex = path.lastIndexOf($intern_40, Math.min(queryIndex, hashIndex));
+      return slashIndex >= 0?path.substring(0, slashIndex + 1):$intern_14;
+    }
+
+    function ensureAbsoluteUrl(url_0){
+      if (url_0.match(/^\w+:\/\//)) {
+      }
+       else {
+        var img = $doc.createElement($intern_41);
+        img.src = url_0 + $intern_42;
+        url_0 = getDirectoryOfFile(img.src);
+      }
+      return url_0;
+    }
+
+    function tryMetaTag(){
+      var metaVal = __gwt_getMetaProperty($intern_43);
+      if (metaVal != null) {
+        return metaVal;
+      }
+      return $intern_14;
+    }
+
+    function tryNocacheJsTag(){
+      var scriptTags = $doc.getElementsByTagName($intern_21);
+      for (var i = 0; i < scriptTags.length; ++i) {
+        if (scriptTags[i].src.indexOf($intern_44) != -1) {
+          return getDirectoryOfFile(scriptTags[i].src);
+        }
+      }
+      return $intern_14;
+    }
+
+    function tryBaseTag(){
+      var baseElements = $doc.getElementsByTagName($intern_45);
+      if (baseElements.length > 0) {
+        return baseElements[baseElements.length - 1].href;
+      }
+      return $intern_14;
+    }
+
+    function isLocationOk(){
+      var loc = $doc.location;
+      return loc.href == loc.protocol + $intern_46 + loc.host + loc.pathname + loc.search + loc.hash;
+    }
+
+    var tempBase = tryMetaTag();
+    if (tempBase == $intern_14) {
+      tempBase = tryNocacheJsTag();
+    }
+    if (tempBase == $intern_14) {
+      tempBase = tryBaseTag();
+    }
+    if (tempBase == $intern_14 && isLocationOk()) {
+      tempBase = getDirectoryOfFile($doc.location.href);
+    }
+    tempBase = ensureAbsoluteUrl(tempBase);
+    return tempBase;
+  }
+
+  function computeUrlForResource(resource){
+    if (resource.match(/^\//)) {
+      return resource;
+    }
+    if (resource.match(/^[a-zA-Z]+:\/\//)) {
+      return resource;
+    }
+    return MEpWPSensor.__moduleBase + resource;
+  }
+
+  function getCompiledCodeFilename(){
+    var answers = [];
+    var softPermutationId;
+    function unflattenKeylistIntoAnswers(propValArray, value_0){
+      var answer = answers;
+      for (var i = 0, n = propValArray.length - 1; i < n; ++i) {
+        answer = answer[propValArray[i]] || (answer[propValArray[i]] = []);
+      }
+      answer[propValArray[n]] = value_0;
+    }
+
+    var values = [];
+    var providers = [];
+    function computePropValue(propName){
+      var value_0 = providers[propName](), allowedValuesMap = values[propName];
+      if (value_0 in allowedValuesMap) {
+        return value_0;
+      }
+      var allowedValuesList = [];
+      for (var k in allowedValuesMap) {
+        allowedValuesList[allowedValuesMap[k]] = k;
+      }
+      if (__propertyErrorFunc) {
+        __propertyErrorFunc(propName, allowedValuesList, value_0);
+      }
+      throw null;
+    }
+
+    providers[$intern_47] = function(){
+      var ua = navigator.userAgent.toLowerCase();
+      var makeVersion = function(result){
+        return parseInt(result[1]) * 1000 + parseInt(result[2]);
+      }
+      ;
+      if (function(){
+        return ua.indexOf($intern_48) != -1;
+      }
+      ())
+        return $intern_49;
+      if (function(){
+        return ua.indexOf($intern_50) != -1 && $doc.documentMode >= 10;
+      }
+      ())
+        return $intern_51;
+      if (function(){
+        return ua.indexOf($intern_50) != -1 && $doc.documentMode >= 9;
+      }
+      ())
+        return $intern_52;
+      if (function(){
+        return ua.indexOf($intern_50) != -1 && $doc.documentMode >= 8;
+      }
+      ())
+        return $intern_53;
+      if (function(){
+        return ua.indexOf($intern_54) != -1;
+      }
+      ())
+        return $intern_55;
+      return $intern_56;
+    }
+    ;
+    values[$intern_47] = {gecko1_8:0, ie10:1, ie8:2, ie9:3, safari:4};
+    __gwt_isKnownPropertyValue = function(propName, propValue){
+      return propValue in values[propName];
+    }
+    ;
+    MEpWPSensor.__getPropMap = function(){
+      var result = {};
+      for (var key in values) {
+        if (values.hasOwnProperty(key)) {
+          result[key] = computePropValue(key);
+        }
+      }
+      return result;
+    }
+    ;
+    MEpWPSensor.__computePropValue = computePropValue;
+    $wnd.__gwt_activeModules[$intern_4].bindings = MEpWPSensor.__getPropMap;
+    sendStats($intern_0, $intern_57);
+    if (isHostedMode()) {
+      return computeUrlForResource($intern_58);
+    }
+    var strongName;
+    try {
+      unflattenKeylistIntoAnswers([$intern_55], $intern_59);
+      unflattenKeylistIntoAnswers([$intern_52], $intern_60);
+      unflattenKeylistIntoAnswers([$intern_49], $intern_61);
+      unflattenKeylistIntoAnswers([$intern_51], $intern_62);
+      unflattenKeylistIntoAnswers([$intern_53], $intern_63);
+      strongName = answers[computePropValue($intern_47)];
+      var idx = strongName.indexOf($intern_64);
+      if (idx != -1) {
+        softPermutationId = parseInt(strongName.substring(idx + 1), 10);
+        strongName = strongName.substring(0, idx);
+      }
+    }
+     catch (e) {
+    }
+    MEpWPSensor.__softPermutationId = softPermutationId;
+    return computeUrlForResource(strongName + $intern_65);
+  }
+
+  function loadExternalStylesheets(){
+    if (!$wnd.__gwt_stylesLoaded) {
+      $wnd.__gwt_stylesLoaded = {};
+    }
+    function installOneStylesheet(stylesheetUrl){
+      if (!__gwt_stylesLoaded[stylesheetUrl]) {
+        var l = $doc.createElement($intern_66);
+        l.setAttribute($intern_67, $intern_68);
+        l.setAttribute($intern_69, computeUrlForResource(stylesheetUrl));
+        $doc.getElementsByTagName($intern_25)[0].appendChild(l);
+        __gwt_stylesLoaded[stylesheetUrl] = true;
+      }
+    }
+
+    sendStats($intern_70, $intern_1);
+    installOneStylesheet($intern_71);
+    sendStats($intern_70, $intern_72);
+  }
+
+  processMetas();
+  MEpWPSensor.__moduleBase = computeScriptBase();
+  activeModules[$intern_4].moduleBase = MEpWPSensor.__moduleBase;
+  var filename = getCompiledCodeFilename();
+  if ($wnd) {
+    var devModePermitted = !!($wnd.location.protocol == $intern_73 || $wnd.location.protocol == $intern_74);
+    $wnd.__gwt_activeModules[$intern_4].canRedirect = devModePermitted;
+    if (devModePermitted) {
+      var devModeKey = $intern_75;
+      var devModeUrl = $wnd.sessionStorage[devModeKey];
+      if (!/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?\/.*$/.test(devModeUrl)) {
+        if (devModeUrl && (window.console && console.log)) {
+          console.log($intern_76 + devModeUrl);
+        }
+        devModeUrl = $intern_14;
+      }
+      if (devModeUrl && !$wnd[devModeKey]) {
+        $wnd[devModeKey] = true;
+        $wnd[devModeKey + $intern_77] = computeScriptBase();
+        var devModeScript = $doc.createElement($intern_21);
+        devModeScript.src = devModeUrl;
+        var head = $doc.getElementsByTagName($intern_25)[0];
+        head.insertBefore(devModeScript, head.firstElementChild || head.children[0]);
+        return false;
+      }
+    }
+  }
+  loadExternalStylesheets();
+  sendStats($intern_0, $intern_72);
+  installScript(filename);
+  return true;
+}
+
+MEpWPSensor.succeeded = MEpWPSensor();
