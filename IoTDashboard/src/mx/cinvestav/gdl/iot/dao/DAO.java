@@ -354,15 +354,15 @@ public class DAO
 			em = getEntityManager();
 			tx = em.getTransaction();
 			tx.begin();
-			
+
 			if (user.getId() == null)
 			{
 				em.persist(user);
 			}
 			else
-			{				
+			{
 				User stored = em.find(User.class, user.getId());
-				if("".equals(user.getHash())) user.setHash(stored.getHash());
+				if ("".equals(user.getHash())) user.setHash(stored.getHash());
 				em.merge(user);
 			}
 			tx.commit();
@@ -391,7 +391,7 @@ public class DAO
 		{
 			em = getEntityManager();
 			List<User> resultList = null;
-			
+
 			if (id == null)
 			{
 				CriteriaQuery<User> cq = em.getCriteriaBuilder().createQuery(User.class);
@@ -404,7 +404,7 @@ public class DAO
 				User e = em.find(User.class, id);
 				resultList.add(e);
 			}
-			
+
 			return resultList;
 		}
 		catch (Exception e)
@@ -418,5 +418,40 @@ public class DAO
 				em.close();
 			}
 		}
+	}
+
+	public static void deleteUser(Integer id) throws DatabaseException
+	{
+		EntityManager em = null;
+		EntityTransaction tx = null;
+		if (id == null)
+		{
+			throw new IllegalArgumentException("delete: must provide user id.");
+		}
+		try
+		{
+			em = getEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
+			User user = em.find(User.class, id);
+			em.remove(user);
+			tx.commit();
+		}
+		catch (Exception e)
+		{
+			if (tx != null && tx.isActive())
+			{
+				tx.rollback();
+			}
+			throw new DatabaseException("Database exception while inserting entity:" + e.getMessage(), e);
+		}
+		finally
+		{
+			if (em != null)
+			{
+				em.close();
+			}
+		}
+
 	}
 }

@@ -217,9 +217,9 @@ public class EpWPUser extends IoTEntryPoint
 	              }
 	            });
 		    	
-		    	/*btYes.addClickHandler(new ClickHandler() {
+		    	btYes.addClickHandler(new ClickHandler() {
 		              public void onClick(ClickEvent event) {
-		            	  entityService.deleteEntity(new UserDTO(), index, new AsyncCallback<Void>()
+		            	  loginService.deleteUser(index, new AsyncCallback<Void>()
 						{
 
 							@Override
@@ -235,12 +235,12 @@ public class EpWPUser extends IoTEntryPoint
 								Window.alert("Deletion ok");								
 							}
 						});
-		            	Window.alert("SE ELIMINA "+index);
+//		            	Window.alert("SE ELIMINA "+index);
 		            	dialogBox.hide();
 		            	Window.Location.reload();
 		            	
 		              }
-		            });*/
+		            });
 		    
 		    btNo.addClickHandler(new ClickHandler() {
 	            public void onClick(ClickEvent event) {
