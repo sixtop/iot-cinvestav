@@ -48,6 +48,7 @@ public class EpUser  extends IoTEntryPoint
 	private TextBox tbUserName = new TextBox();
 	private TextBox tbEmail = new TextBox();
 	private PasswordTextBox tbPassword = new PasswordTextBox();
+	private PasswordTextBox tbPassword2 = new PasswordTextBox();
 
 	private static final LoginServiceAsync loginService = GWT.create(LoginService.class);
 
@@ -64,8 +65,12 @@ public class EpUser  extends IoTEntryPoint
 		tableFields.setWidget(3, 1, tbEmail);
 		tableFields.setWidget(4, 0, btNewPassword);
 		tableFields.setWidget(4, 1, tbPassword);
+		tableFields.setText(5, 0,"Confirm the password:");
+		tableFields.setWidget(5, 1, tbPassword2);
+		
 		
 		 tbPassword.setEnabled(false);
+		 tbPassword2.setEnabled(false);
 
 		tbId.setEnabled(false);
 		formPanel.add(tableFields);
@@ -99,6 +104,7 @@ public class EpUser  extends IoTEntryPoint
 			public void onClick(ClickEvent event)
 			{
 				 tbPassword.setEnabled(true);
+				 tbPassword2.setEnabled(true);
 			}
 		});
 
@@ -173,6 +179,13 @@ public class EpUser  extends IoTEntryPoint
 		c.setName(tbName.getText());
 		c.setUsername(tbUserName.getText());
 		c.setEmail(tbEmail.getText());
+		
+		if(tbPassword.isEnabled()){
+			if(!tbPassword.getText().equals(tbPassword2.getText())){
+				showInformationDialog("Error", "Password missmatch", btDialogError);
+			}
+		}
+		
 		c.setHash(tbPassword.getText());
 		
 		loginService.insertUser(c, new AsyncCallback<Void>()
@@ -232,4 +245,6 @@ public class EpUser  extends IoTEntryPoint
 		dbWait.show();
 
 	}
+	
+	
 }

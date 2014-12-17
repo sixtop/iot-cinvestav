@@ -7,14 +7,11 @@ import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
-
-import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
@@ -58,8 +55,6 @@ public class EpWPDatas extends IoTEntryPoint
 	private List<ControllerDTO> CONTROLLERS;
 	private List<SmartThingDTO> SMARTTHINGS;
 	private List<SensorDTO> SENSORS;
-
-	private int index;
 
 	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 
@@ -218,13 +213,10 @@ public class EpWPDatas extends IoTEntryPoint
 				
 				final String type = lbTypeSensor.getItemText(lbTypeSensor.getSelectedIndex());
 
-				index = 0;
-
 				for (int i = 0; i < SENSORS.size(); i++)
 				{
 					if (SENSORS.get(i).getSensor_type().equals(type))
 					{
-						Window.alert("Sensor enter");
 
 						final String name = SENSORS.get(i).getName();
 

@@ -7,19 +7,14 @@ import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
 import com.googlecode.gwt.charts.client.ColumnType;
 import com.googlecode.gwt.charts.client.DataTable;
-import com.googlecode.gwt.charts.client.corechart.LineChart;
-import com.googlecode.gwt.charts.client.corechart.LineChartOptions;
 import com.googlecode.gwt.charts.client.geochart.GeoChart;
 import com.googlecode.gwt.charts.client.geochart.GeoChartColorAxis;
 import com.googlecode.gwt.charts.client.geochart.GeoChartOptions;
-import com.googlecode.gwt.charts.client.options.HAxis;
-import com.googlecode.gwt.charts.client.options.VAxis;
 
 
 public class EpIndex extends IoTEntryPoint
 {
 	private GeoChart geoChart;
-	private LineChart chart;
 	
 	
 	public void continueModuleLoad()

@@ -107,6 +107,8 @@ public class EpWPUser extends IoTEntryPoint
 		      }
 		    };
 		    
+		nameColumn.setSortable(true);
+
 	    TextColumn<UserDTO> emailColumn = new TextColumn<UserDTO>() {
 		      @Override
 		      public String getValue(UserDTO c) {
@@ -225,14 +227,14 @@ public class EpWPUser extends IoTEntryPoint
 							@Override
 							public void onFailure(Throwable caught)
 							{
-								Window.alert("no deletion!" + caught.getMessage());
+								
 								
 							}
 
 							@Override
 							public void onSuccess(Void result)
 							{
-								Window.alert("Deletion ok");								
+														
 							}
 						});
 //		            	Window.alert("SE ELIMINA "+index);

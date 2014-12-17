@@ -8,8 +8,6 @@ import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingPropertyDTO;
-
-import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
