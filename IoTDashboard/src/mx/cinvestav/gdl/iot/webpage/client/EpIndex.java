@@ -7,6 +7,7 @@ import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
 import com.googlecode.gwt.charts.client.ColumnType;
 import com.googlecode.gwt.charts.client.DataTable;
+import com.googlecode.gwt.charts.client.ajaxloader.ArrayHelper;
 import com.googlecode.gwt.charts.client.geochart.GeoChart;
 import com.googlecode.gwt.charts.client.geochart.GeoChartColorAxis;
 import com.googlecode.gwt.charts.client.geochart.GeoChartOptions;
@@ -50,29 +51,24 @@ public class EpIndex extends IoTEntryPoint
 		dataTable.addColumn(ColumnType.STRING, "Country");
 		dataTable.addColumn(ColumnType.STRING, "CityFarm");
 		
-		dataTable.addRows(6);
-		dataTable.setValue(0, 0, "Germany");
-		dataTable.setValue(0, 1, "200");
-		dataTable.setValue(1, 0, "United States");
-		dataTable.setValue(1, 1, "MIT");
-		dataTable.setValue(2, 0, "Brazil");
-		dataTable.setValue(2, 1, "400");
-		dataTable.setValue(3, 0, "Canada");
-		dataTable.setValue(3, 1, "500");
-		dataTable.setValue(4, 0, "France");
-		dataTable.setValue(4, 1, "600");
-		dataTable.setValue(5, 0, "RU");
-		dataTable.setValue(5, 1, "700");
-
+		dataTable.addRows(2);
+		dataTable.setValue(0, 0, "MX");
+		dataTable.setValue(0, 1, "CityFarm Gdl");
+		dataTable.setValue(1, 0, "US");
+		dataTable.setValue(1, 1, "CityFarm MIT");
+		
 		// Set options
 		GeoChartOptions options = GeoChartOptions.create();
 		options.setHeight(500);
 		options.setWidth(900);
 		
+		GeoChartColorAxis colorsAxis = GeoChartColorAxis.create();
+		colorsAxis.setValues(ArrayHelper.toJsArrayNumber(1,40,100,400,4000));
+		colorsAxis.setColors(ArrayHelper.toJsArrayString("#FFE6E6","#FF4D4D","#FF0000","#CC0000","#4C0000"));
+		options.setColorAxis(colorsAxis);
 		
-		GeoChartColorAxis geoChartColorAxis = GeoChartColorAxis.create();
-		//geoChartColorAxis.setColors("green", "yellow", "red");
-		options.setColorAxis(geoChartColorAxis);
+		options.setColorAxis(colorsAxis);
+		
 		options.setDatalessRegionColor("gray");
 
 		// Draw the chart
