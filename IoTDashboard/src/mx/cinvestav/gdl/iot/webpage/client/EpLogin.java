@@ -65,7 +65,7 @@ public class EpLogin implements EntryPoint
 
 			public void onClick(ClickEvent event)
 			{
-				dbWait.show();
+				showDialogWait();
 				loginService.login(tbUserName.getText(), tbPassword.getText(), new AsyncCallback<UserDTO>()
 				{
 
