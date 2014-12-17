@@ -6,15 +6,12 @@ import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
-
-import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -44,15 +41,14 @@ import com.googlecode.gwt.charts.client.options.CurveType;
 import com.googlecode.gwt.charts.client.options.Legend;
 import com.googlecode.gwt.charts.client.options.LegendPosition;
 
-
-public class EpWPData extends IoTEntryPoint {
+public class EpWPData extends IoTEntryPoint
+{
 	private DialogBox dbWait = new DialogBox();
 	private Dashboard dashboard;
 	private ChartWrapper<LineChartOptions> lineChart;
 	private ChartRangeFilter numberRangeFilter;
-	private FlexTable table=new FlexTable();
-	 
-	 
+	private FlexTable table = new FlexTable();
+
 	private VerticalPanel formPanel = new VerticalPanel();
 
 	private FlexTable tableData = new FlexTable();
@@ -74,34 +70,37 @@ public class EpWPData extends IoTEntryPoint {
 	private List<SmartThingDTO> SMARTTHINGS;
 	private List<SensorDTO> SENSORS;
 
-	private static final EntityStoreServiceAsync entityService = GWT
-			.create(EntityStoreService.class);
+	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 
 	@Override
-	public void continueModuleLoad() {
+	public void continueModuleLoad()
+	{
 		showDialogWait();
-		
-		entityService.getEntity(new ControllerDTO(), null,
-				new AsyncCallback<List<ControllerDTO>>() {
 
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-					}
+		entityService.getEntity(new ControllerDTO(), null, new AsyncCallback<List<ControllerDTO>>()
+		{
 
-					@Override
-					public void onSuccess(List<ControllerDTO> result) {
-						dbWait.hide();
-						CONTROLLERS = result;
-						lbController.addItem("Select...");
-						lbIdController.addItem("-");
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				// TODO Auto-generated method stub
+			}
 
-						for (ControllerDTO c : CONTROLLERS) {
-							lbController.addItem(c.getName());
-							lbIdController.addItem(c.getId() + "");
-						}
-					}
-				});
+			@Override
+			public void onSuccess(List<ControllerDTO> result)
+			{
+				dbWait.hide();
+				CONTROLLERS = result;
+				lbController.addItem("Select...");
+				lbIdController.addItem("-");
+
+				for (ControllerDTO c : CONTROLLERS)
+				{
+					lbController.addItem(c.getName());
+					lbIdController.addItem(c.getId() + "");
+				}
+			}
+		});
 
 		tableData.setText(0, 0, "Controller: ");
 		tableData.setWidget(0, 1, lbController);
@@ -123,8 +122,7 @@ public class EpWPData extends IoTEntryPoint {
 
 		formPanel.add(tableData);
 		formPanel.add(btGenerate);
-		formPanel.setCellHorizontalAlignment(btGenerate,
-				HasHorizontalAlignment.ALIGN_CENTER);
+		formPanel.setCellHorizontalAlignment(btGenerate, HasHorizontalAlignment.ALIGN_CENTER);
 		RootPanel.get("formContainer").add(formPanel);
 
 		DefaultFormat format = new DateBox.DefaultFormat(DateTimeFormat.getFormat("MMMM dd yyyy"));
@@ -138,171 +136,183 @@ public class EpWPData extends IoTEntryPoint {
 		 * dbFrom.setFormat(new DateBox.DefaultFormat(dateFormat));
 		 * dbTo.setFormat(new DateBox.DefaultFormat(dateFormat));
 		 */
-		lbController.addChangeHandler(new ChangeHandler() {
+		lbController.addChangeHandler(new ChangeHandler()
+		{
 			@Override
-			public void onChange(ChangeEvent event) {
+			public void onChange(ChangeEvent event)
+			{
 
-				final int idController = Integer.parseInt(lbIdController
-						.getValue(lbController.getSelectedIndex()));
-
-				Window.alert("Controller" + idController);
-
-				entityService.getEntity(new SmartThingDTO(), null,
-						new AsyncCallback<List<SmartThingDTO>>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-							}
-
-							@Override
-							public void onSuccess(List<SmartThingDTO> result) {
-								SMARTTHINGS = result;
-								lbSmartThing.clear();
-								lbIdSmartThing.clear();
-
-								lbSmartThing.addItem("Select...");
-								lbIdSmartThing.addItem("-");
-
-								lbSmartThing.setEnabled(true);
-
-								for (SmartThingDTO c : SMARTTHINGS) {
-									if (c.getIdcontroller() == idController) {
-										lbSmartThing.addItem(c.getName());
-										lbIdSmartThing.addItem(c.getId() + "");
-									}
-								}
-
-							}
-						});
-
-			}
-		});
-
-		lbSmartThing.addChangeHandler(new ChangeHandler() {
-			@Override
-			public void onChange(ChangeEvent event) {
-
-				final int idSmartThing = Integer.parseInt(lbIdSmartThing
-						.getValue(lbSmartThing.getSelectedIndex()));
-
-				Window.alert("idSmart" + idSmartThing);
-
-				entityService.getEntity(new SensorDTO(), null,
-						new AsyncCallback<List<SensorDTO>>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-							}
-
-							@Override
-							public void onSuccess(List<SensorDTO> result) {
-								SENSORS = result;
-								lbSensor.clear();
-								lbIdSensor.clear();
-								lbSensor.addItem("Select...");
-								lbIdSensor.addItem("-");
-								lbSensor.setEnabled(true);
-
-								for (SensorDTO c : SENSORS) {
-									if (c.getIdthing() == idSmartThing) {
-										lbSensor.addItem(c.getName());
-										lbIdSensor.addItem(c.getId() + "");
-									}
-								}
-							}
-						});
-
-			}
-		});
-
-		btGenerate.addClickHandler(new ClickHandler() {
-			
-			public void onClick(ClickEvent event) {
-				
-				// Window.alert("GENERA Sensor"+);
-				Window.alert("GENERA Sensor");
-				String sid = lbIdSensor.getItemText(lbSensor.getSelectedIndex());
-				showDialogWait();
-				entityService.getSensorData(Integer.parseInt(sid), dbFrom.getValue(), dbTo.getValue(), new AsyncCallback<List<MeasureDTO>>()
+				final int idController = Integer.parseInt(lbIdController.getValue(lbController.getSelectedIndex()));
+				entityService.getEntity(new SmartThingDTO(), null, new AsyncCallback<List<SmartThingDTO>>()
 				{
 
 					@Override
 					public void onFailure(Throwable caught)
 					{
 						// TODO Auto-generated method stub
-						
 					}
 
 					@Override
-					public void onSuccess(final List<MeasureDTO> result)
+					public void onSuccess(List<SmartThingDTO> result)
 					{
-						dbWait.hide();
-						ChartLoader chartLoader = new ChartLoader(ChartPackage.CONTROLS);
-						chartLoader.loadApi(new Runnable() {
-							
-							
-							@Override
-							public void run() {
-								
-								table.setWidget(0,1,getDashboardWidget());
-								table.setWidget(1,1,getLineChart());
-								table.setWidget(3,1,getNumberRangeFilter());
-								
-								draw(result);
-								table.setWidth("100%");
-								table.setHeight("90%");
-								RootPanel.get("chart").add(table);
+						SMARTTHINGS = result;
+						lbSmartThing.clear();
+						lbIdSmartThing.clear();
+
+						lbSmartThing.addItem("Select...");
+						lbIdSmartThing.addItem("-");
+
+						lbSmartThing.setEnabled(true);
+
+						for (SmartThingDTO c : SMARTTHINGS)
+						{
+							if (c.getIdcontroller() == idController)
+							{
+								lbSmartThing.addItem(c.getName());
+								lbIdSmartThing.addItem(c.getId() + "");
 							}
-						});
+						}
+
 					}
 				});
+
+			}
+		});
+
+		lbSmartThing.addChangeHandler(new ChangeHandler()
+		{
+			@Override
+			public void onChange(ChangeEvent event)
+			{
+
+				final int idSmartThing = Integer.parseInt(lbIdSmartThing.getValue(lbSmartThing.getSelectedIndex()));
+
+				entityService.getEntity(new SensorDTO(), null, new AsyncCallback<List<SensorDTO>>()
+				{
+
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						// TODO Auto-generated method stub
+					}
+
+					@Override
+					public void onSuccess(List<SensorDTO> result)
+					{
+						SENSORS = result;
+						lbSensor.clear();
+						lbIdSensor.clear();
+						lbSensor.addItem("Select...");
+						lbIdSensor.addItem("-");
+						lbSensor.setEnabled(true);
+
+						for (SensorDTO c : SENSORS)
+						{
+							if (c.getIdthing() == idSmartThing)
+							{
+								lbSensor.addItem(c.getName());
+								lbIdSensor.addItem(c.getId() + "");
+							}
+						}
+					}
+				});
+
+			}
+		});
+
+		btGenerate.addClickHandler(new ClickHandler()
+		{
+
+			public void onClick(ClickEvent event)
+			{
+
+				String sid = lbIdSensor.getItemText(lbSensor.getSelectedIndex());
+				showDialogWait();
+				entityService.getSensorData(Integer.parseInt(sid), dbFrom.getValue(), dbTo.getValue(),
+						new AsyncCallback<List<MeasureDTO>>()
+						{
+
+							@Override
+							public void onFailure(Throwable caught)
+							{
+								// TODO Auto-generated method stub
+
+							}
+
+							@Override
+							public void onSuccess(final List<MeasureDTO> result)
+							{
+								dbWait.hide();
+								ChartLoader chartLoader = new ChartLoader(ChartPackage.CONTROLS);
+								chartLoader.loadApi(new Runnable()
+								{
+
+									@Override
+									public void run()
+									{
+
+										table.setWidget(0, 1, getDashboardWidget());
+										table.setWidget(1, 1, getLineChart());
+										table.setWidget(3, 1, getNumberRangeFilter());
+
+										draw(result);
+										table.setWidth("100%");
+										table.setHeight("90%");
+										RootPanel.get("chart").add(table);
+									}
+								});
+							}
+						});
 			}
 		});
 	}
 
-
-	private Dashboard getDashboardWidget() {
-		if (dashboard == null) {
+	private Dashboard getDashboardWidget()
+	{
+		if (dashboard == null)
+		{
 			dashboard = new Dashboard();
 		}
 		return dashboard;
 	}
 
-	private ChartWrapper<LineChartOptions> getLineChart() {
-		if (lineChart == null) {
+	private ChartWrapper<LineChartOptions> getLineChart()
+	{
+		if (lineChart == null)
+		{
 			lineChart = new ChartWrapper<LineChartOptions>();
 			lineChart.setChartType(ChartType.LINE);
 		}
 		return lineChart;
 	}
 
-	private ChartRangeFilter getNumberRangeFilter() {
-		if (numberRangeFilter == null) {
+	private ChartRangeFilter getNumberRangeFilter()
+	{
+		if (numberRangeFilter == null)
+		{
 			numberRangeFilter = new ChartRangeFilter();
 		}
 		return numberRangeFilter;
 	}
 
-	private void draw(List<MeasureDTO> result) 
+	private void draw(List<MeasureDTO> result)
 	{
 		// Set control options
 		ChartRangeFilterOptions chartRangeFilterOptions = ChartRangeFilterOptions.create();
 		chartRangeFilterOptions.setFilterColumnIndex(0); // Filter by the date axis
-		
+
 		LineChartOptions controlChartOptions = LineChartOptions.create();
 		controlChartOptions.setHeight(100);
-		
+
 		ChartArea chartArea = ChartArea.create();
 		chartArea.setWidth("90%");
 		chartArea.setHeight("90%");
 		controlChartOptions.setChartArea(chartArea);
-		
+
 		ChartRangeFilterUi chartRangeFilterUi = ChartRangeFilterUi.create();
 		chartRangeFilterUi.setChartType(ChartType.LINE);
 		chartRangeFilterUi.setChartOptions(controlChartOptions);
-//		chartRangeFilterUi.setMinRangeSize(2 * 24 * 60 * 60 * 1000); // 2 days in milliseconds
+		//		chartRangeFilterUi.setMinRangeSize(2 * 24 * 60 * 60 * 1000); // 2 days in milliseconds
 		chartRangeFilterUi.setMinRangeSize(1000); // 2 days in milliseconds
 		chartRangeFilterOptions.setUi(chartRangeFilterUi);
 		ChartRangeFilterStateRange stateRange = ChartRangeFilterStateRange.create();
@@ -325,43 +335,40 @@ public class EpWPData extends IoTEntryPoint {
 		dataTable.addColumn(ColumnType.DATE, "Date");
 		dataTable.addColumn(ColumnType.NUMBER, "Measure");
 		dataTable.addRows(result.size());
-		
-		//Window.alert("datasize:" + result.size());
-		
-		
-		for(int rows = 0; rows < result.size(); rows++)
+
+	
+		for (int rows = 0; rows < result.size(); rows++)
 		{
 			dataTable.setValue(rows, 0, result.get(rows).getMeasure_date());
 			dataTable.setValue(rows, 1, Double.parseDouble(result.get(rows).getMeasure()));
 		}
 
-
 		// Draw the chart
 		dashboard.bind(numberRangeFilter, lineChart);
 		dashboard.draw(dataTable);
 	}
-	
-public void showDialogWait(){
-		
+
+	public void showDialogWait()
+	{
+
 		dbWait.setAnimationEnabled(true);
 		dbWait.setGlassEnabled(true);
 		dbWait.setModal(true);
 		dbWait.center();
 
-	    VerticalPanel dialogContents = new VerticalPanel();
-	    
-	    dialogContents.setSpacing(4);
-	    
-	    Image image = new Image();
-	    
-	    image.setUrl(GWT.getHostPageBaseURL()+"images/loading2.gif");
-	    
-	    
-	    dialogContents.add(image);
-	    dialogContents.setCellHorizontalAlignment(image, HasHorizontalAlignment.ALIGN_CENTER);
-	    
-	    dbWait.setWidget(dialogContents);
-	    dbWait.show();
-		
+		VerticalPanel dialogContents = new VerticalPanel();
+
+		dialogContents.setSpacing(4);
+
+		Image image = new Image();
+
+		image.setUrl(GWT.getHostPageBaseURL() + "images/loading2.gif");
+
+		dialogContents.add(image);
+		dialogContents.setCellHorizontalAlignment(image, HasHorizontalAlignment.ALIGN_CENTER);
+
+		dbWait.setWidget(dialogContents);
+		dbWait.show();
+
 	}
 }

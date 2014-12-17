@@ -6,7 +6,6 @@ import java.util.List;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 
 import com.google.gwt.cell.client.ActionCell;
-import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -276,17 +275,16 @@ public class EpWPSensor extends IoTEntryPoint {
 							@Override
 							public void onFailure(Throwable caught)
 							{
-								Window.alert("no deletion!" + caught.getMessage());
+								Window.alert(caught.getMessage());
 								
 							}
 
 							@Override
 							public void onSuccess(Void result)
 							{
-								Window.alert("Deletion ok");								
+															
 							}
 						});
-		            	Window.alert("SE ELIMINA "+index);
 		            	dialogBox.hide();
 		            	Window.Location.reload();
 		            	

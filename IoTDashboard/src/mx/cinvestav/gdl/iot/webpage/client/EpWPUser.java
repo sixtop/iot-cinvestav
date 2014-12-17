@@ -30,7 +30,6 @@ import com.google.gwt.view.client.ListDataProvider;
 public class EpWPUser extends IoTEntryPoint
 {
 	private DialogBox dbWait = new DialogBox();
-	private int index;
 
 	private VerticalPanel formPanel = new VerticalPanel();
 	
@@ -128,7 +127,6 @@ public class EpWPUser extends IoTEntryPoint
 	        
 	        ActionCell<UserDTO> deleteAction = new ActionCell<UserDTO>("Delete", new ActionCell.Delegate<UserDTO>() {
 	            public void execute(UserDTO c){
-	            	index=c.getId();
 	            	
 	            	dialogBox.setAnimationEnabled(true);
 					dialogBox.setGlassEnabled(true);
@@ -227,17 +225,17 @@ public class EpWPUser extends IoTEntryPoint
 							@Override
 							public void onFailure(Throwable caught)
 							{
-								Window.alert("no deletion!" + caught.getMessage());
+								
 								
 							}
 
 							@Override
 							public void onSuccess(Void result)
 							{
-								Window.alert("Deletion ok");								
+														
 							}
 						});
-		            	Window.alert("SE ELIMINA "+index);
+		            	
 		            	dialogBox.hide();
 		            	Window.Location.reload();
 		            	

@@ -217,17 +217,17 @@ public class EpWPController extends IoTEntryPoint
 							@Override
 							public void onFailure(Throwable caught)
 							{
-								Window.alert("no deletion!" + caught.getMessage());
+								Window.alert(caught.getMessage());
 								
 							}
 
 							@Override
 							public void onSuccess(Void result)
 							{
-								Window.alert("Deletion ok");								
+								
 							}
 						});
-		            	Window.alert("SE ELIMINA "+index);
+		            	
 		            	dialogBox.hide();
 		            	Window.Location.reload();
 		            	
