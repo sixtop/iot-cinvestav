@@ -381,13 +381,13 @@ public class EpController extends IoTEntryPoint
 								}
 							});
 
-							HorizontalPanel buttonsPanel = new HorizontalPanel();
-							buttonsPanel.add(editProperty);
-							buttonsPanel.add(saveEditProperty);
-							buttonsPanel.add(cancelEditProperty);
-							buttonsPanel.add(removeProperty);
+							HorizontalPanel bPanel = new HorizontalPanel();
+							bPanel.add(editProperty);
+							bPanel.add(saveEditProperty);
+							bPanel.add(cancelEditProperty);
+							bPanel.add(removeProperty);
 
-							tableProperty.setWidget(i + 1, 4, buttonsPanel);
+							tableProperty.setWidget(i + 1, 4, bPanel);
 						}
 					}
 				});
@@ -470,7 +470,7 @@ public class EpController extends IoTEntryPoint
 		});
 	}
 
-	private void showInformationDialog(String title, String message, Button btDialogClose)
+	private void showInformationDialog(String title, String message, Button btClose)
 	{
 		dialogBox.setAnimationEnabled(true);
 		dialogBox.center();
@@ -479,8 +479,8 @@ public class EpController extends IoTEntryPoint
 		lbDialogBox.setText(message);
 		dialogPanel.add(lbDialogBox);
 		dialogPanel.setCellHorizontalAlignment(lbDialogBox, HasHorizontalAlignment.ALIGN_CENTER);
-		dialogPanel.add(btDialogClose);
-		dialogPanel.setCellHorizontalAlignment(btDialogClose, HasHorizontalAlignment.ALIGN_CENTER);
+		dialogPanel.add(btClose);
+		dialogPanel.setCellHorizontalAlignment(btClose, HasHorizontalAlignment.ALIGN_CENTER);
 		dialogBox.add(dialogPanel);
 		dialogBox.show();
 	}
@@ -613,41 +613,41 @@ public class EpController extends IoTEntryPoint
 
 				int editRow = property.indexOf(symboln);
 
-				final String symboln = name.getText();
-				final String symbolv = value.getText();
-				CheckBox symbola = new CheckBox();
+				final String symn = name.getText();
+				final String symv = value.getText();
+				CheckBox syma = new CheckBox();
 
 				if (active.getValue() == true)
 				{
-					symbola.setValue(true);
+					syma.setValue(true);
 				}
 				else
 				{
-					symbola.setValue(false);
+					syma.setValue(false);
 				}
 
-				symbola.setEnabled(false);
+				syma.setEnabled(false);
 
-				if (symboln.length() > 45 || symboln.length() == 0)
+				if (symn.length() > 45 || symn.length() == 0)
 				{
 					showInformationDialog("Error", "The name must not have empty and have less than 45 characters",
 							btDialogError);
 					return;
 				}
 
-				if (symbolv.length() > 45)
+				if (symv.length() > 45)
 				{
 					showInformationDialog("Error", "The value have less than 45 characters", btDialogError);
 					return;
 				}
 
-				tableProperty.setText(editRow + 1, 1, symboln);
-				tableProperty.setText(editRow + 1, 2, symbolv);
-				tableProperty.setWidget(editRow + 1, 3, symbola);
+				tableProperty.setText(editRow + 1, 1, symn);
+				tableProperty.setText(editRow + 1, 2, symv);
+				tableProperty.setWidget(editRow + 1, 3, syma);
 
-				listNameProperty.setItemText(editRow, symboln);
-				listValueProperty.setItemText(editRow, symbolv);
-				listActiveProperty.setItemText(editRow, symbola.getValue() + "");
+				listNameProperty.setItemText(editRow, symn);
+				listValueProperty.setItemText(editRow, symv);
+				listActiveProperty.setItemText(editRow, syma.getValue() + "");
 
 				name.setText("");
 				value.setText("");
@@ -673,13 +673,13 @@ public class EpController extends IoTEntryPoint
 			}
 		});
 
-		HorizontalPanel buttonsPanel = new HorizontalPanel();
-		buttonsPanel.add(editProperty);
-		buttonsPanel.add(saveEditProperty);
-		buttonsPanel.add(cancelEditProperty);
-		buttonsPanel.add(removeProperty);
+		HorizontalPanel bPanel = new HorizontalPanel();
+		bPanel.add(editProperty);
+		bPanel.add(saveEditProperty);
+		bPanel.add(cancelEditProperty);
+		bPanel.add(removeProperty);
 
-		tableProperty.setWidget(row, 4, buttonsPanel);
+		tableProperty.setWidget(row, 4, bPanel);
 	}
 
 	public void showDialogWait()
