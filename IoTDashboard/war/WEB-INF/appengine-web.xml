@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
-	<application>iot-cinvestav</application>
+	<application>iot-cinvestav2</application>
 	<version>1</version>
 
 	<!-- Allows App Engine to send multiple requests to one instance in parallel: -->
@@ -23,7 +23,7 @@
 		<property name="cloudsql.url.dev"
 			value="jdbc:mysql://173.194.253.49:3306/data?user=root&amp;password=root" />
 		<property name="cloudsql.url"
-			value="jdbc:google:mysql://iot-cinvestav:data/data?user=root"/>
+			value="jdbc:google:mysql://iot-cinvestav2:data/data?user=root"/>
 	</system-properties>
 
 	<!-- HTTP Sessions are disabled by default. To enable HTTP sessions specify: 
