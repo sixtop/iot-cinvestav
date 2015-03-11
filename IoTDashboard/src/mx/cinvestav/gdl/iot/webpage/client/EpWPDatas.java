@@ -1,13 +1,17 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import sun.nio.ch.WindowsAsynchronousChannelProvider;
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
 
+import com.gargoylesoftware.htmlunit.javascript.host.Window;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -16,7 +20,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -26,21 +29,21 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
-import com.googlecode.gwt.charts.client.ChartLoader;
-import com.googlecode.gwt.charts.client.ChartPackage;
-import com.googlecode.gwt.charts.client.ColumnType;
-import com.googlecode.gwt.charts.client.DataTable;
-import com.googlecode.gwt.charts.client.corechart.LineChart;
-import com.googlecode.gwt.charts.client.corechart.LineChartOptions;
-import com.googlecode.gwt.charts.client.options.HAxis;
-import com.googlecode.gwt.charts.client.options.VAxis;
+//import com.googlecode.gwt.charts.client.ChartLoader;
+//import com.googlecode.gwt.charts.client.ChartPackage;
+//import com.googlecode.gwt.charts.client.ColumnType;
+//import com.googlecode.gwt.charts.client.DataTable;
+//import com.googlecode.gwt.charts.client.corechart.LineChart;
+//import com.googlecode.gwt.charts.client.corechart.LineChartOptions;
+//import com.googlecode.gwt.charts.client.options.HAxis;
+//import com.googlecode.gwt.charts.client.options.VAxis;
 
 public class EpWPDatas extends IoTEntryPoint
 {
 	private DialogBox dbWait = new DialogBox();
-	
+
 	private VerticalPanel formPanel = new VerticalPanel();
-	
+
 	private VerticalPanel formChart = new VerticalPanel();
 
 	private FlexTable tableData = new FlexTable();
@@ -58,6 +61,8 @@ public class EpWPDatas extends IoTEntryPoint
 	private List<ControllerDTO> CONTROLLERS;
 	private List<SmartThingDTO> SMARTTHINGS;
 	private List<SensorDTO> SENSORS;
+	
+	private Map<String, List<MeasureDTO>> group;
 
 	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 
@@ -66,8 +71,7 @@ public class EpWPDatas extends IoTEntryPoint
 	{
 
 		showDialogWait();
-		entityService.getEntity(new ControllerDTO(), null, new AsyncCallback<List<ControllerDTO>>()
-		{
+		entityService.getEntity(new ControllerDTO(), null, new AsyncCallback<List<ControllerDTO>>() {
 
 			@Override
 			public void onFailure(Throwable caught)
@@ -118,16 +122,14 @@ public class EpWPDatas extends IoTEntryPoint
 		dbFrom.getDatePicker().setYearArrowsVisible(true);
 		dbTo.getDatePicker().setYearArrowsVisible(true);
 
-		lbController.addChangeHandler(new ChangeHandler()
-		{
+		lbController.addChangeHandler(new ChangeHandler() {
 
 			public void onChange(ChangeEvent event)
 			{
 
 				final int idController = Integer.parseInt(lbController.getValue(lbController.getSelectedIndex()));
 
-				entityService.getEntity(new SmartThingDTO(), null, new AsyncCallback<List<SmartThingDTO>>()
-				{
+				entityService.getEntity(new SmartThingDTO(), null, new AsyncCallback<List<SmartThingDTO>>() {
 
 					@Override
 					public void onFailure(Throwable caught)
@@ -159,15 +161,13 @@ public class EpWPDatas extends IoTEntryPoint
 			}
 		});
 
-		lbSmartThing.addChangeHandler(new ChangeHandler()
-		{
+		lbSmartThing.addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event)
 			{
 
 				final int idSmartThing = Integer.parseInt(lbSmartThing.getValue(lbSmartThing.getSelectedIndex()));
-				entityService.getEntity(new SensorDTO(), null, new AsyncCallback<List<SensorDTO>>()
-				{
+				entityService.getEntity(new SensorDTO(), null, new AsyncCallback<List<SensorDTO>>() {
 
 					@Override
 					public void onFailure(Throwable caught)
@@ -210,14 +210,14 @@ public class EpWPDatas extends IoTEntryPoint
 			}
 		});
 
-		btGenerate.addClickHandler(new ClickHandler()
-		{
+		btGenerate.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event)
 			{
-
+				group = new HashMap<String, List<MeasureDTO>>();
 				formChart.clear();
-				
+
 				final String type = lbTypeSensor.getItemText(lbTypeSensor.getSelectedIndex());
+				
 
 				for (int i = 0; i < SENSORS.size(); i++)
 				{
@@ -225,10 +225,11 @@ public class EpWPDatas extends IoTEntryPoint
 					{
 
 						final String name = SENSORS.get(i).getName();
+						final String test = "wsdf"; 
+						
 
 						entityService.getSensorData(SENSORS.get(i).getId(), dbFrom.getValue(), dbTo.getValue(),
-								new AsyncCallback<List<MeasureDTO>>()
-								{
+								new AsyncCallback<List<MeasureDTO>>() {
 
 									@Override
 									public void onFailure(Throwable caught)
@@ -240,83 +241,20 @@ public class EpWPDatas extends IoTEntryPoint
 									@Override
 									public void onSuccess(final List<MeasureDTO> result)
 									{
-										
-										
-										ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
-										chartLoader.loadApi(new Runnable()
+										group.put(name, result);
+										if (group.size() == SENSORS.size())
 										{
-											@Override
-											public void run()
-											{
-												LineChart lineChart =new LineChart();
-												
-												DecoratorPanel chartPanel = new DecoratorPanel();
-												chartPanel.add(lineChart);
-												formChart.add(chartPanel);
-
-												drawLineChart(lineChart,result, name);
-											}
-
-										});
+											String data = GraphUtils.generateStringData(group);
+											GraphUtils.generateNVD3("Measure", "Date", data);
+										}
 									}
 
 								});
-						
-						RootPanel.get("chart").add(formChart);
-
 					}
-
 				}
 
 			}
 		});
-
-	}
-
-
-	private void drawLineChart(LineChart lineChart, List<MeasureDTO> result, String name)
-	{
-
-
-		ArrayList<String> dates = new ArrayList<String>();
-
-		for (int rows = 0; rows < result.size(); rows++)
-		{
-			dates.add(result.get(rows).getMeasure_date().toString());
-		}
-
-		// Prepare the data
-		DataTable dataTable = DataTable.create();
-
-		dataTable.addColumn(ColumnType.STRING, "Year");
-		dataTable.addColumn(ColumnType.NUMBER, name);
-
-		dataTable.addRows(dates.size());
-
-		for (int i = 0; i < dates.size(); i++)
-		{
-			dataTable.setValue(i, 0, dates.get(i));
-		}
-
-		for (int row = 0; row < result.size(); row++)
-		{
-			dataTable.setValue(row, 1, result.get(row).getMeasure());
-		}
-
-		// Set options
-		LineChartOptions options = LineChartOptions.create();
-		options.setWidth(800);
-		options.setHeight(500);
-		options.setBackgroundColor("white");
-		options.setFontName("Tahoma");
-		options.setTitle("Sensor Information");
-		options.setHAxis(HAxis.create("Date"));
-		options.setVAxis(VAxis.create("Value"));
-
-		// Draw the chart
-		lineChart.draw(dataTable, options);
-		
-		
 	}
 
 	public void showDialogWait()
@@ -342,5 +280,4 @@ public class EpWPDatas extends IoTEntryPoint
 		dbWait.show();
 
 	}
-
 }

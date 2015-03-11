@@ -4,9 +4,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style>
+#chart svg {
+	height: 600px;
+	width: 800px;
+}
+</style>
 <link type="text/css" rel="stylesheet" href="css/IoTDashboard.css">
-<script type="text/javascript" language="javascript"
-	src="MEpWPDatas/MEpWPDatas.nocache.js"></script>
+<link type="text/css" rel="stylesheet" href="css/nv.d3.css">
+
+<script type="text/javascript" language="javascript" src="MEpWPDatas/MEpWPDatas.nocache.js"></script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="scripts/nv.d3.min.js"></script>
+<script type="text/javascript" language="javascript" src="scripts/smartcitygrapher.js"></script>
 
 <title>SmartCity</title>
 </head>
@@ -20,12 +30,13 @@
 			</div>
 			<div class="panel-body">
 				<div id="formContainer"></div>
-				<div align="center" id="chart"></div>
 
+				<div style="display: none" id="chart">
+					<svg></svg>
+				</div>
 			</div>
 		</div>
 		<jsp:include page="footer.jsp" />
 	</div>
 </body>
 </html>
-
