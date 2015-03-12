@@ -68,7 +68,7 @@ public class CloudClient
 	{
 		int controllerId = 81;
 		int idthing = 0;
-		int sensorId = 8;
+		int sensorId = 8;//0,8,9
 		
 		
 		
@@ -88,7 +88,7 @@ public class CloudClient
 				for (int k = 0; k < measures.length; k++)
 				{
 					measures[k] = new Data();
-					int random = 20 + r.nextInt(25);
+					int random = 30 + r.nextInt(5);
 					measures[k].setData(String.valueOf(random));
 					DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssssZ");
 					c.setTime(date);

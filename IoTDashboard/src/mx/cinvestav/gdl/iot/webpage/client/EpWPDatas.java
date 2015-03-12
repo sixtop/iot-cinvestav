@@ -5,13 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sun.nio.ch.WindowsAsynchronousChannelProvider;
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
 
-import com.gargoylesoftware.htmlunit.javascript.host.Window;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -29,14 +27,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
-//import com.googlecode.gwt.charts.client.ChartLoader;
-//import com.googlecode.gwt.charts.client.ChartPackage;
-//import com.googlecode.gwt.charts.client.ColumnType;
-//import com.googlecode.gwt.charts.client.DataTable;
-//import com.googlecode.gwt.charts.client.corechart.LineChart;
-//import com.googlecode.gwt.charts.client.corechart.LineChartOptions;
-//import com.googlecode.gwt.charts.client.options.HAxis;
-//import com.googlecode.gwt.charts.client.options.VAxis;
 
 public class EpWPDatas extends IoTEntryPoint
 {
@@ -63,6 +53,7 @@ public class EpWPDatas extends IoTEntryPoint
 	private List<SensorDTO> SENSORS;
 	
 	private Map<String, List<MeasureDTO>> group;
+	private String measure_unit="";
 
 	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 
@@ -187,6 +178,7 @@ public class EpWPDatas extends IoTEntryPoint
 
 						for (SensorDTO c : SENSORS)
 						{
+							measure_unit = c.getUnit();
 							if (c.getIdthing() == idSmartThing)
 							{
 								lbSensor.addItem(c.getSensor_type(), c.getId() + "");
@@ -225,9 +217,6 @@ public class EpWPDatas extends IoTEntryPoint
 					{
 
 						final String name = SENSORS.get(i).getName();
-						final String test = "wsdf"; 
-						
-
 						entityService.getSensorData(SENSORS.get(i).getId(), dbFrom.getValue(), dbTo.getValue(),
 								new AsyncCallback<List<MeasureDTO>>() {
 
@@ -245,7 +234,7 @@ public class EpWPDatas extends IoTEntryPoint
 										if (group.size() == SENSORS.size())
 										{
 											String data = GraphUtils.generateStringData(group);
-											GraphUtils.generateNVD3("Measure", "Date", data);
+											GraphUtils.generateNVD3(measure_unit, "", data);
 										}
 									}
 

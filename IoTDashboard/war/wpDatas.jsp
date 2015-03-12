@@ -6,8 +6,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <style>
 #chart svg {
-	height: 600px;
-	width: 800px;
+	height: 500px;
+	width: 1000px;
 }
 </style>
 <link type="text/css" rel="stylesheet" href="css/IoTDashboard.css">

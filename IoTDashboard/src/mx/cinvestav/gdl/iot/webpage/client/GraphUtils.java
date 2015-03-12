@@ -1,5 +1,6 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -8,9 +9,12 @@ import java.util.Map.Entry;
 import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.shared.TimeZone;
 
 public class GraphUtils
 {
+	
+	
 	public static String generateStringData(Map<String, List<MeasureDTO>> group)
 	{
 
@@ -22,21 +26,19 @@ public class GraphUtils
 			List<MeasureDTO> value = next.getValue();
 			if(value.size()>0)
 			{
-				json.append("{").append(generateData(next.getValue(), next.getKey(), "#ff7f0e")).append("},");
+				json.append("{").append(generateData(next.getValue(), next.getKey())).append("},");
 			}
 		}
 		json.deleteCharAt(json.length() - 1);
 		json.append("]");
-		// return
-		// "[{\"values\":[{\"y\":0,\"x\":\"2014-03-09T23:06:57.084Z\"},{\"y\":1,\"x\":\"2014-03-10T23:06:57.084Z\"},{\"y\":2,\"x\":\"2014-03-11T23:06:57.084Z\"},{\"y\":3,\"x\":\"2014-03-12T23:06:57.084Z\"},{\"y\":4,\"x\":\"2014-03-13T23:06:57.084Z\"}],\"key\":\"Plant A\",\"color\":\"#ff7f0e\"}]";
 		return json.toString();
 	}
 
-	private static StringBuffer generateData(List<MeasureDTO> measures, String sensorName, String color)
+	private static StringBuffer generateData(List<MeasureDTO> measures, String sensorName)
 	{
 		StringBuffer json = new StringBuffer("");
 		json.append("\"key\":\"").append(sensorName).append("\",");
-		json.append("\"color\":\"").append(color).append("\",");
+		//json.append("\"color\":\"").append(color).append("\",");
 		json.append("\"values\":[").append(generateArray(measures)).append("]");
 		return json;
 	}
@@ -50,7 +52,8 @@ public class GraphUtils
 		{
 			json.append("{\"y\":");
 			json.append(m.getMeasure()).append(",\"x\":\"");
-			json.append(fmt.format(m.getMeasure_date()));
+			String date = fmt.format(m.getMeasure_date());
+			json.append(date.substring(0, date.length()-4)+"0000");
 			json.append("").append("\"},");
 		}
 		json.deleteCharAt(json.length() - 1);

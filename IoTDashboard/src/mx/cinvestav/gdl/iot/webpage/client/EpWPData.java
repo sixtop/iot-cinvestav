@@ -1,10 +1,8 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
@@ -34,8 +32,6 @@ import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
 public class EpWPData extends IoTEntryPoint
 {
 	private DialogBox dbWait = new DialogBox();
-	private FlexTable table = new FlexTable();
-
 	private VerticalPanel formPanel = new VerticalPanel();
 
 	private FlexTable tableData = new FlexTable();

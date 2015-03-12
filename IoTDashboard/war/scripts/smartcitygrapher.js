@@ -2,8 +2,6 @@
  * Helper code to graph smart city data using nvd3
  * */
 function generateNVD3(xaxis, yaxis, data) {
-	window.alert(data);
-
 	nv.addGraph(function() {
 		var chart = nv.models.lineChart().margin({
 			left : 100
