@@ -11,6 +11,7 @@ public class MeasureDTO implements Serializable
 	private Timestamp measure_date;
 	private Integer idsensor;
 	private Integer idthing;
+	private byte[] image;
 
 	public Integer getId()
 	{
@@ -60,6 +61,16 @@ public class MeasureDTO implements Serializable
 	public void setIdthing(Integer idthing)
 	{
 		this.idthing = idthing;
+	}
+	
+	public byte[] getImage()
+	{
+		return image;
+	}
+	
+	public void setImage(byte[] image)
+	{
+		this.image = image;
 	}
 
 }

@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
@@ -15,10 +18,13 @@ import java.util.Random;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.apache.commons.codec.binary.Base64;
+
+
 public class CloudClient
 {
-//	private static final String url = "http://localhost:8888/_ah/api/iotService/v1/updatedataresponse";
-		private static final String url = "https://iot-cinvestav2.appspot.com/_ah/api/iotService/v1/updatedataresponse";
+	private static final String url = "http://localhost:8888/_ah/api/iotService/v1/updatedataresponse";
+		//private static final String url = "https://iot-cinvestav2.appspot.com/_ah/api/iotService/v1/updatedataresponse";
 
 //	private static final String url = "http://localhost:8888/_ah/api/iotService/v1/createController";
 	private static GsonBuilder builder = new GsonBuilder();
@@ -94,6 +100,10 @@ public class CloudClient
 					c.setTime(date);
 					c.add(Calendar.DAY_OF_MONTH, k);
 					measures[k].setTime(format.format(c.getTime()));
+					
+					Path path = Paths.get("/home/hector/plant.jpg");
+					byte[] image = Files.readAllBytes(path);
+					measures[k].setImage(Base64.encodeBase64String(image));
 				}
 				sensorData[j] = new SensorData();
 				sensorData[j].setMeasures(measures);

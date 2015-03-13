@@ -23,6 +23,8 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.response.NotFoundException;
 
+import org.apache.commons.codec.binary.Base64;
+
 /**
  * Defines v1 of a IoT API, which provides simple update methods.
  */
@@ -66,6 +68,7 @@ public class IoTService
 									measureEntity.setMeasure_date(new Timestamp(parse.getTime()));
 									measureEntity.setIdsensor(sensor_data.getSensorId());
 									measureEntity.setIdthing(thing_data.getSmartThingId());
+									measureEntity.setImage(Base64.decodeBase64(m.getImage()));
 									em.persist(measureEntity);
 								}
 							}
