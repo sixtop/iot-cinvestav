@@ -6,6 +6,5 @@
 	<source path="client" />
 	<source path='dto' />
 	<add-linker name="xsiframe" />
-
 	<entry-point class="mx.cinvestav.gdl.iot.webpage.client.EpWPData"/>
 </module>

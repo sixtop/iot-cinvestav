@@ -97,6 +97,9 @@
           },
           "time" : {
             "type" : "string"
+          },
+          "image" : {
+            "type" : "string"
           }
         }
       },
