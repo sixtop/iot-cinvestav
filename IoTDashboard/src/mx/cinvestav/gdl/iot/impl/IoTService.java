@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +38,9 @@ public class IoTService
 	public UpdateDataResponse updateData(UpdateDataRequest request) throws NotFoundException
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssssZ");
+		SimpleDateFormat gmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssss");
+		gmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+		
 		UpdateDataResponse res = new UpdateDataResponse();
 		try
 		{
@@ -65,7 +69,7 @@ public class IoTService
 									Measure measureEntity = new Measure();
 									measureEntity.setMeasure(m.getData());
 									Date parse = dateFormat.parse(m.getTime());
-									measureEntity.setMeasure_date(new Timestamp(parse.getTime()));
+									measureEntity.setMeasure_date(Timestamp.valueOf(gmt.format(parse)));
 									measureEntity.setIdsensor(sensor_data.getSensorId());
 									measureEntity.setIdthing(thing_data.getSmartThingId());
 									measureEntity.setImage(Base64.decodeBase64(m.getImage()));
@@ -120,9 +124,13 @@ public class IoTService
 	
 	public static void main(String[] args) throws ParseException
 	{
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssssZ");
-	    Date parsedDate = dateFormat.parse("2015-03-11 15:13:0011-0600");	    
-	    Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+		SimpleDateFormat local = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssssZ");
+		Date parsedDate = local.parse("2015-03-11 15:13:0011-0600");
+		
+		SimpleDateFormat gmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssss");
+		gmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+		
+	    Timestamp timestamp = Timestamp.valueOf(gmt.format(parsedDate));
 		System.out.println(timestamp);
 	}
 }

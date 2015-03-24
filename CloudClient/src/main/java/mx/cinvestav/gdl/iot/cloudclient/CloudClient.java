@@ -24,9 +24,7 @@ import org.apache.commons.codec.binary.Base64;
 public class CloudClient
 {
 	private static final String url = "http://localhost:8888/_ah/api/iotService/v1/updatedataresponse";
-		//private static final String url = "https://iot-cinvestav2.appspot.com/_ah/api/iotService/v1/updatedataresponse";
-
-//	private static final String url = "http://localhost:8888/_ah/api/iotService/v1/createController";
+	//private static final String url = "https://iot-cinvestav2.appspot.com/_ah/api/iotService/v1/updatedataresponse";
 	private static GsonBuilder builder = new GsonBuilder();
 	private static Gson gson = builder.create();
 
@@ -74,7 +72,7 @@ public class CloudClient
 	{
 		int controllerId = 81;
 		int idthing = 0;
-		int sensorId = 8;//0,8,9
+		int sensorId = 10;//0,8,9,10
 		
 		
 		
@@ -90,7 +88,7 @@ public class CloudClient
 			SensorData[] sensorData = new SensorData[1];
 			for (int j = 0; j < sensorData.length; j++)
 			{
-				Data measures[] = new Data[100];
+				Data measures[] = new Data[5];
 				for (int k = 0; k < measures.length; k++)
 				{
 					measures[k] = new Data();
@@ -101,7 +99,7 @@ public class CloudClient
 					c.add(Calendar.DAY_OF_MONTH, k);
 					measures[k].setTime(format.format(c.getTime()));
 					
-					Path path = Paths.get("/home/hector/plant.jpg");
+					Path path = Paths.get("plant.jpg");
 					byte[] image = Files.readAllBytes(path);
 					measures[k].setImage(Base64.encodeBase64String(image));
 				}
