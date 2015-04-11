@@ -1,6 +1,5 @@
 package mx.cinvestav.gdl.iot.webpage.client;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -9,28 +8,27 @@ import java.util.Map.Entry;
 import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.i18n.shared.TimeZone;
 
 public class GraphUtils
 {
-	
-	
 	public static String generateStringData(Map<String, List<MeasureDTO>> group)
 	{
-
+		boolean empty = true;
 		StringBuffer json = new StringBuffer("[");
 		Iterator<Entry<String, List<MeasureDTO>>> it = group.entrySet().iterator();
 		while (it.hasNext())
 		{
 			Entry<String, List<MeasureDTO>> next = it.next();
 			List<MeasureDTO> value = next.getValue();
-			if(value.size()>0)
+			if (value != null && value.size() > 0)
 			{
+				empty = false;
 				json.append("{").append(generateData(next.getValue(), next.getKey())).append("},");
 			}
 		}
 		json.deleteCharAt(json.length() - 1);
 		json.append("]");
+		if (empty) return null;
 		return json.toString();
 	}
 
@@ -59,6 +57,10 @@ public class GraphUtils
 		json.deleteCharAt(json.length() - 1);
 		return json;
 	}
+	
+	public static native void hideNVD3() /*-{
+		$wnd.hideNVD3();
+	}-*/;
 
 	public static native void alert(String msg) /*-{
 		$wnd.alert(msg);

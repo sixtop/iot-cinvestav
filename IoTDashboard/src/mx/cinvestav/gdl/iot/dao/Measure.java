@@ -21,7 +21,7 @@ public class Measure
 	private Integer idsensor;
 	private Integer idthing;
 	private byte[] image;
-	
+	private String metadata;
 
 	public Integer getId()
 	{
@@ -83,4 +83,13 @@ public class Measure
 		this.image = image;
 	}
 
+	public String getMetadata()
+	{
+		return metadata;
+	}
+
+	public void setMetadata(String metadata)
+	{
+		this.metadata = metadata;
+	}
 }

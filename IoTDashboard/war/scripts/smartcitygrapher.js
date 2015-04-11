@@ -30,6 +30,11 @@ function generateNVD3(xaxis, yaxis, data) {
 	document.getElementById("chart").style.display = 'block';
 }
 
+function hideNVD3() 
+{
+	document.getElementById("chart").style.display = 'none';
+}
+
 /* JSON Date Parser */
 var reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*))(?:Z|(\+|-)([\d|:]*))?$/;
 var reMsAjax = /^\/Date\((d|-|.*)\)[\/|\\]$/;

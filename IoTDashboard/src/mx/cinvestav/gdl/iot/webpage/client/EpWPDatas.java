@@ -240,7 +240,10 @@ public class EpWPDatas extends IoTEntryPoint {
 					if (SENSORS.get(i).getSensor_type().equals(type)) {
 
 						final String name = SENSORS.get(i).getName();
-						entityService.getSensorData(SENSORS.get(i).getId(), dbFrom.getValue(), dbTo.getValue(),
+						Map<String, Boolean> filter = new HashMap<String, Boolean>();
+						filter.put("ventilador", false);
+						
+						entityService.getSensorData(SENSORS.get(i).getId(), dbFrom.getValue(), dbTo.getValue(), filter,
 								new AsyncCallback<List<MeasureDTO>>() {
 
 									@Override
@@ -250,11 +253,13 @@ public class EpWPDatas extends IoTEntryPoint {
 									}
 
 									@Override
-									public void onSuccess(final List<MeasureDTO> result) {
-
-										if (result.size() != 0) {
-
-											if (type.toUpperCase().equals("PHOTO")) {
+									public void onSuccess(final List<MeasureDTO> result) 
+									{
+										if (result.size() != 0) 
+										{
+											group.put(name, result);
+											if (type.toUpperCase().equals("PHOTO")) 
+											{
 												int numRows = (int) result.size() / 5;
 												int numColumns = 5;
 												Grid grid = new Grid(numRows+1, numColumns);
@@ -313,39 +318,40 @@ public class EpWPDatas extends IoTEntryPoint {
 												formPanel.add(formPictures);
 												formPanel.setCellHorizontalAlignment(formPictures,HasHorizontalAlignment.ALIGN_CENTER);
 
-											} else {
-												// Graphs
-												group.put(name, result);
-												if (group.size() == sf) {
-													String data = GraphUtils.generateStringData(group);
-													GraphUtils.generateNVD3(measure_unit, "", data);
-												}
 											}
 										}
-
-										else {
-											final DialogBox noDatas = new DialogBox();
-											noDatas.setAnimationEnabled(true);
-											noDatas.setGlassEnabled(true);
-											
-											noDatas.setText("There aren't datas");
-											
-											
-											Button close=new Button("Close");
-											
-											close.addClickHandler(new ClickHandler() {
-												public void onClick(ClickEvent event) {
-													noDatas.hide();
-												}
-											});
-											
-											noDatas.setWidget(close);
-											
-											noDatas.show();
-											noDatas.center();
-											
+										else 
+										{
+											group.put(name, null);
 										}
-
+										
+										// last result has arrived, process data
+										if (group.size() == sf) 
+										{
+											String data = GraphUtils.generateStringData(group);
+											if(data == null)
+											{
+												GraphUtils.hideNVD3();
+												
+												final DialogBox noDatas = new DialogBox();
+												noDatas.setAnimationEnabled(true);
+												noDatas.setGlassEnabled(true);
+												noDatas.setText("There is no data for display.");
+												Button close=new Button("Close");
+												close.addClickHandler(new ClickHandler() {
+													public void onClick(ClickEvent event) {
+														noDatas.hide();
+													}
+												});
+												noDatas.setWidget(close);
+												noDatas.show();
+												noDatas.center();
+											}
+											else 
+											{
+												GraphUtils.generateNVD3(measure_unit, "", data);
+											}
+										}
 									}
 								});
 					}
