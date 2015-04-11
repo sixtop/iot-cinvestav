@@ -36,7 +36,8 @@ public class EpWPDatas extends IoTEntryPoint {
 	private VerticalPanel formPanel = new VerticalPanel();
 
 	private VerticalPanel formChart = new VerticalPanel();
-
+	private VerticalPanel formPictures = new VerticalPanel();
+	
 	private FlexTable tableData = new FlexTable();
 	private ListBox lbController = new ListBox();
 
@@ -191,7 +192,7 @@ public class EpWPDatas extends IoTEntryPoint {
 			public void onClick(ClickEvent event) {
 				group = new HashMap<String, List<MeasureDTO>>();
 				formChart.clear();
-
+				formPictures.clear();
 				final String type = lbTypeSensor.getItemText(lbTypeSensor.getSelectedIndex());
 				int s = 0;
 
@@ -281,10 +282,9 @@ public class EpWPDatas extends IoTEntryPoint {
 
 												DecoratorPanel decPanel = new DecoratorPanel();
 												decPanel.add(grid);
-												
-												formPanel.add(decPanel);
-												formPanel.setCellHorizontalAlignment(decPanel,
-														HasHorizontalAlignment.ALIGN_CENTER);
+												formPictures.add(decPanel);
+												formPanel.add(formPictures);
+												formPanel.setCellHorizontalAlignment(formPictures,HasHorizontalAlignment.ALIGN_CENTER);
 
 											}
 										}
