@@ -233,7 +233,7 @@ public class EpWPData extends IoTEntryPoint
 					{
 
 						final String name = SENSORS.get(i).getName();
-						entityService.getSensorData(SENSORS.get(i).getId(), dbFrom.getValue(), dbTo.getValue(),
+						entityService.getSensorData(SENSORS.get(i).getId(), dbFrom.getValue(), dbTo.getValue(), null,
 								new AsyncCallback<List<MeasureDTO>>() {
 
 									@Override

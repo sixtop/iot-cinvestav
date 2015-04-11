@@ -5,8 +5,10 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -271,7 +273,8 @@ public class DAO
 		return null;
 	}
 
-	public static List<Measure> getSensorData(Integer idsensor, Date startDate, Date endDate) throws DatabaseException
+	public static List<Measure> getSensorData(Integer idsensor, Date startDate, Date endDate,
+			Map<String, Boolean> filter) throws DatabaseException
 	{
 		EntityManager em = null;
 		if (idsensor == null)
@@ -288,15 +291,23 @@ public class DAO
 			c.set(Calendar.SECOND, 59);
 			c.set(Calendar.MILLISECOND, 999);
 
-			TypedQuery<Measure> createQuery = em
-					.createQuery(
-							"SELECT m FROM Measure m"
-									+ " WHERE m.idsensor = ?1 and m.measure_date >= ?2 and m.measure_date <= ?3 order by m.measure_date",
-							Measure.class);
-			createQuery.setParameter(1, idsensor);
-			createQuery.setParameter(2, startDate);
-			createQuery.setParameter(3, endDate);
-			return createQuery.getResultList();
+			String filterTxt = "'";
+			Iterator<Entry<String, Boolean>> i = filter.entrySet().iterator();
+			while (i.hasNext())
+			{
+				Entry<String, Boolean> entry = i.next();
+				filterTxt += "+" + entry.getKey() + "_" + entry.getValue() + " ";
+			}
+			filterTxt += "'";
+			
+			String query = "select * from data.data where idsensor=? and measure_date>=? and measure_date<=? and MATCH(metadata) AGAINST(? IN BOOLEAN MODE)";
+
+			@SuppressWarnings("unchecked")
+			List<Measure> resultList = (List<Measure>) em.createNativeQuery(query, Measure.class)
+					.setParameter(1, idsensor).setParameter(2, startDate).setParameter(3, endDate)
+					.setParameter(4, filterTxt).getResultList();
+
+			return resultList;
 		}
 		catch (Exception e)
 		{
