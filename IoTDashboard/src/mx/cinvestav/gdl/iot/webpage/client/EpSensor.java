@@ -8,6 +8,7 @@ import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.TypeSensorDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -62,7 +63,11 @@ public class EpSensor extends IoTEntryPoint
 	private TextBox tbName = new TextBox();
 	private TextBox tbDescription = new TextBox();
 	private CheckBox cbActive = new CheckBox();
-	private TextBox tbType = new TextBox();
+	//private TextBox tbType = new TextBox();
+	private ListBox lbTypeSensor = new ListBox();
+	
+	private Button btTypeSensor = new Button("Add Type of Sensor");
+	
 	private TextBox tbAltitude = new TextBox();
 	private TextBox tbLongitude = new TextBox();
 	private TextBox tbLatitude = new TextBox();
@@ -76,6 +81,7 @@ public class EpSensor extends IoTEntryPoint
 	private Button btAddProperty = new Button("Add");
 	private ArrayList<String> property = new ArrayList<String>();
 	private List<SmartThingDTO> SMARTTHINGS;
+	private List<TypeSensorDTO> TYPESENSOR;
 
 	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 	private DialogBox dbWait = new DialogBox();
@@ -98,7 +104,9 @@ public class EpSensor extends IoTEntryPoint
 		tableFields.setText(6, 0, "Longitude: ");
 		tableFields.setWidget(6, 1, tbLongitude);
 		tableFields.setText(7, 0, "Type: ");
-		tableFields.setWidget(7, 1, tbType);
+		tableFields.setWidget(7, 1, lbTypeSensor);
+		tableFields.setWidget(7, 2, btTypeSensor);
+		
 		tableFields.setText(9, 0, "Unit: ");
 		tableFields.setWidget(9, 1, tbUnit);
 		tableFields.setText(10, 0, "SmartThing: ");
@@ -171,6 +179,31 @@ public class EpSensor extends IoTEntryPoint
 
 			}
 		});
+		
+		//Get Type of sensor----------------------------------
+				entityService.getTypeSensor(new AsyncCallback<List<TypeSensorDTO>>()
+				{
+
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						dbWait.hide();
+						// TODO:
+						Window.alert(caught.getMessage());
+					}
+
+					@Override
+					public void onSuccess(List<TypeSensorDTO> result)
+					{
+						TYPESENSOR = result;
+
+						for (TypeSensorDTO c : TYPESENSOR)
+						{
+							lbTypeSensor.addItem(c.getName(),(c.getId() + ""));
+						}
+
+					}
+				});
 
 		RootPanel.get("formContainer").add(formPanel);
 
@@ -199,7 +232,15 @@ public class EpSensor extends IoTEntryPoint
 				addPropertyRow();
 			}
 		});
-
+		
+		btTypeSensor.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent event)
+			{
+				addNewTypeSensor();
+			}
+		});
+		
 		btSaveSensor.addClickHandler(new ClickHandler()
 		{
 			@Override
@@ -275,10 +316,18 @@ public class EpSensor extends IoTEntryPoint
 		tbLatitude.setText(c.getLatitude() + "");
 		tbLongitude.setText(c.getLongitude() + "");
 		tbAltitude.setText(c.getAltitude() + "");
-		tbType.setText(c.getSensor_type());
 		tbUnit.setText(c.getUnit());
 		cbActive.setValue(c.isActive());
 
+		for (int i = 0; i < lbTypeSensor.getItemCount(); i++)
+		{
+			if (lbTypeSensor.getValue(i).equals((c.getSensor_type())))
+			{
+				lbTypeSensor.setSelectedIndex(i);
+				break;
+			}
+		}
+		
 		for (int i = 0; i < lbSmartThing.getItemCount(); i++)
 		{
 			if (lbSmartThing.getValue(i).equals((c.getIdthing() + "")))
@@ -491,7 +540,7 @@ public class EpSensor extends IoTEntryPoint
 		c.setLongitude(Double.parseDouble(tbLongitude.getText()));
 		c.setLatitude(Double.parseDouble(tbLatitude.getText()));
 		c.setUnit(tbUnit.getText());
-		c.setSensor_type(tbType.getText());
+		c.setSensor_type(lbTypeSensor.getValue(lbTypeSensor.getSelectedIndex()));
 		c.setIdthing(Integer.parseInt(lbSmartThing.getValue(lbSmartThing.getSelectedIndex())));
 
 		Collection<IoTPropertyDTO> props = new ArrayList<>();
@@ -749,6 +798,70 @@ public class EpSensor extends IoTEntryPoint
 		tableProperty.setWidget(row, 4, bPanel);
 	}
 
+	
+	public void addNewTypeSensor(){
+		
+		final DialogBox addType = new DialogBox();
+		addType.setAnimationEnabled(true);
+		addType.setGlassEnabled(true);
+		addType.setText("Add new type of tensor");
+		
+		FlexTable typeTable = new FlexTable();
+		typeTable.setText(0, 0, "Name : ");
+		final TextBox typeName = new TextBox();
+		typeTable.setWidget(0, 1,typeName );
+		
+		Button btAddType = new Button("Save");
+		Button btCancelType = new Button("Cancel");
+		
+		btAddType.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent event)
+			{
+				
+				TypeSensorDTO c = new TypeSensorDTO();
+				c.setName(typeName.getText());
+				
+				showDialogWait();
+				entityService.storeTypeSensor(c, new AsyncCallback<Void>()
+				{
+					@Override
+					public void onSuccess(Void result)
+					{
+						dbWait.hide();
+						showInformationDialog("Information", "Typeof sensor stored", btDialogClose);
+					}
+
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						//TODO
+						dbWait.hide();
+						Window.alert(caught.getMessage());
+					}
+				});
+
+			}
+		});
+		
+		
+		btCancelType.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent event)
+			{
+				addType.hide();
+			}
+		});
+		
+		typeTable.setWidget(1, 0,btAddType );
+		typeTable.setWidget(1, 1,btCancelType );
+		
+		addType.setWidget(typeTable);
+		
+		
+	}
+	
+	
 	public void showDialogWait()
 	{
 

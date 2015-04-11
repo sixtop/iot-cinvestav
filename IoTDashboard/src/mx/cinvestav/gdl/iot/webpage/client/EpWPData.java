@@ -51,6 +51,8 @@ public class EpWPData extends IoTEntryPoint
 	private ListBox lbSensor = new ListBox();
 	private ListBox lbTypeSensor = new ListBox();
 
+	private FlexTable tableFilter = new FlexTable();
+	
 	private DateBox dbFrom = new DateBox();
 	private DateBox dbTo = new DateBox();
 
@@ -209,6 +211,9 @@ public class EpWPData extends IoTEntryPoint
 			}
 		});
 
+		
+		
+		
 		btGenerate.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event)
 			{

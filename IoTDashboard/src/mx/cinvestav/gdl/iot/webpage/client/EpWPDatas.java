@@ -11,6 +11,7 @@ import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -18,6 +19,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -26,6 +28,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
@@ -39,6 +42,8 @@ public class EpWPDatas extends IoTEntryPoint {
 	private VerticalPanel formPictures = new VerticalPanel();
 	
 	private FlexTable tableData = new FlexTable();
+	private FlexTable tableFilter= new FlexTable();
+	
 	private ListBox lbController = new ListBox();
 
 	private ListBox lbSmartThing = new ListBox();
@@ -49,6 +54,11 @@ public class EpWPDatas extends IoTEntryPoint {
 	private DateBox dbFrom = new DateBox();
 	private DateBox dbTo = new DateBox();
 
+	private CheckBox chFilter = new CheckBox();
+	private DecoratorPanel decoratorPanel = new DecoratorPanel();
+	private VerticalPanel filtersPanel = new VerticalPanel();
+	
+	
 	private Button btGenerate = new Button("Generate");
 	private List<ControllerDTO> CONTROLLERS;
 	private List<SmartThingDTO> SMARTTHINGS;
@@ -56,7 +66,7 @@ public class EpWPDatas extends IoTEntryPoint {
 
 	private Map<String, List<MeasureDTO>> group;
 	private String measure_unit = "";
-
+	
 	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 
 	@Override
@@ -90,17 +100,39 @@ public class EpWPDatas extends IoTEntryPoint {
 
 		tableData.setText(2, 0, "Type sensor: ");
 		tableData.setWidget(2, 1, lbTypeSensor);
-
+		
 		tableData.setText(3, 0, "From date: ");
 		tableData.setWidget(3, 1, dbFrom);
 
 		tableData.setText(4, 0, "To date: ");
 		tableData.setWidget(4, 1, dbTo);
-
+		
 		lbSmartThing.setEnabled(false);
 		lbSensor.setEnabled(false);
 
 		formPanel.add(tableData);
+		
+		
+		tableFilter.setText(0, 0, "Filters: ");
+		chFilter.setValue(false);
+		tableFilter.setWidget(0, 1, chFilter);
+	
+		chFilter.addClickHandler(new ClickHandler() {
+		      @Override
+		      public void onClick(ClickEvent event) {
+		    	  final int idController = Integer.parseInt(lbController.getValue(lbController.getSelectedIndex()));
+					
+				    filtersPanel.setSpacing(4);
+				    for (int i=1; i<10;i++) {
+				    	CheckBox x= new CheckBox("Filtro");
+				    	tableFilter.setWidget(i,1,x);
+				    }
+		      }
+		    });
+		 
+		decoratorPanel.add(tableFilter);
+		formPanel.add(decoratorPanel);
+	
 		formPanel.add(btGenerate);
 		formPanel.setCellHorizontalAlignment(btGenerate, HasHorizontalAlignment.ALIGN_LEFT);
 		RootPanel.get("formContainer").add(formPanel);

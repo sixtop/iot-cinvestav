@@ -16,6 +16,7 @@ import mx.cinvestav.gdl.iot.webpage.client.DatabaseException;
 import mx.cinvestav.gdl.iot.webpage.client.EntityStoreService;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTEntityDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.IoTTypeSensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 
 import org.dozer.DozerBeanMapper;
@@ -163,5 +164,17 @@ public class EntityStoreImpl extends RemoteServiceServlet implements EntityStore
 			logger.log(Level.SEVERE, message, e);
 			throw e;
 		}
+	}
+
+	@Override
+	public void storeTypeSensor(IoTTypeSensorDTO typeSensorDTO) throws DatabaseException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<IoTTypeSensorDTO> getTypeSensor() throws DatabaseException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
