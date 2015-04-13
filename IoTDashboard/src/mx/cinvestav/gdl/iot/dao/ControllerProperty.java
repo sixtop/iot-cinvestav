@@ -51,7 +51,7 @@ public class ControllerProperty implements IoTProperty
 		this.value = value;
 	}
 
-	public Boolean isActive()
+	public Boolean getActive()
 	{
 		return active;
 	}

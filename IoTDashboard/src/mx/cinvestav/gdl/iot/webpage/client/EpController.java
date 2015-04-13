@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -44,11 +43,11 @@ public class EpController extends IoTEntryPoint
 	private Label lbDialogBox = new Label();
 
 	final DecoratedPopupPanel popup = new DecoratedPopupPanel(true);
-
-	private ListBox listIdProperty = new ListBox(true);
-	private ListBox listNameProperty = new ListBox(true);
-	private ListBox listValueProperty = new ListBox(true);
-	private ListBox listActiveProperty = new ListBox(true);
+	
+	private ListBox listIdProperty = new ListBox();
+	private ListBox listNameProperty = new ListBox();
+	private ListBox listValueProperty = new ListBox();
+	private ListBox listActiveProperty = new ListBox();
 
 	private TextBox name = new TextBox();
 	private TextBox value = new TextBox();
@@ -65,7 +64,6 @@ public class EpController extends IoTEntryPoint
 	private TextBox tbName = new TextBox();
 	private TextBox tbDescription = new TextBox();
 	private TextBox tbLocation = new TextBox();
-	private FileUpload fileImage = new FileUpload();
 	private Image image = new Image();
 	private Image imageFull = new Image();
 	private PopupPanel imagePopup2 = new PopupPanel(true);
@@ -118,7 +116,6 @@ public class EpController extends IoTEntryPoint
 		tableFields.setText(3, 0, "Location: ");
 		tableFields.setWidget(3, 1, tbLocation);
 		tableFields.setText(4, 0,"Image:");
-		tableFields.setWidget(4, 1,fileImage);
 
 		tbId.setEnabled(false);
 
@@ -281,14 +278,14 @@ public class EpController extends IoTEntryPoint
 							tableProperty.setText(i + 1, 1, resultP.get(i).getName());
 							tableProperty.setText(i + 1, 2, resultP.get(i).getValue());
 							CheckBox cb = new CheckBox();
-							cb.setValue(resultP.get(i).isActive());
+							cb.setValue(resultP.get(i).getActive());
 							cb.setEnabled(false);
 							tableProperty.setWidget(i + 1, 3, cb);
 
 							listIdProperty.addItem(resultP.get(i).getId() + "");
 							listNameProperty.addItem(resultP.get(i).getName());
 							listValueProperty.addItem(resultP.get(i).getValue());
-							listActiveProperty.addItem(resultP.get(i).isActive() + "");
+							listActiveProperty.addItem(resultP.get(i).getActive() + "");
 
 							final String id = resultP.get(i).getId() + "";
 							property.add(id);

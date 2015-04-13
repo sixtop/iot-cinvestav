@@ -39,7 +39,7 @@ public class SensorPropertyDTO implements IoTPropertyDTO
 		this.value = value;
 	}
 
-	public Boolean isActive()
+	public Boolean getActive()
 	{
 		return active;
 	}

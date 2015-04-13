@@ -40,7 +40,7 @@ public class SmartThingPropertyDTO implements IoTPropertyDTO
 		this.value = value;
 	}
 
-	public Boolean isActive()
+	public Boolean getActive()
 	{
 		return active;
 	}

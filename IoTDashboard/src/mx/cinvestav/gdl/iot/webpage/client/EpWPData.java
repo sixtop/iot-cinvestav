@@ -11,7 +11,6 @@ import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
 
-import com.google.gwt.core.client.EntryPoint;  
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -51,8 +50,6 @@ public class EpWPData extends IoTEntryPoint
 	private ListBox lbSensor = new ListBox();
 	private ListBox lbTypeSensor = new ListBox();
 
-	private FlexTable tableFilter = new FlexTable();
-	
 	private DateBox dbFrom = new DateBox();
 	private DateBox dbTo = new DateBox();
 
@@ -251,9 +248,6 @@ public class EpWPData extends IoTEntryPoint
 									@Override
 									public void onSuccess(final List<MeasureDTO> result)
 									{
-										 List<SensorDTO> SENSORS222 = SENSORS;
-										 Map<String, List<MeasureDTO>> GROUP2222  = group;
-										 
 										group.put(name, result);
 										if (group.size() == sf)
 										{
@@ -286,14 +280,6 @@ public class EpWPData extends IoTEntryPoint
 								 	   dateColumn.setSortable(true); 
 								 	   tablePhotos.addColumn(dateColumn, "Date");  
 								 	  
-//								 	     ActionCell<SensorDTO> editAction = new ActionCell<SensorDTO>("Edit", new ActionCell.Delegate<SensorDTO>() {
-//									            public void execute(SensorDTO c){
-//									            	Window.Location.replace("addSensor.jsp?idSensor="+c.getId());
-//									            }
-//									        });
-//
-//								 	  
-//								  		
 								 	  ListHandler<MeasureDTO> sortHandler = new ListHandler<MeasureDTO>(dataProvider.getList());
 							  		   tablePhotos.addColumnSortHandler(sortHandler);
 							  		

@@ -45,10 +45,10 @@ public class EpSmartThing extends IoTEntryPoint
 
 	final DecoratedPopupPanel popup = new DecoratedPopupPanel(true);
 
-	private ListBox listIdProperty = new ListBox(true);
-	private ListBox listNameProperty = new ListBox(true);
-	private ListBox listValueProperty = new ListBox(true);
-	private ListBox listActiveProperty = new ListBox(true);
+	private ListBox listIdProperty = new ListBox();
+	private ListBox listNameProperty = new ListBox();
+	private ListBox listValueProperty = new ListBox();
+	private ListBox listActiveProperty = new ListBox();
 
 	private TextBox name = new TextBox();
 	private TextBox value = new TextBox();
@@ -317,14 +317,14 @@ public class EpSmartThing extends IoTEntryPoint
 							tableProperty.setText(i + 1, 1, resultP.get(i).getName());
 							tableProperty.setText(i + 1, 2, resultP.get(i).getValue());
 							CheckBox cb = new CheckBox();
-							cb.setValue(resultP.get(i).isActive());
+							cb.setValue(resultP.get(i).getActive());
 							cb.setEnabled(false);
 							tableProperty.setWidget(i + 1, 3, cb);
 
 							listIdProperty.addItem(resultP.get(i).getId() + "");
 							listNameProperty.addItem(resultP.get(i).getName());
 							listValueProperty.addItem(resultP.get(i).getValue());
-							listActiveProperty.addItem(resultP.get(i).isActive() + "");
+							listActiveProperty.addItem(resultP.get(i).getActive() + "");
 
 							final String id = resultP.get(i).getId() + "";
 							property.add(id);
