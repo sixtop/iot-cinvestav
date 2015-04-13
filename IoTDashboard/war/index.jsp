@@ -11,12 +11,10 @@
 <title>SmartCity</title>
 </head>
 <body>
-	<div id="root" style="display: none">
-		<jsp:include page="header.jsp" />
-
+	<jsp:include page="header.jsp" />
+	<div id="root">
 		<div align="center" id="chart"></div>
-
-		<jsp:include page="footer.jsp" />
 	</div>
+	<jsp:include page="footer.jsp" />
 </body>
 </html>

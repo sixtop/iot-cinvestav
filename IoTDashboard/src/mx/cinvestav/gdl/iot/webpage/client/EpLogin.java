@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -26,7 +27,7 @@ public class EpLogin implements EntryPoint
 {
 	private DialogBox dbWait = new DialogBox();
 	private VerticalPanel formContainer = new VerticalPanel();
-	private FlexTable tableLogin = new FlexTable();
+
 	private TextBox tbUserName = new TextBox();
 	private PasswordTextBox tbPassword = new PasswordTextBox();
 	private Button btLogin = new Button("Login");
@@ -43,22 +44,22 @@ public class EpLogin implements EntryPoint
 			logout();
 		}
 		
-		tableLogin.setText(0, 0, "User");
-		tableLogin.setWidget(0, 1, tbUserName);
-
-		tableLogin.setText(1, 0, "Password");
-		tableLogin.setWidget(1, 1, tbPassword);
-
-		VerticalPanel verticalPanel = new VerticalPanel();
-		verticalPanel.add(tableLogin);
-		verticalPanel.add(btLogin);
-		verticalPanel.setCellHorizontalAlignment(btLogin, HasHorizontalAlignment.ALIGN_CENTER);
+		formContainer.add(new Label("User"));
+		formContainer.add(tbUserName);
+		formContainer.add(new Label("Password"));
+		formContainer.add(tbPassword);
+		
+		//btLogin.addStyleName("myButton");
+		
+		formContainer.add(btLogin);
+		formContainer.setCellHorizontalAlignment(btLogin, HasHorizontalAlignment.ALIGN_CENTER);
+		
+		formContainer.setSpacing(10);
 
 		DecoratorPanel panelLogin = new DecoratorPanel();
-		panelLogin.add(verticalPanel);
-		formContainer.add(panelLogin);
+		panelLogin.add(formContainer);
 
-		RootPanel.get("formContainer").add(formContainer);
+		RootPanel.get("formContainer").add(panelLogin);
 
 		btLogin.addClickHandler(new ClickHandler()
 		{

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.ControllerPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
@@ -17,6 +18,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -57,8 +59,8 @@ public class EpWPDatas extends IoTEntryPoint {
 	private CheckBox chFilter = new CheckBox();
 	private DecoratorPanel decoratorPanel = new DecoratorPanel();
 	private VerticalPanel filtersPanel = new VerticalPanel();
-	
-	
+	private CheckBox arrayFilter[];
+		
 	private Button btGenerate = new Button("Generate");
 	private List<ControllerDTO> CONTROLLERS;
 	private List<SmartThingDTO> SMARTTHINGS;
@@ -120,13 +122,9 @@ public class EpWPDatas extends IoTEntryPoint {
 		chFilter.addClickHandler(new ClickHandler() {
 		      @Override
 		      public void onClick(ClickEvent event) {
-		    	  final int idController = Integer.parseInt(lbController.getValue(lbController.getSelectedIndex()));
-					
-				    filtersPanel.setSpacing(4);
-				    for (int i=1; i<10;i++) {
-				    	CheckBox x= new CheckBox("Filtro");
-				    	tableFilter.setWidget(i,1,x);
-				    }
+		    	  for (int i=1; i<arrayFilter.length;i++) {
+				    	arrayFilter[i].setEnabled(true);
+		    	  }    	
 		      }
 		    });
 		 
@@ -149,6 +147,33 @@ public class EpWPDatas extends IoTEntryPoint {
 
 				final int idController = Integer.parseInt(lbController.getValue(lbController.getSelectedIndex()));
 
+				entityService.getProperties(new ControllerPropertyDTO(), idController, new AsyncCallback<List<ControllerPropertyDTO>>()
+						{
+							@Override
+							public void onFailure(Throwable caught)
+							{
+								dbWait.hide();
+								//TODO:
+								Window.alert(caught.getMessage());
+							}
+
+							@Override
+							public void onSuccess(List<ControllerPropertyDTO> resultP)
+							{
+								
+								arrayFilter=new CheckBox[resultP.size()];
+								
+								 filtersPanel.setSpacing(4);
+								    for (int i=1; i<arrayFilter.length;i++) {
+								    	arrayFilter[i]= new CheckBox( resultP.get(i).getName());
+								    	arrayFilter[i].setValue(true);
+								    	arrayFilter[i].setEnabled(false);
+								    	tableFilter.setWidget(i,1,arrayFilter[i]);
+								    }
+								
+							}
+						});
+				
 				entityService.getEntity(new SmartThingDTO(), null, new AsyncCallback<List<SmartThingDTO>>() {
 
 					@Override
@@ -158,6 +183,7 @@ public class EpWPDatas extends IoTEntryPoint {
 
 					@Override
 					public void onSuccess(List<SmartThingDTO> result) {
+						 
 						SMARTTHINGS = result;
 						lbSmartThing.clear();
 

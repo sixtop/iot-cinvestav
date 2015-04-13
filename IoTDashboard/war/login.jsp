@@ -11,15 +11,11 @@
 <title>SmartCity</title>
 </head>
 <body>
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">SmartCity</h3>
-		</div>
-		<div class="panel-body">
-			<p align="center" id="formContainer">		
-		</div>
-			
-	</div>
+<h2 align="center">SmartCity</h2>
+<p align="center" id="formContainer">	
+
+
+
 	<jsp:include page="footer.jsp" />
 </body>
 </html>
