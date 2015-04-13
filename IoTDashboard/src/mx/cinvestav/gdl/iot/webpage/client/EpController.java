@@ -257,9 +257,9 @@ public class EpController extends IoTEntryPoint
 		tbDescription.setText(c.getDescription());
 		tbLocation.setText(c.getLocation());
 		
-		String b = c.getImage();
-		image.setUrl("data:image/png;base64,"+b);
-		imageFull.setUrl("data:image/png;base64,"+b);
+	//	String b = c.getImage();
+	//	image.setUrl("data:image/png;base64,"+b);
+	//	imageFull.setUrl("data:image/png;base64,"+b);
 		
 		
 		entityService.getProperties(new ControllerPropertyDTO(), c.getId(),
