@@ -32,7 +32,7 @@ public interface EntityStoreServiceAsync
 
 	public void getSensorData(Integer idsensor, Date startDate, Date endDate, Map<String, Boolean> filter, AsyncCallback<List<MeasureDTO>> callback);
 	
-	public <T extends IoTTypeSensorDTO> void storeTypeSensor(T typeSensorDTO, AsyncCallback<Void> callback);
+	public <T extends IoTTypeSensorDTO> void storeSensorType(T typeSensorDTO, AsyncCallback<Void> callback);
 	
-	public <T extends IoTTypeSensorDTO> void getTypeSensor(AsyncCallback<List<T>> callback);
+	public <T extends IoTTypeSensorDTO> void getSensorType(AsyncCallback<List<T>> callback);
 }

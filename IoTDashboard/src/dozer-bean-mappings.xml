@@ -38,4 +38,9 @@
 		<class-a>mx.cinvestav.gdl.iot.dao.User</class-a>
 		<class-b>mx.cinvestav.gdl.iot.webpage.dto.UserDTO</class-b>
 	</mapping>
+	
+	<mapping>
+		<class-a>mx.cinvestav.gdl.iot.dao.SensorType</class-a>
+		<class-b>mx.cinvestav.gdl.iot.webpage.dto.SensorTypeDTO</class-b>
+	</mapping>
 </mappings>

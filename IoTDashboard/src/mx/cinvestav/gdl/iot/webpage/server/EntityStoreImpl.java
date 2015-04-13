@@ -13,6 +13,7 @@ import mx.cinvestav.gdl.iot.dao.DAO;
 import mx.cinvestav.gdl.iot.dao.IoTEntity;
 import mx.cinvestav.gdl.iot.dao.IoTProperty;
 import mx.cinvestav.gdl.iot.dao.Measure;
+import mx.cinvestav.gdl.iot.dao.SensorType;
 import mx.cinvestav.gdl.iot.webpage.client.DatabaseException;
 import mx.cinvestav.gdl.iot.webpage.client.EntityStoreService;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTEntityDTO;
@@ -168,14 +169,43 @@ public class EntityStoreImpl extends RemoteServiceServlet implements EntityStore
 	}
 
 	@Override
-	public void storeTypeSensor(IoTTypeSensorDTO typeSensorDTO) throws DatabaseException {
-		// TODO Auto-generated method stub
-		
+	public void storeSensorType(IoTTypeSensorDTO typeSensorDTO) throws DatabaseException 
+	{
+		try
+		{
+			SensorType entity = mapper.map(typeSensorDTO, SensorType.class);
+			DAO.insertSensorType(entity);
+		}
+		catch (DatabaseException e)
+		{
+			String message = "Exception in storeTypeSensor: " + e.getMessage();
+			logger.log(Level.SEVERE, message, e);
+			throw e;
+		}
 	}
 
 	@Override
-	public List<IoTTypeSensorDTO> getTypeSensor() throws DatabaseException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<IoTTypeSensorDTO> getSensorType() throws DatabaseException 
+	{
+		try
+		{
+			// perform query
+			List<SensorType> entityList = DAO.getSensorTypeList();
+			
+			//map back to DTO
+			List<IoTTypeSensorDTO> propDTOList = new ArrayList<>();
+			for (SensorType result : entityList)
+			{
+				IoTTypeSensorDTO dto = mapper.map(result, IoTTypeSensorDTO.class);
+				propDTOList.add(dto);
+			}
+			return propDTOList;
+		}
+		catch (DatabaseException e)
+		{
+			String message = "Exception in getEntity: " + e.getMessage();
+			logger.log(Level.SEVERE, message, e);
+			throw e;
+		}
 	}
 }

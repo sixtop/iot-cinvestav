@@ -21,7 +21,7 @@
 	<system-properties>
 		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties" />
 		<property name="cloudsql.url.dev"
-			value="jdbc:mysql://173.194.83.160:3306/data?user=root&amp;password=root" />
+			value="jdbc:mysql://10.0.5.170:3306/data?user=root&amp;password=root" />
 		<property name="cloudsql.url"
 			value="jdbc:google:mysql://iot-cinvestav2:data/data?user=root"/>
 	</system-properties>

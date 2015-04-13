@@ -8,7 +8,7 @@ import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
-import mx.cinvestav.gdl.iot.webpage.dto.TypeSensorDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.SensorTypeDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -66,7 +66,7 @@ public class EpSensor extends IoTEntryPoint
 	//private TextBox tbType = new TextBox();
 	private ListBox lbTypeSensor = new ListBox();
 	
-	private Button btTypeSensor = new Button("Add Type of Sensor");
+	private Button btTypeSensor = new Button("Add Sensor types");
 	
 	private TextBox tbAltitude = new TextBox();
 	private TextBox tbLongitude = new TextBox();
@@ -81,7 +81,7 @@ public class EpSensor extends IoTEntryPoint
 	private Button btAddProperty = new Button("Add");
 	private ArrayList<String> property = new ArrayList<String>();
 	private List<SmartThingDTO> SMARTTHINGS;
-	private List<TypeSensorDTO> TYPESENSOR;
+	private List<SensorTypeDTO> TYPESENSOR;
 
 	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 	private DialogBox dbWait = new DialogBox();
@@ -181,7 +181,7 @@ public class EpSensor extends IoTEntryPoint
 		});
 		
 		//Get Type of sensor----------------------------------
-				entityService.getTypeSensor(new AsyncCallback<List<TypeSensorDTO>>()
+				entityService.getSensorType(new AsyncCallback<List<SensorTypeDTO>>()
 				{
 
 					@Override
@@ -193,11 +193,11 @@ public class EpSensor extends IoTEntryPoint
 					}
 
 					@Override
-					public void onSuccess(List<TypeSensorDTO> result)
+					public void onSuccess(List<SensorTypeDTO> result)
 					{
 						TYPESENSOR = result;
 
-						for (TypeSensorDTO c : TYPESENSOR)
+						for (SensorTypeDTO c : TYPESENSOR)
 						{
 							lbTypeSensor.addItem(c.getName(),(c.getId() + ""));
 						}
@@ -804,7 +804,9 @@ public class EpSensor extends IoTEntryPoint
 		final DialogBox addType = new DialogBox();
 		addType.setAnimationEnabled(true);
 		addType.setGlassEnabled(true);
-		addType.setText("Add new type of tensor");
+		addType.setText("Add new sensor type");
+		addType.center();
+		addType.show();
 		
 		FlexTable typeTable = new FlexTable();
 		typeTable.setText(0, 0, "Name : ");
@@ -819,17 +821,17 @@ public class EpSensor extends IoTEntryPoint
 			public void onClick(ClickEvent event)
 			{
 				
-				TypeSensorDTO c = new TypeSensorDTO();
+				SensorTypeDTO c = new SensorTypeDTO();
 				c.setName(typeName.getText());
 				
 				showDialogWait();
-				entityService.storeTypeSensor(c, new AsyncCallback<Void>()
+				entityService.storeSensorType(c, new AsyncCallback<Void>()
 				{
 					@Override
 					public void onSuccess(Void result)
 					{
 						dbWait.hide();
-						showInformationDialog("Information", "Typeof sensor stored", btDialogClose);
+						showInformationDialog("Information", "Type of sensor stored", btDialogClose);
 					}
 
 					@Override

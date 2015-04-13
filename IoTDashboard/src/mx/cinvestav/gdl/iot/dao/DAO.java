@@ -465,4 +465,65 @@ public class DAO
 		}
 
 	}
+
+	public static void insertSensorType(SensorType entity) throws DatabaseException
+	{
+		if (entity == null || "".equals(entity.getName()))
+		{
+			throw new IllegalArgumentException("Sensor type cannot be null/empty.");
+		}
+		EntityManager em = null;
+		EntityTransaction tx = null;
+		try
+		{
+			em = getEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
+			if (entity.getId() == null)
+				em.persist(entity);
+			else
+				em.merge(entity);
+			tx.commit();
+		}
+		catch (Exception e)
+		{
+			if (tx != null && tx.isActive())
+			{
+				tx.rollback();
+			}
+			throw new DatabaseException("Database exception while inserting sensor type:" + e.getMessage(), e);
+		}
+		finally
+		{
+			if (em != null)
+			{
+				em.close();
+			}
+		}
+	}
+
+	public static List<SensorType> getSensorTypeList() throws DatabaseException
+	{
+		EntityManager em = null;
+		List<SensorType> resultList = null;
+		try
+		{
+			em = getEntityManager();
+			CriteriaQuery<SensorType> cq = em.getCriteriaBuilder().createQuery(SensorType.class);
+			cq.select(cq.from(SensorType.class));
+			resultList = em.createQuery(cq).getResultList();
+			return resultList;
+		}
+		catch (Exception e)
+		{
+			throw new DatabaseException("Database exception while geetting sensor type:" + e.getMessage(), e);
+		}
+		finally
+		{
+			if (em != null)
+			{
+				em.close();
+			}
+		}
+	}
 }

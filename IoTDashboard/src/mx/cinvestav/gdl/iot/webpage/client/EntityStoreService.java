@@ -32,9 +32,9 @@ public interface EntityStoreService extends RemoteService
 	
 	public List<MeasureDTO> getSensorData(Integer idsensor, Date startDate, Date endDate, Map<String, Boolean> filter) throws DatabaseException;
 	
-	public void storeTypeSensor(IoTTypeSensorDTO typeSensorDTO)
+	public void storeSensorType(IoTTypeSensorDTO typeSensorDTO)
 			throws DatabaseException;
 	
-	public List<IoTTypeSensorDTO> getTypeSensor()
+	public List<IoTTypeSensorDTO> getSensorType()
 			throws DatabaseException;
 }
