@@ -6,6 +6,7 @@ public class Data
 	private String data;
 	private String time;
 	private String image;
+	private String metadata;
 
 	public String getData()
 	{
@@ -37,5 +38,15 @@ public class Data
 	{
 		
 		this.image = image;
+	}
+
+	public String getMetadata()
+	{
+		return metadata;
+	}
+
+	public void setMetadata(String metadata)
+	{
+		this.metadata = metadata;
 	}
 }

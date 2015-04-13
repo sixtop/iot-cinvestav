@@ -73,6 +73,7 @@ public class IoTService
 									measureEntity.setIdsensor(sensor_data.getSensorId());
 									measureEntity.setIdthing(thing_data.getSmartThingId());
 									measureEntity.setImage(Base64.decodeBase64(m.getImage()));
+									measureEntity.setMetadata(m.getMetadata());
 									em.persist(measureEntity);
 								}
 							}
