@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.SensorTypeDTO;
 
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.core.client.GWT;
@@ -23,6 +24,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
@@ -41,7 +43,7 @@ public class EpWPSensor extends IoTEntryPoint {
 
 	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 	private List<SensorDTO> SENSORS;
-	
+	private ListBox lbTypeSensor = new ListBox();
 	private DialogBox dialogBox = new DialogBox();
 	private Label lbDialogBox=new Label();
 	private Button btYes = new Button("Yes");
@@ -76,7 +78,32 @@ public class EpWPSensor extends IoTEntryPoint {
 					}
 				});				
 		
+		//Get Type of sensor----------------------------------
+		entityService.getSensorType(new AsyncCallback<List<SensorTypeDTO>>()
+		{
+
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				dbWait.hide();
+				// TODO:
+				Window.alert(caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(List<SensorTypeDTO> result)
+			{
+	
+				for (SensorTypeDTO c : result)
+				{
+					//Name Id
+					lbTypeSensor.addItem(c.getName(),(c.getId() + ""));
+				}
+			}
+		});
 			
+		
+		
 	   TextColumn<SensorDTO> idColumn = new TextColumn<SensorDTO>() {
 	      @Override
 	      public String getValue(SensorDTO c) {
@@ -104,9 +131,18 @@ public class EpWPSensor extends IoTEntryPoint {
 	    TextColumn<SensorDTO> typeColumn = new TextColumn<SensorDTO>() {
 		      @Override
 		      public String getValue(SensorDTO c) {
-		        return c.getSensor_type();
+		    	 String type="";
+		    	 
+					
+		    	 for(int i=0; i< lbTypeSensor.getItemCount();i++){
+		    		 if(c.getSensor_type().equals(lbTypeSensor.getValue(i))){
+		    			 type=lbTypeSensor.getItemText(i);
+		    		 }
+		    	 }
+		    	 return type;
 		      }
 		    };
+		    
 	     typeColumn.setSortable(true);
 	        
 	     TextColumn<SensorDTO> unitColumn = new TextColumn<SensorDTO>() {

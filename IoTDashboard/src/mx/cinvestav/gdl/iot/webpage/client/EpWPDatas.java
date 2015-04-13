@@ -9,6 +9,7 @@ import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerPropertyDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.SensorTypeDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SmartThingDTO;
 
 import com.google.gwt.core.client.GWT;
@@ -52,6 +53,7 @@ public class EpWPDatas extends IoTEntryPoint {
 
 	private ListBox lbSensor = new ListBox();
 	private ListBox lbTypeSensor = new ListBox();
+	private ListBox lbTypeSensorAll = new ListBox();
 
 	private DateBox dbFrom = new DateBox();
 	private DateBox dbTo = new DateBox();
@@ -75,6 +77,7 @@ public class EpWPDatas extends IoTEntryPoint {
 	public void continueModuleLoad() {
 
 		showDialogWait();
+		//Get all controllers
 		entityService.getEntity(new ControllerDTO(), null, new AsyncCallback<List<ControllerDTO>>() {
 
 			@Override
@@ -94,6 +97,31 @@ public class EpWPDatas extends IoTEntryPoint {
 			}
 		});
 
+		//Get all sensors's types
+		entityService.getSensorType(new AsyncCallback<List<SensorTypeDTO>>()
+				{
+
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						dbWait.hide();
+						// TODO:
+						Window.alert(caught.getMessage());
+					}
+
+					@Override
+					public void onSuccess(List<SensorTypeDTO> result)
+					{
+						for (SensorTypeDTO c : result)
+						{
+							//Name ID
+							lbTypeSensorAll.addItem(c.getName(),(c.getId() + ""));
+						}
+
+					}
+				});
+		
+		
 		tableData.setText(0, 0, "Controller: ");
 		tableData.setWidget(0, 1, lbController);
 
@@ -122,9 +150,19 @@ public class EpWPDatas extends IoTEntryPoint {
 		chFilter.addClickHandler(new ClickHandler() {
 		      @Override
 		      public void onClick(ClickEvent event) {
-		    	  for (int i=1; i<arrayFilter.length;i++) {
+		    	 if(chFilter.getValue()){
+		    	  
+		    	  for (int i=0; i<arrayFilter.length;i++) {
 				    	arrayFilter[i].setEnabled(true);
 		    	  }    	
+		    	 }else{
+		    		 
+		    		 for (int i=0; i<arrayFilter.length;i++) {
+					    	arrayFilter[i].setEnabled(false);
+			    	  }  
+		    		 
+		    	 }
+		    	 
 		      }
 		    });
 		 
@@ -164,11 +202,11 @@ public class EpWPDatas extends IoTEntryPoint {
 								arrayFilter=new CheckBox[resultP.size()];
 								
 								 filtersPanel.setSpacing(4);
-								    for (int i=1; i<arrayFilter.length;i++) {
+								    for (int i=0; i<arrayFilter.length;i++) {
 								    	arrayFilter[i]= new CheckBox( resultP.get(i).getName());
 								    	arrayFilter[i].setValue(true);
 								    	arrayFilter[i].setEnabled(false);
-								    	tableFilter.setWidget(i,1,arrayFilter[i]);
+								    	tableFilter.setWidget(i+1,1,arrayFilter[i]);
 								    }
 								
 							}
@@ -227,16 +265,20 @@ public class EpWPDatas extends IoTEntryPoint {
 						for (SensorDTO c : SENSORS) {
 							measure_unit = c.getUnit();
 							if (c.getIdthing() == idSmartThing) {
-								lbSensor.addItem(c.getSensor_type(), c.getId() + "");
+								//Name Id
+								
+								lbSensor.addItem(getSensor_typeName(c.getSensor_type()), c.getSensor_type());
+							
 							}
 						}
 
 						ArrayList<String> typeSensor = new ArrayList<String>();
 
 						for (int i = 0; i < lbSensor.getItemCount(); i++) {
-							if (!typeSensor.contains(lbSensor.getItemText(i))) {
-								typeSensor.add(lbSensor.getItemText(i));
-								lbTypeSensor.addItem(lbSensor.getItemText(i));
+							if (!typeSensor.contains(lbSensor.getValue(i))) {
+								typeSensor.add(lbSensor.getValue(i));
+								//Name Id
+								lbTypeSensor.addItem(lbSensor.getItemText(i),lbSensor.getValue(i));
 							}
 						}
 
@@ -246,12 +288,13 @@ public class EpWPDatas extends IoTEntryPoint {
 			}
 		});
 
+		
 		btGenerate.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				group = new HashMap<String, List<MeasureDTO>>();
 				formChart.clear();
 				formPictures.clear();
-				final String type = lbTypeSensor.getItemText(lbTypeSensor.getSelectedIndex());
+				final String type = lbTypeSensor.getValue(lbTypeSensor.getSelectedIndex());
 				int s = 0;
 
 				for (int i = 0; i < SENSORS.size(); i++) {
@@ -387,6 +430,20 @@ public class EpWPDatas extends IoTEntryPoint {
 		});
 	}
 
+	
+	public String getSensor_typeName(String id){
+		String name="";
+		
+		for(int i=0;i<lbTypeSensorAll.getItemCount();i++){
+			if(lbTypeSensorAll.getValue(i).equals(id)){
+				name= lbTypeSensorAll.getItemText(i);
+			}
+		}
+		
+		return name;	
+	}
+	
+	
 	public void showDialogWait() {
 
 		dbWait.setAnimationEnabled(true);
