@@ -291,6 +291,7 @@ public class EpWPDatas extends IoTEntryPoint {
 
 		btGenerate.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				GraphUtils.hideNVD3();
 				group = new HashMap<String, List<MeasureDTO>>();
 				formChart.clear();
 				formPictures.clear();
@@ -310,7 +311,7 @@ public class EpWPDatas extends IoTEntryPoint {
 
 						final String name = SENSORS.get(i).getName();
 						Map<String, Boolean> filter = new HashMap<String, Boolean>();
-						filter.put("ventilador", false);
+						//filter.put("ventilador", false);
 
 						entityService.getSensorData(SENSORS.get(i).getId(), dbFrom.getValue(), dbTo.getValue(), filter,
 								new AsyncCallback<List<MeasureDTO>>() {
@@ -394,7 +395,6 @@ public class EpWPDatas extends IoTEntryPoint {
 										if (group.size() == sf) {
 											String data = GraphUtils.generateStringData(group);
 											if (data == null) {
-												GraphUtils.hideNVD3();
 
 												final DialogBox noDatas = new DialogBox();
 												noDatas.setAnimationEnabled(true);

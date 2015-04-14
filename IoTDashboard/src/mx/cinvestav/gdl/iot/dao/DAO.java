@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -273,6 +274,7 @@ public class DAO
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static List<Measure> getSensorData(Integer idsensor, Date startDate, Date endDate,
 			Map<String, Boolean> filter) throws DatabaseException
 	{
@@ -291,22 +293,27 @@ public class DAO
 			c.set(Calendar.SECOND, 59);
 			c.set(Calendar.MILLISECOND, 999);
 
+			String query = "SELECT * FROM (SELECT * FROM data.data WHERE idsensor=? and measure_date>=? and measure_date<=?) as filter ";
+
+			List<Measure> resultList = null;
 			String filterTxt = "'";
-			Iterator<Entry<String, Boolean>> i = filter.entrySet().iterator();
-			while (i.hasNext())
+
+			if (!filter.isEmpty())
 			{
-				Entry<String, Boolean> entry = i.next();
-				filterTxt += "+" + entry.getKey() + "_" + entry.getValue() + " ";
+				Iterator<Entry<String, Boolean>> i = filter.entrySet().iterator();
+				while (i.hasNext())
+				{
+					Entry<String, Boolean> entry = i.next();
+					filterTxt += "+" + entry.getKey() + "_" + entry.getValue() + " ";
+				}
+				filterTxt += "'";
+				query += "WHERE MATCH(filter.metadata) AGAINST(? IN BOOLEAN MODE) ";
 			}
-			filterTxt += "'";
-			
-			String query = "select * from data.data where idsensor=? and measure_date>=? and measure_date<=? and MATCH(metadata) AGAINST(? IN BOOLEAN MODE)";
-
-			@SuppressWarnings("unchecked")
-			List<Measure> resultList = (List<Measure>) em.createNativeQuery(query, Measure.class)
-					.setParameter(1, idsensor).setParameter(2, startDate).setParameter(3, endDate)
-					.setParameter(4, filterTxt).getResultList();
-
+			query += "order by measure_date";
+			Query q = em.createNativeQuery(query, Measure.class).setParameter(1, idsensor).setParameter(2, startDate)
+					.setParameter(3, endDate);
+			if (!filter.isEmpty()) q.setParameter(4, filterTxt);
+			resultList = (List<Measure>) q.getResultList();
 			return resultList;
 		}
 		catch (Exception e)

@@ -24,10 +24,12 @@ function generateNVD3(xaxis, yaxis, data) {
 		nv.utils.windowResize(function() {
 			chart.update()
 		});
+		
+		document.getElementById("chart").style.display = 'block';
+		
 		return chart;
 	});
 
-	document.getElementById("chart").style.display = 'block';
 }
 
 function hideNVD3() 
