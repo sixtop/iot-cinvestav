@@ -7,7 +7,7 @@
 <style>
 #chart svg {
 	height: 500px;
-	width: 1000px;
+	width: 1200px;
 }
 </style>
 <link type="text/css" rel="stylesheet" href="css/IoTDashboard.css">

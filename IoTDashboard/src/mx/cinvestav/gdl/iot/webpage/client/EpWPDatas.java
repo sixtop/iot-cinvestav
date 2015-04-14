@@ -17,6 +17,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -170,7 +172,7 @@ public class EpWPDatas extends IoTEntryPoint {
 		dbTo.setFormat(format);
 		dbFrom.getDatePicker().setYearArrowsVisible(true);
 		dbTo.getDatePicker().setYearArrowsVisible(true);
-
+		
 		lbController.addChangeHandler(new ChangeHandler() {
 
 			public void onChange(ChangeEvent event) {
@@ -203,6 +205,7 @@ public class EpWPDatas extends IoTEntryPoint {
 								for (int i = 0; i < resultP.size(); i++) {
 									if (resultP.get(i).getName().startsWith("Filter_")) {
 										arrayFilter[c] = new CheckBox(resultP.get(i).getName().substring(7, resultP.get(i).getName().length()));
+										arrayFilter[c].setName(resultP.get(i).getValue());
 										arrayFilter[c].setValue(true);
 										arrayFilter[c].setEnabled(false);
 										tableFilter.setWidget(i + 1, 1, arrayFilter[c]);
@@ -290,7 +293,12 @@ public class EpWPDatas extends IoTEntryPoint {
 		});
 
 		btGenerate.addClickHandler(new ClickHandler() {
+			
+			
 			public void onClick(ClickEvent event) {
+				dbWait.show();
+	
+				
 				GraphUtils.hideNVD3();
 				group = new HashMap<String, List<MeasureDTO>>();
 				formChart.clear();
@@ -311,19 +319,28 @@ public class EpWPDatas extends IoTEntryPoint {
 
 						final String name = SENSORS.get(i).getName();
 						Map<String, Boolean> filter = new HashMap<String, Boolean>();
-						//filter.put("ventilador", false);
+						
 
+						if(chFilter.getValue()){
+							for(int a=0; a<arrayFilter.length;a++){
+								filter.put(arrayFilter[a].getName(), arrayFilter[a].getValue());
+							}
+						}
+							
 						entityService.getSensorData(SENSORS.get(i).getId(), dbFrom.getValue(), dbTo.getValue(), filter,
 								new AsyncCallback<List<MeasureDTO>>() {
 
 									@Override
 									public void onFailure(Throwable caught) {
-										// TODO Auto-generated method stub
+										dbWait.hide();
 
 									}
 
 									@Override
 									public void onSuccess(final List<MeasureDTO> result) {
+										
+										
+										
 										if (result.size() != 0) {
 											group.put(name, result);
 											if (type.toUpperCase().equals("PHOTO")) {
@@ -413,12 +430,14 @@ public class EpWPDatas extends IoTEntryPoint {
 												GraphUtils.generateNVD3(measure_unit, "", data);
 											}
 										}
+										
+										dbWait.hide();
 									}
 								});
 					}
 				}
 
-			}
+			} 
 		});
 	}
 
@@ -457,3 +476,4 @@ public class EpWPDatas extends IoTEntryPoint {
 
 	}
 }
+
