@@ -58,15 +58,15 @@ public class GraphUtils
 		return json;
 	}
 	
-	public static native void hideNVD3() /*-{
-		$wnd.hideNVD3();
+	public static native void hideNVD3(int index) /*-{
+		$wnd.hideNVD3(index);
 	}-*/;
 
 	public static native void alert(String msg) /*-{
 		$wnd.alert(msg);
 	}-*/;
 
-	public static native void generateNVD3(String xAxisTitle, String yAxisTitle, String data) /*-{
-		$wnd.generateNVD3(xAxisTitle, yAxisTitle, data);
+	public static native void generateNVD3(String xAxisTitle, String yAxisTitle, String data, int index) /*-{
+		$wnd.generateNVD3(xAxisTitle, yAxisTitle, data, index);
 	}-*/;
 }

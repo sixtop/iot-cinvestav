@@ -1,7 +1,7 @@
 /*
  * Helper code to graph smart city data using nvd3
  * */
-function generateNVD3(xaxis, yaxis, data) {
+function generateNVD3(xaxis, yaxis, data, index) {
 	nv.addGraph(function() {
 		var chart = nv.models.lineChart().margin({
 			left : 100
@@ -25,16 +25,16 @@ function generateNVD3(xaxis, yaxis, data) {
 			chart.update()
 		});
 		
-		document.getElementById("chart").style.display = 'block';
+		document.getElementById("chart"+index).style.display = 'block';
 		
 		return chart;
 	});
 
 }
 
-function hideNVD3() 
+function hideNVD3(index) 
 {
-	document.getElementById("chart").style.display = 'none';
+	document.getElementById("chart"+index).style.display = 'none';
 }
 
 /* JSON Date Parser */

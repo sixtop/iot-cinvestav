@@ -5,10 +5,8 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -275,8 +273,7 @@ public class DAO
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<Measure> getSensorData(Integer idsensor, Date startDate, Date endDate,
-			Map<String, Boolean> filter) throws DatabaseException
+	public static List<Measure> getSensorData(Integer idsensor, Date startDate, Date endDate) throws DatabaseException
 	{
 		EntityManager em = null;
 		if (idsensor == null)
@@ -296,23 +293,23 @@ public class DAO
 			String query = "SELECT * FROM (SELECT * FROM data.data WHERE idsensor=? and measure_date>=? and measure_date<=? and charted=1) as filter ";
 
 			List<Measure> resultList = null;
-			String filterTxt = "'";
+			//String filterTxt = "'";
 
-			if (!filter.isEmpty())
-			{
-				Iterator<Entry<String, Boolean>> i = filter.entrySet().iterator();
-				while (i.hasNext())
-				{
-					Entry<String, Boolean> entry = i.next();
-					filterTxt += "+" + entry.getKey() + "_" + entry.getValue() + " ";
-				}
-				filterTxt += "'";
-				//query += "WHERE MATCH(filter.metadata) AGAINST(? IN BOOLEAN MODE) ";
-			}
+//			if (!filter.isEmpty())
+//			{
+//				Iterator<Entry<String, Boolean>> i = filter.entrySet().iterator();
+//				while (i.hasNext())
+//				{
+//					Entry<String, Boolean> entry = i.next();
+//					filterTxt += "+" + entry.getKey() + "_" + entry.getValue() + " ";
+//				}
+//				filterTxt += "'";
+//				//query += "WHERE MATCH(filter.metadata) AGAINST(? IN BOOLEAN MODE) ";
+//			}
 			query += "order by measure_date";
 			Query q = em.createNativeQuery(query, Measure.class).setParameter(1, idsensor).setParameter(2, startDate)
 					.setParameter(3, endDate);
-			if (!filter.isEmpty()) q.setParameter(4, filterTxt);
+			//if (!filter.isEmpty()) q.setParameter(4, filterTxt);
 			resultList = (List<Measure>) q.getResultList();
 			return resultList;
 		}

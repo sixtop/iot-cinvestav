@@ -3,7 +3,6 @@ package mx.cinvestav.gdl.iot.webpage.client;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import mx.cinvestav.gdl.iot.webpage.dto.IoTEntityDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.IoTPropertyDTO;
@@ -30,7 +29,7 @@ public interface EntityStoreServiceAsync
 	public <T extends IoTEntityDTO> void deleteEntity(T entityDTO, Integer id,
 			AsyncCallback<Void> callback);
 
-	public void getSensorData(Integer idsensor, Date startDate, Date endDate, Map<String, Boolean> filter, AsyncCallback<List<MeasureDTO>> callback);
+	public void getSensorData(Integer idsensor, Date startDate, Date endDate, AsyncCallback<List<MeasureDTO>> callback);
 	
 	public <T extends IoTTypeSensorDTO> void storeSensorType(T typeSensorDTO, AsyncCallback<Void> callback);
 	
