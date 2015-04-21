@@ -7,6 +7,7 @@ import java.util.Map;
 
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.ControllerPropertyDTO;
+import mx.cinvestav.gdl.iot.webpage.dto.ExperimentDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.MeasureDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.SensorTypeDTO;
@@ -29,9 +30,11 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
@@ -54,6 +57,11 @@ public class EpWPDatas extends IoTEntryPoint {
 	private ListBox lbSensor = new ListBox();
 	private ListBox lbTypeSensor = new ListBox();
 	private ListBox lbTypeSensorAll = new ListBox();
+	private VerticalPanel panelTypeSensor = new VerticalPanel();
+	private CheckBox arrayTypeSensor[];
+
+	private ListBox lbExperiment = new ListBox();
+	private TextArea taDescription = new TextArea();
 
 	private DateBox dbFrom = new DateBox();
 	private DateBox dbTo = new DateBox();
@@ -67,6 +75,7 @@ public class EpWPDatas extends IoTEntryPoint {
 	private List<ControllerDTO> CONTROLLERS;
 	private List<SmartThingDTO> SMARTTHINGS;
 	private List<SensorDTO> SENSORS;
+	private List<ExperimentDTO> EXPERIMENT;
 
 	private Map<String, List<MeasureDTO>> group;
 	private String measure_unit = "";
@@ -123,46 +132,47 @@ public class EpWPDatas extends IoTEntryPoint {
 		tableData.setText(1, 0, "SmartThing: ");
 		tableData.setWidget(1, 1, lbSmartThing);
 
-		tableData.setText(2, 0, "Type sensor: ");
-		tableData.setWidget(2, 1, lbTypeSensor);
+		tableData.setText(2, 0, "Experiment: ");
+		tableData.setWidget(2, 1, lbExperiment);
 
-		tableData.setText(3, 0, "From date: ");
-		tableData.setWidget(3, 1, dbFrom);
+		tableData.setText(3, 0, "Description: ");
+		tableData.setWidget(3, 1, taDescription);
 
-		tableData.setText(4, 0, "To date: ");
-		tableData.setWidget(4, 1, dbTo);
+		tableData.setText(4, 0, "Type sensor: ");
+		tableData.setWidget(4, 1, lbTypeSensor);
 
+		// tableData.setWidget(2, 1, panelTypeSensor);
+
+		tableData.setText(5, 0, "From date: ");
+		tableData.setWidget(5, 1, dbFrom);
+
+		tableData.setText(6, 0, "To date: ");
+		tableData.setWidget(6, 1, dbTo);
+
+		dbFrom.setEnabled(false);
+		dbTo.setEnabled(false);
 		lbSmartThing.setEnabled(false);
 		lbSensor.setEnabled(false);
 
 		formPanel.add(tableData);
 
-		tableFilter.setText(0, 0, "Filters: ");
-		chFilter.setValue(false);
-		tableFilter.setWidget(0, 1, chFilter);
-
-		chFilter.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (chFilter.getValue()) {
-			
-					for (int i = 0; i < arrayFilter.length; i++) {
-						arrayFilter[i].setEnabled(true);
-					}
-				} else {
-					
-					for (int i = 0; i < arrayFilter.length; i++) {
-						arrayFilter[i].setEnabled(false);
-					}
-
-				}
-
-			}
-		});
-
-		decoratorPanel.add(tableFilter);
-		formPanel.add(decoratorPanel);
-
+		/*
+		 * tableFilter.setText(0, 0, "Filters: "); chFilter.setValue(false); tableFilter.setWidget(0, 1, chFilter);
+		 * 
+		 * chFilter.addClickHandler(new ClickHandler() {
+		 * 
+		 * @Override public void onClick(ClickEvent event) { if (chFilter.getValue()) {
+		 * 
+		 * for (int i = 0; i < arrayFilter.length; i++) { arrayFilter[i].setEnabled(true); } } else {
+		 * 
+		 * for (int i = 0; i < arrayFilter.length; i++) { arrayFilter[i].setEnabled(false); }
+		 * 
+		 * }
+		 * 
+		 * } });
+		 * 
+		 * decoratorPanel.add(tableFilter); formPanel.add(decoratorPanel);
+		 */
 		formPanel.add(btGenerate);
 		formPanel.setCellHorizontalAlignment(btGenerate, HasHorizontalAlignment.ALIGN_LEFT);
 		RootPanel.get("formContainer").add(formPanel);
@@ -172,50 +182,35 @@ public class EpWPDatas extends IoTEntryPoint {
 		dbTo.setFormat(format);
 		dbFrom.getDatePicker().setYearArrowsVisible(true);
 		dbTo.getDatePicker().setYearArrowsVisible(true);
-		
+
 		lbController.addChangeHandler(new ChangeHandler() {
 
 			public void onChange(ChangeEvent event) {
 
 				final int idController = Integer.parseInt(lbController.getValue(lbController.getSelectedIndex()));
 
-				entityService.getProperties(new ControllerPropertyDTO(), idController,
-						new AsyncCallback<List<ControllerPropertyDTO>>() {
-							@Override
-							public void onFailure(Throwable caught) {
-								dbWait.hide();
-								// TODO:
-								Window.alert(caught.getMessage());
-							}
-
-							@Override
-							public void onSuccess(List<ControllerPropertyDTO> resultP) {
-								int c = 0;
-
-								for (int i = 0; i < resultP.size(); i++) {
-									if (resultP.get(i).getName().startsWith("Filter_")) {
-										c++;
-									}
-								}
-
-								arrayFilter = new CheckBox[c];
-								c=0;
-								
-								filtersPanel.setSpacing(4);
-								for (int i = 0; i < resultP.size(); i++) {
-									if (resultP.get(i).getName().startsWith("Filter_")) {
-										arrayFilter[c] = new CheckBox(resultP.get(i).getName().substring(7, resultP.get(i).getName().length()));
-										arrayFilter[c].setName(resultP.get(i).getValue());
-										arrayFilter[c].setValue(true);
-										arrayFilter[c].setEnabled(false);
-										tableFilter.setWidget(i + 1, 1, arrayFilter[c]);
-										c++;
-									}
-								}
-
-							}
-						});
-
+				/*
+				 * entityService.getProperties(new ControllerPropertyDTO(), idController, new
+				 * AsyncCallback<List<ControllerPropertyDTO>>() {
+				 * 
+				 * @Override public void onFailure(Throwable caught) { dbWait.hide(); // TODO:
+				 * Window.alert(caught.getMessage()); }
+				 * 
+				 * @Override public void onSuccess(List<ControllerPropertyDTO> resultP) { int c = 0;
+				 * 
+				 * for (int i = 0; i < resultP.size(); i++) { if (resultP.get(i).getName().startsWith("Filter_")) { c++;
+				 * } }
+				 * 
+				 * arrayFilter = new CheckBox[c]; c=0;
+				 * 
+				 * filtersPanel.setSpacing(4); for (int i = 0; i < resultP.size(); i++) { if
+				 * (resultP.get(i).getName().startsWith("Filter_")) { arrayFilter[c] = new
+				 * CheckBox(resultP.get(i).getName().substring(7, resultP.get(i).getName().length()));
+				 * arrayFilter[c].setName(resultP.get(i).getValue()); arrayFilter[c].setValue(true);
+				 * arrayFilter[c].setEnabled(false); tableFilter.setWidget(i + 1, 1, arrayFilter[c]); c++; } }
+				 * 
+				 * } });
+				 */
 				entityService.getEntity(new SmartThingDTO(), null, new AsyncCallback<List<SmartThingDTO>>() {
 
 					@Override
@@ -250,6 +245,7 @@ public class EpWPDatas extends IoTEntryPoint {
 			public void onChange(ChangeEvent event) {
 
 				final int idSmartThing = Integer.parseInt(lbSmartThing.getValue(lbSmartThing.getSelectedIndex()));
+
 				entityService.getEntity(new SensorDTO(), null, new AsyncCallback<List<SensorDTO>>() {
 
 					@Override
@@ -263,14 +259,12 @@ public class EpWPDatas extends IoTEntryPoint {
 						lbSensor.clear();
 
 						lbTypeSensor.clear();
-						lbTypeSensor.addItem("Select...");
 						lbSensor.setEnabled(true);
 
 						for (SensorDTO c : SENSORS) {
 							measure_unit = c.getUnit();
 							if (c.getIdthing() == idSmartThing) {
 								// Name Id
-
 								lbSensor.addItem(getSensor_typeName(c.getSensor_type()), c.getSensor_type());
 
 							}
@@ -286,19 +280,89 @@ public class EpWPDatas extends IoTEntryPoint {
 							}
 						}
 
+						/*
+						 * arrayTypeSensor=new CheckBox[lbTypeSensor.getItemCount()];
+						 * 
+						 * for (int i = 0; i < lbTypeSensor.getItemCount(); i++) { arrayTypeSensor[i] = new
+						 * CheckBox(lbTypeSensor.getItemText(i)); arrayTypeSensor[i].setName(lbTypeSensor.getValue(i));
+						 * arrayTypeSensor[i].setValue(true);
+						 * 
+						 * panelTypeSensor.add(arrayTypeSensor[i]);
+						 * 
+						 * }
+						 */
+
 					}
 				});
 
+				entityService.getEntity(new ExperimentDTO(), null, new AsyncCallback<List<ExperimentDTO>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+					}
+
+					@Override
+					public void onSuccess(List<ExperimentDTO> result) {
+						EXPERIMENT = result;
+						lbExperiment.clear();
+
+						lbExperiment.addItem("Select..", "-1");
+						lbExperiment.addItem("None", "-1");
+
+						for (ExperimentDTO c : EXPERIMENT) {
+							if (c.getIdSmartThing() == idSmartThing) {
+								// Name Id
+								String label = c.getName() + " : " + c.getDescription();
+								lbExperiment.addItem(label, c.getId() + "");
+
+							}
+						}
+					}
+				});
+			}
+		});
+
+		lbExperiment.addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				final int idExperiment = Integer.parseInt(lbExperiment.getValue(lbExperiment.getSelectedIndex()));
+
+				if (idExperiment == -1) {
+					dbFrom.setEnabled(true);
+					dbTo.setEnabled(true);
+					
+					taDescription.setText("");
+				} else {
+
+					entityService.getEntity(new ExperimentDTO(), idExperiment,
+							new AsyncCallback<List<ExperimentDTO>>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									// TODO Auto-generated method stub
+								}
+
+								@Override
+								public void onSuccess(List<ExperimentDTO> result) {
+									dbFrom.setValue(result.get(0).getDateStart());
+									dbTo.setValue(result.get(0).getDateEnd());
+
+									dbFrom.setEnabled(false);
+									dbTo.setEnabled(false);
+
+									taDescription.setText(result.get(0).getDescription());
+								}
+							});
+					}
 			}
 		});
 
 		btGenerate.addClickHandler(new ClickHandler() {
-			
-			
+
 			public void onClick(ClickEvent event) {
 				dbWait.show();
-	
-				
+
 				GraphUtils.hideNVD3();
 				group = new HashMap<String, List<MeasureDTO>>();
 				formChart.clear();
@@ -319,14 +383,13 @@ public class EpWPDatas extends IoTEntryPoint {
 
 						final String name = SENSORS.get(i).getName();
 						Map<String, Boolean> filter = new HashMap<String, Boolean>();
-						
 
-						if(chFilter.getValue()){
-							for(int a=0; a<arrayFilter.length;a++){
+						if (chFilter.getValue()) {
+							for (int a = 0; a < arrayFilter.length; a++) {
 								filter.put(arrayFilter[a].getName(), arrayFilter[a].getValue());
 							}
 						}
-							
+
 						entityService.getSensorData(SENSORS.get(i).getId(), dbFrom.getValue(), dbTo.getValue(), filter,
 								new AsyncCallback<List<MeasureDTO>>() {
 
@@ -338,9 +401,7 @@ public class EpWPDatas extends IoTEntryPoint {
 
 									@Override
 									public void onSuccess(final List<MeasureDTO> result) {
-										
-										
-										
+
 										if (result.size() != 0) {
 											group.put(name, result);
 											if (type.toUpperCase().equals("PHOTO")) {
@@ -430,14 +491,14 @@ public class EpWPDatas extends IoTEntryPoint {
 												GraphUtils.generateNVD3(measure_unit, "", data);
 											}
 										}
-										
+
 										dbWait.hide();
 									}
 								});
 					}
 				}
 
-			} 
+			}
 		});
 	}
 
@@ -476,4 +537,3 @@ public class EpWPDatas extends IoTEntryPoint {
 
 	}
 }
-
