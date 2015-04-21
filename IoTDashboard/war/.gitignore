@@ -29,3 +29,5 @@
 !/MEpWPUser/MEpWPUser.nocache.js
 /MEpWPCharts/*
 !/MEpWPCharts/MEpWPCharts.nocache.js
+/MEpWPExperiment/*
+!/MEpWPExperiment/MEpWPExperiment.nocache.js
