@@ -43,4 +43,9 @@
 		<class-a>mx.cinvestav.gdl.iot.dao.SensorType</class-a>
 		<class-b>mx.cinvestav.gdl.iot.webpage.dto.SensorTypeDTO</class-b>
 	</mapping>
+	
+	<mapping>
+		<class-a>mx.cinvestav.gdl.iot.dao.Experiment</class-a>
+		<class-b>mx.cinvestav.gdl.iot.webpage.dto.ExperimentDTO</class-b>
+	</mapping>
 </mappings>

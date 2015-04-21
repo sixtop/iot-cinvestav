@@ -315,7 +315,7 @@ public class EpWPDatas extends IoTEntryPoint {
 						lbExperiment.addItem("None", "-1");
 
 						for (ExperimentDTO c : EXPERIMENT) {
-							if (c.getIdSmartThing() == idSmartThing) {
+							if (c.getIdthing() == idSmartThing) {
 								// Name Id
 								String label = c.getName() + " : " + c.getDescription();
 								lbExperiment.addItem(label, c.getId() + "");
@@ -348,8 +348,8 @@ public class EpWPDatas extends IoTEntryPoint {
 
 								@Override
 								public void onSuccess(List<ExperimentDTO> result) {
-									dbFrom.setValue(result.get(0).getDateStart());
-									dbTo.setValue(result.get(0).getDateEnd());
+									dbFrom.setValue(result.get(0).getStart_date());
+									dbTo.setValue(result.get(0).getEnd_date());
 
 									dbFrom.setEnabled(false);
 									dbTo.setEnabled(false);
