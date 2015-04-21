@@ -16,6 +16,7 @@
 		<class>mx.cinvestav.gdl.iot.dao.SmartThingProperty</class>
 		<class>mx.cinvestav.gdl.iot.dao.User</class>
 		<class>mx.cinvestav.gdl.iot.dao.SensorType</class>
+		<class>mx.cinvestav.gdl.iot.dao.Experiment</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.user" value="root" />

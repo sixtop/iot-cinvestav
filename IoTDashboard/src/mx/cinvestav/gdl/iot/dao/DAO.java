@@ -293,7 +293,7 @@ public class DAO
 			c.set(Calendar.SECOND, 59);
 			c.set(Calendar.MILLISECOND, 999);
 
-			String query = "SELECT * FROM (SELECT * FROM data.data WHERE idsensor=? and measure_date>=? and measure_date<=?) as filter ";
+			String query = "SELECT * FROM (SELECT * FROM data.data WHERE idsensor=? and measure_date>=? and measure_date<=? and charted=1) as filter ";
 
 			List<Measure> resultList = null;
 			String filterTxt = "'";
@@ -307,7 +307,7 @@ public class DAO
 					filterTxt += "+" + entry.getKey() + "_" + entry.getValue() + " ";
 				}
 				filterTxt += "'";
-				query += "WHERE MATCH(filter.metadata) AGAINST(? IN BOOLEAN MODE) ";
+				//query += "WHERE MATCH(filter.metadata) AGAINST(? IN BOOLEAN MODE) ";
 			}
 			query += "order by measure_date";
 			Query q = em.createNativeQuery(query, Measure.class).setParameter(1, idsensor).setParameter(2, startDate)
