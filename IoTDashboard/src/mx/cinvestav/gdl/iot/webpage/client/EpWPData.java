@@ -235,7 +235,7 @@ public class EpWPData extends IoTEntryPoint
 					{
 
 						final String name = SENSORS.get(i).getName();
-						entityService.getSensorData(SENSORS.get(i).getId(), dbFrom.getValue(), dbTo.getValue(), null,
+						entityService.getSensorData(SENSORS.get(i).getId(), dbFrom.getValue(), dbTo.getValue(),
 								new AsyncCallback<List<MeasureDTO>>() {
 
 									@Override
@@ -252,7 +252,7 @@ public class EpWPData extends IoTEntryPoint
 										if (group.size() == sf)
 										{
 											String data = GraphUtils.generateStringData(group);
-											GraphUtils.generateNVD3(measure_unit, "", data);
+											GraphUtils.generateNVD3(measure_unit, "", data, 1);
 										}
 										
 										
