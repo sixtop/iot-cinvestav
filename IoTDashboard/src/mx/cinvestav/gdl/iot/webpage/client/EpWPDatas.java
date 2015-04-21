@@ -46,42 +46,35 @@ public class EpWPDatas extends IoTEntryPoint {
 
 	private VerticalPanel formChart = new VerticalPanel();
 	private VerticalPanel formPictures = new VerticalPanel();
-
-	private FlexTable tableData = new FlexTable();
-	private FlexTable tableFilter = new FlexTable();
-
-	private ListBox lbController = new ListBox();
-
-	private ListBox lbSmartThing = new ListBox();
-
-	private ListBox lbSensor = new ListBox();
-	private ListBox lbTypeSensor = new ListBox();
+	
 	private ListBox lbTypeSensorAll = new ListBox();
-	private VerticalPanel panelTypeSensor = new VerticalPanel();
-	private CheckBox arrayTypeSensor[];
+	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
 
-	private ListBox lbExperiment = new ListBox();
-	private TextArea taDescription = new TextArea();
-
-	private DateBox dbFrom = new DateBox();
-	private DateBox dbTo = new DateBox();
-
-	private CheckBox chFilter = new CheckBox();
-	private DecoratorPanel decoratorPanel = new DecoratorPanel();
-	private VerticalPanel filtersPanel = new VerticalPanel();
-	private CheckBox arrayFilter[];
-
-	private Button btGenerate = new Button("Generate");
 	private List<ControllerDTO> CONTROLLERS;
 	private List<SmartThingDTO> SMARTTHINGS;
 	private List<SensorDTO> SENSORS;
 	private List<ExperimentDTO> EXPERIMENT;
 
+	
+	
+	//Experiment 1 
+	private FlexTable tableData = new FlexTable();
+	private ListBox lbController = new ListBox();
+	private ListBox lbSmartThing = new ListBox();
+	private ListBox lbSensor = new ListBox();
+	private ListBox lbTypeSensor = new ListBox();
+	private ListBox lbExperiment = new ListBox();
+	private TextArea taDescription = new TextArea();
+	private DateBox dbFrom = new DateBox();
+	private DateBox dbTo = new DateBox();
+	private Button btGenerate = new Button("Generate");
+	
+	
+	
 	private Map<String, List<MeasureDTO>> group;
 	private String measure_unit = "";
 
-	private static final EntityStoreServiceAsync entityService = GWT.create(EntityStoreService.class);
-
+	
 	@Override
 	public void continueModuleLoad() {
 
@@ -154,8 +147,19 @@ public class EpWPDatas extends IoTEntryPoint {
 		lbSmartThing.setEnabled(false);
 		lbSensor.setEnabled(false);
 
-		formPanel.add(tableData);
-
+		DecoratorPanel e1=new DecoratorPanel();
+		e1.add(tableData);
+		
+		
+		DecoratorPanel e2=new DecoratorPanel();
+		e2.add(tableData);
+		
+		HorizontalPanel eAll=new HorizontalPanel();
+		eAll.add(e1);
+		eAll.add(e2);
+		
+		formPanel.add(eAll);
+		
 		/*
 		 * tableFilter.setText(0, 0, "Filters: "); chFilter.setValue(false); tableFilter.setWidget(0, 1, chFilter);
 		 * 
@@ -335,8 +339,7 @@ public class EpWPDatas extends IoTEntryPoint {
 					taDescription.setText("");
 				} else {
 
-					entityService.getEntity(new ExperimentDTO(), idExperiment,
-							new AsyncCallback<List<ExperimentDTO>>() {
+					entityService.getEntity(new ExperimentDTO(), idExperiment, new AsyncCallback<List<ExperimentDTO>>() {
 
 								@Override
 								public void onFailure(Throwable caught) {
@@ -382,16 +385,16 @@ public class EpWPDatas extends IoTEntryPoint {
 					if (SENSORS.get(i).getSensor_type().equals(type)) {
 
 						final String name = SENSORS.get(i).getName();
-						Map<String, Boolean> filter = new HashMap<String, Boolean>();
+						//Map<String, Boolean> filter = new HashMap<String, Boolean>();
 
-						if (chFilter.getValue()) {
+					/*	if (chFilter.getValue()) {
 							for (int a = 0; a < arrayFilter.length; a++) {
 								filter.put(arrayFilter[a].getName(), arrayFilter[a].getValue());
 							}
 						}
-
-						entityService.getSensorData(SENSORS.get(i).getId(), dbFrom.getValue(), dbTo.getValue(), filter,
-								new AsyncCallback<List<MeasureDTO>>() {
+					 */
+						
+					/*	entityService.getSensorData(SENSORS.get(i).getId(), dbFrom.getValue(), dbTo.getValue(), new AsyncCallback<List<MeasureDTO>>() {
 
 									@Override
 									public void onFailure(Throwable caught) {
@@ -494,7 +497,7 @@ public class EpWPDatas extends IoTEntryPoint {
 
 										dbWait.hide();
 									}
-								});
+								});*/
 					}
 				}
 
