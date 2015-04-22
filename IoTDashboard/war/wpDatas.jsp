@@ -5,7 +5,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <style>
-#chart svg {
+#chart0 svg {
+	height: 500px;
+	width: 1200px;
+}
+#chart1 svg {
 	height: 500px;
 	width: 1200px;
 }
@@ -14,7 +18,8 @@
 <link type="text/css" rel="stylesheet" href="css/nv.d3.css">
 
 <script type="text/javascript" language="javascript" src="MEpWPDatas/MEpWPDatas.nocache.js"></script>
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<!-- <script src="http://d3js.org/d3.v3.js" charset="utf-8"></script> -->
+<script src="scripts/d3.min.js" charset="utf-8"></script>
 <script src="scripts/nv.d3.min.js"></script>
 <script type="text/javascript" language="javascript" src="scripts/smartcitygrapher.js"></script>
 
@@ -29,9 +34,15 @@
 				<h3 class="panel-title">Statistics</h3>
 			</div>
 			<div class="panel-body">
-				<div id="formContainer"></div>
+				<div id="formContainer" align="center"></div>
 
-				<div style="display: none" id="chart">
+				<div style="display: none" id="chart0" align="center">
+					<h4 class="panel-title" align="center" id="title0"></h4>
+					<svg></svg>
+				</div>
+				
+				<div style="display: none" id="chart1" align="center">
+					<h4 class="panel-title" align="center" id="title1"></h4>
 					<svg></svg>
 				</div>
 			</div>

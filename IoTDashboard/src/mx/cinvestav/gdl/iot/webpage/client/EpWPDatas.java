@@ -51,7 +51,7 @@ public class EpWPDatas extends IoTEntryPoint {
 	private List<ExperimentDTO> EXPERIMENT;
 
 	private Map<String, List<MeasureDTO>> group;
-	private String measure_unit = "";
+	//private String measure_unit = "";
 
 	// Experiments
 	private int e = 2;
@@ -135,7 +135,6 @@ public class EpWPDatas extends IoTEntryPoint {
 
 					for (ControllerDTO c : CONTROLLERS) {
 						lbController[a].addItem(c.getName(), c.getId() + "");
-						Window.alert(c.getName());
 					}
 
 				}
@@ -251,11 +250,9 @@ public class EpWPDatas extends IoTEntryPoint {
 							lbSensor[x].setEnabled(true);
 
 							for (SensorDTO c : SENSORS) {
-								measure_unit = c.getUnit();
 								if (c.getIdthing() == idSmartThing) {
 									// Name Id
 									lbSensor[x].addItem(getSensor_typeName(c.getSensor_type()), c.getSensor_type());
-
 								}
 							}
 
@@ -342,7 +339,7 @@ public class EpWPDatas extends IoTEntryPoint {
 				public void onClick(ClickEvent event) {
 					dbWait.show();
 
-					GraphUtils.hideNVD3(1);
+					GraphUtils.hideNVD3(x);
 					group = new HashMap<String, List<MeasureDTO>>();
 					formChart.clear();
 					formPictures.clear();
@@ -452,8 +449,10 @@ public class EpWPDatas extends IoTEntryPoint {
 													noDatas.setWidget(close);
 													noDatas.show();
 													noDatas.center();
-												} else {
-													GraphUtils.generateNVD3(measure_unit, "", data, 1);
+												} else 
+												{
+													String test = lbTypeSensor[x].getSelectedItemText();
+													GraphUtils.generateNVD3(getUnit(name), "Date", data, x, lbTypeSensor[x].getSelectedItemText());
 												}
 											}
 
@@ -466,6 +465,15 @@ public class EpWPDatas extends IoTEntryPoint {
 			});
 		}
 
+	}
+	
+	private String getUnit(String sensorName)
+	{
+		for(SensorDTO s : SENSORS)
+		{
+			if(s.getName().equals(sensorName)) return s.getUnit();
+		}
+		return "";
 	}
 
 	public String getSensor_typeName(String id) {

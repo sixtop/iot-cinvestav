@@ -1,31 +1,42 @@
 /*
  * Helper code to graph smart city data using nvd3
  * */
-function generateNVD3(xaxis, yaxis, data, index) {
+function generateNVD3(xaxis, yaxis, data, index, title) {
 	nv.addGraph(function() {
+		var myData = JSON.parse(data, JSON.dateParser);		
+		var firstD = new Date(myData[0].values[0].x);
+		firstD.setHours(0);
+		firstD.setMinutes(0);
+		firstD.setSeconds(0);
+		
+		var lastD = new Date(firstD);
+		lastD.setDate(myData[0].values[0].x.getDate()+3);
+		lastD.setHours(23);
+		lastD.setMinutes(59);
+		lastD.setSeconds(59);
+		
 		var chart = nv.models.lineChart().margin({
 			left : 100
 		}).useInteractiveGuideline(true).showLegend(true).showYAxis(true)
 				.showXAxis(true);
 
 		chart.xAxis.axisLabel(yaxis).tickFormat(function(d) {
-			return d3.time.format('%m/%d %H:%M:%S')(new Date(d))
+			return d3.time.format('%m/%d %H:%M')(new Date(d))
 		});
 
 		chart.yAxis.axisLabel(xaxis).tickFormat(d3.format(',r'));
-		// .axisLabel('Voltage (v)').tickFormat(d3.time.format('%m/%d/%Y')(new
-		// Date(d)));
+		
+		chart.forceX([firstD, lastD]);
 
-		// var myData = sinAndCos();
-		var myData = JSON.parse(data, JSON.dateParser);
-
-		d3.select('#chart svg').datum(myData).transition().duration(500).call(
-				chart);
+		d3.select('#chart'+index+' svg').datum(myData).transition().duration(500).call(chart);
+		
 		nv.utils.windowResize(function() {
 			chart.update()
 		});
 		
 		document.getElementById("chart"+index).style.display = 'block';
+		
+		document.getElementById("title"+index).innerHTML = title;
 		
 		return chart;
 	});
@@ -35,6 +46,7 @@ function generateNVD3(xaxis, yaxis, data, index) {
 function hideNVD3(index) 
 {
 	document.getElementById("chart"+index).style.display = 'none';
+	document.getElementById("title"+index).innerHTML = '';
 }
 
 /* JSON Date Parser */

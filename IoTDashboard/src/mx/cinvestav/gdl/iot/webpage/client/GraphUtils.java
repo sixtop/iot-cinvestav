@@ -66,7 +66,7 @@ public class GraphUtils
 		$wnd.alert(msg);
 	}-*/;
 
-	public static native void generateNVD3(String xAxisTitle, String yAxisTitle, String data, int index) /*-{
-		$wnd.generateNVD3(xAxisTitle, yAxisTitle, data, index);
+	public static native void generateNVD3(String xAxisTitle, String yAxisTitle, String data, int index, String title) /*-{
+		$wnd.generateNVD3(xAxisTitle, yAxisTitle, data, index, title);
 	}-*/;
 }

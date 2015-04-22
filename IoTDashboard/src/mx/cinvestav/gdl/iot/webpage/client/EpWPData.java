@@ -252,7 +252,7 @@ public class EpWPData extends IoTEntryPoint
 										if (group.size() == sf)
 										{
 											String data = GraphUtils.generateStringData(group);
-											GraphUtils.generateNVD3(measure_unit, "", data, 1);
+											GraphUtils.generateNVD3(measure_unit, "", data, 1, "");
 										}
 										
 										
