@@ -101,8 +101,11 @@
           "image" : {
             "type" : "string"
           },
-          "metadata" : {
-            "type" : "string"
+          "charted" : {
+            "type" : "integer"
+          },
+          "idexperiment" : {
+            "type" : "integer"
           }
         }
       },

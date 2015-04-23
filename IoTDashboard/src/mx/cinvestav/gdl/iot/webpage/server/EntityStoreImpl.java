@@ -1,10 +1,8 @@
 package mx.cinvestav.gdl.iot.webpage.server;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -145,11 +143,11 @@ public class EntityStoreImpl extends RemoteServiceServlet implements EntityStore
 		}
 	}
 	
-	public List<MeasureDTO> getSensorData(Integer idsensor, Date startDate, Date endDate) throws DatabaseException
+	public List<MeasureDTO> getSensorData(Integer idsensor, Integer idexperiment) throws DatabaseException
 	{
 		try
 		{
-			List<Measure> sensorData = DAO.getSensorData(idsensor, startDate, endDate);
+			List<Measure> sensorData = DAO.getSensorData(idsensor, idexperiment);
 			
 			//map back to DTO
 			List<MeasureDTO> measureDTOList = new ArrayList<>();

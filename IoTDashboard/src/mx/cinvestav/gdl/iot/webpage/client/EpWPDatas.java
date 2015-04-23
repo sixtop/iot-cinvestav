@@ -356,9 +356,9 @@ public class EpWPDatas extends IoTEntryPoint {
 
 					for (int i = 0; i < SENSORS.size(); i++) {
 						if (SENSORS.get(i).getSensor_type().equals(type)) {
-							final String name = SENSORS.get(i).getName();
-							entityService.getSensorData(SENSORS.get(i).getId(), dbFrom[x].getValue(),
-									dbTo[x].getValue(), new AsyncCallback<List<MeasureDTO>>() {
+							//final String name = SENSORS.get(i).getName();
+							final String name = SENSORS.get(i).getDescription();
+							entityService.getSensorData(SENSORS.get(i).getId(), Integer.parseInt(lbExperiment[x].getSelectedValue()), new AsyncCallback<List<MeasureDTO>>() {
 
 										@Override
 										public void onFailure(Throwable caught) {
@@ -449,9 +449,9 @@ public class EpWPDatas extends IoTEntryPoint {
 													noDatas.setWidget(close);
 													noDatas.show();
 													noDatas.center();
-												} else 
+												} 
+												else 
 												{
-													String test = lbTypeSensor[x].getSelectedItemText();
 													GraphUtils.generateNVD3(getUnit(name), "Date", data, x, lbTypeSensor[x].getSelectedItemText());
 												}
 											}

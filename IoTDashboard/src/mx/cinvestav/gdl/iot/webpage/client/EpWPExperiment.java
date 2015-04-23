@@ -3,28 +3,22 @@ package mx.cinvestav.gdl.iot.webpage.client;
 import java.util.Comparator;
 import java.util.List;
 
-import mx.cinvestav.gdl.iot.webpage.dto.ControllerDTO;
 import mx.cinvestav.gdl.iot.webpage.dto.ExperimentDTO;
 
-import com.google.gwt.cell.client.ActionCell;
-import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.IdentityColumn;
-import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
@@ -46,10 +40,10 @@ public class EpWPExperiment extends IoTEntryPoint {
 	private List<ExperimentDTO> EXPERIMENT;
 
 	private DialogBox dialogBox = new DialogBox();
-	private Label lbDialogBox = new Label();
+	//private Label lbDialogBox = new Label();
 	private Button btYes = new Button("Yes");
 	private Button btNo = new Button("No");
-	private VerticalPanel dialogPanel = new VerticalPanel();
+	//private VerticalPanel dialogPanel = new VerticalPanel();
 
 	@Override
 	public void continueModuleLoad() {

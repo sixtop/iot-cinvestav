@@ -71,8 +71,8 @@ public class CloudClient
 	public static void main(String[] args) throws IOException
 	{
 		int controllerId = 81;
-		int idthing = 0;
-		int sensorId = 10;//0,8,9,10
+		int idthing = 3;
+		int sensorId = 11;//0,8,9,10
 		
 		
 		
@@ -88,7 +88,7 @@ public class CloudClient
 			SensorData[] sensorData = new SensorData[1];
 			for (int j = 0; j < sensorData.length; j++)
 			{
-				Data measures[] = new Data[5];
+				Data measures[] = new Data[1];
 				for (int k = 0; k < measures.length; k++)
 				{
 					measures[k] = new Data();

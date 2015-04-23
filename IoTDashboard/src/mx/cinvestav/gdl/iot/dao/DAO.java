@@ -1,9 +1,7 @@
 package mx.cinvestav.gdl.iot.dao;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -273,7 +271,7 @@ public class DAO
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<Measure> getSensorData(Integer idsensor, Date startDate, Date endDate) throws DatabaseException
+	public static List<Measure> getSensorData(Integer idsensor, Integer idexperiment) throws DatabaseException
 	{
 		EntityManager em = null;
 		if (idsensor == null)
@@ -283,34 +281,9 @@ public class DAO
 		try
 		{
 			em = getEntityManager();
-			Calendar c = Calendar.getInstance();
-			c.setTime(endDate);
-			c.set(Calendar.HOUR_OF_DAY, 23);
-			c.set(Calendar.MINUTE, 59);
-			c.set(Calendar.SECOND, 59);
-			c.set(Calendar.MILLISECOND, 999);
-
-			String query = "SELECT * FROM (SELECT * FROM data.data WHERE idsensor=? and measure_date>=? and measure_date<=? and charted=1) as filter ";
-
-			List<Measure> resultList = null;
-			//String filterTxt = "'";
-
-//			if (!filter.isEmpty())
-//			{
-//				Iterator<Entry<String, Boolean>> i = filter.entrySet().iterator();
-//				while (i.hasNext())
-//				{
-//					Entry<String, Boolean> entry = i.next();
-//					filterTxt += "+" + entry.getKey() + "_" + entry.getValue() + " ";
-//				}
-//				filterTxt += "'";
-//				//query += "WHERE MATCH(filter.metadata) AGAINST(? IN BOOLEAN MODE) ";
-//			}
-			query += "order by measure_date";
-			Query q = em.createNativeQuery(query, Measure.class).setParameter(1, idsensor).setParameter(2, startDate)
-					.setParameter(3, endDate);
-			//if (!filter.isEmpty()) q.setParameter(4, filterTxt);
-			resultList = (List<Measure>) q.getResultList();
+			String query = "SELECT * FROM data.data WHERE idsensor=? and idexperiment=? and charted=1 order by measure_date";
+			Query q = em.createNativeQuery(query, Measure.class).setParameter(1, idsensor).setParameter(2, idexperiment);
+			List<Measure> resultList = (List<Measure>) q.getResultList();
 			return resultList;
 		}
 		catch (Exception e)

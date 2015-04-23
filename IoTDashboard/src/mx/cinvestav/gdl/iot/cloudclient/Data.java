@@ -6,7 +6,9 @@ public class Data
 	private String data;
 	private String time;
 	private String image;
-	private String metadata;
+	private Integer charted = 0;
+	private Integer idexperiment;
+	
 
 	public String getData()
 	{
@@ -40,13 +42,23 @@ public class Data
 		this.image = image;
 	}
 
-	public String getMetadata()
+	public Integer getCharted()
 	{
-		return metadata;
+		return charted;
 	}
 
-	public void setMetadata(String metadata)
+	public void setCharted(Integer charted)
 	{
-		this.metadata = metadata;
+		this.charted = charted;
+	}
+
+	public Integer getIdexperiment()
+	{
+		return idexperiment;
+	}
+
+	public void setIdexperiment(Integer idexperiment)
+	{
+		this.idexperiment = idexperiment;
 	}
 }

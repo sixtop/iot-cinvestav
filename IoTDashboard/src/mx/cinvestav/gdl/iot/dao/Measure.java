@@ -21,6 +21,8 @@ public class Measure
 	private Integer idsensor;
 	private Integer idthing;
 	private byte[] image;
+	private Integer charted;
+	private Integer idexperiment;
 
 	public Integer getId()
 	{
@@ -80,5 +82,25 @@ public class Measure
 	public void setImage(byte[] image)
 	{
 		this.image = image;
+	}
+
+	public Integer getCharted()
+	{
+		return charted;
+	}
+
+	public void setCharted(Integer charted)
+	{
+		this.charted = charted;
+	}
+
+	public Integer getIdexperiment()
+	{
+		return idexperiment;
+	}
+
+	public void setIdexperiment(Integer idexperiment)
+	{
+		this.idexperiment = idexperiment;
 	}
 }
