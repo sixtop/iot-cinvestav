@@ -281,7 +281,7 @@ public class EpWPDatas extends IoTEntryPoint {
 							lbExperiment[x].clear();
 
 							lbExperiment[x].addItem("Select..", "-1");
-							lbExperiment[x].addItem("None", "-1");
+						//	lbExperiment[x].addItem("None", "-1");
 
 							for (ExperimentDTO c : EXPERIMENT) {
 								if (c.getIdthing() == idSmartThing) {
@@ -303,11 +303,11 @@ public class EpWPDatas extends IoTEntryPoint {
 							.getSelectedIndex()));
 
 					if (idExperiment == -1) {
-						dbFrom[x].setEnabled(true);
+					/*	dbFrom[x].setEnabled(true);
 						dbTo[x].setEnabled(true);
 
 						taDescription[x].setText("");
-						taNotes[x].setText("");
+						taNotes[x].setText("");*/
 					} else {
 
 						entityService.getEntity(new ExperimentDTO(), idExperiment,
