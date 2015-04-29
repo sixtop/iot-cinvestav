@@ -471,7 +471,7 @@ public class EpWPDatas extends IoTEntryPoint {
 	{
 		for(SensorDTO s : SENSORS)
 		{
-			if(s.getName().equals(sensorName)) return s.getUnit();
+			if(s.getDescription().equals(sensorName)) return s.getUnit();
 		}
 		return "";
 	}
